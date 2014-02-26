@@ -1,0 +1,258 @@
+body {
+    overflow: hidden;
+    /* background-color: #555560; 
+        445566
+        CCE6FF
+        667796
+    */
+    background-color: #667796;
+    font-family: 'Inconsolata';
+    font-size: 11pt;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Tree UI */
+#treePane ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+}
+
+#treePane li {
+    font-family: 'Inconsolata';
+    font-size: 10.5pt;
+    margin: 3px;
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+.togglable {
+    color: #553311;
+    cursor: pointer;
+}
+
+#treePane .selected {
+    background-color: #999999;
+}
+
+.togglable-down::before,
+.togglable-up::before {
+    font-size: 7pt;
+    margin-right: 3px;
+    color: #553311;
+}
+
+.togglable-down::before {
+    content: "▼";
+    display: inline-block;
+}
+
+.togglable-up::before {
+    content: "▶";
+    display: inline-block;
+}
+
+/* General layout */
+#container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: 45px;
+    margin-bottom: 10px;
+    border: 1px solid #666666;
+}
+
+#menuContainer {
+    position:absolute;
+    top: 0px;
+    left: 40px;
+    right: 40px;
+}
+
+#menubar {
+    height: 35px;
+    border-bottom: 0px solid #000000;
+    background-color: none;
+    color: #cccccc;
+    vertical-align: top;
+    font-family: 'Inconsolata';
+    font-size: 14pt;
+    font-weight: normal;
+}
+
+#menubar button {
+    padding: 14px 26px;
+    font-size: 14px;
+    line-height: 100%;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    display:inline-block;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.1s ease-in-out;
+    -webkit-transition: background 0.1s ease-in-out;
+    -moz-transition: background 0.1s ease-in-out;
+    -ms-transition: background 0.1s ease-in-out;
+    -o-transition: background 0.1s ease-in-out;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+
+}
+
+#menubar #logo {
+    float: left;
+    padding: 12px;
+    padding-left: 15px;
+    vertical-align: top;
+    color: #eeeeee;
+}
+
+#menubar #logo span {
+    color: #BBBBBB;
+}
+
+#menubar #rightMenu {
+    margin: 0;
+    float: right;
+    margin-right: 10px;
+    text-align: right;
+}
+
+#menubar #langbox {
+    margin: 0;
+    font-family: 'Inconsolata';
+    letter-spacing: 0.1pt;
+    font-size: 10pt;
+    color: #BBBBBB;
+}
+
+#menubar ul {
+    margin-left: 100px;
+    vertical-align: top;
+}
+
+#menubar li {
+   display: inline-block;
+   font-family: sans-serif;
+   font-size: 10pt;
+}
+
+/* code editor */
+#editor {
+    margin : 0px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 260px;
+    font-family: 'Inconsolata';
+    font-size: 10.5pt;
+}
+
+.lineHighlight {
+    position: absolute;
+    background-color: yellow;
+    opacity: 0.2;
+}
+
+#localVideo {
+    margin: 0;
+    position: absolute;
+    bottom: 200px;
+    right: 0;
+    height: 100px;
+    background-color: #4455ff;
+}
+
+#sideMenu {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 0px;
+    height: 30px;
+    width: 259px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #999999;
+}
+
+#sideMenu input[type='text'] {
+    position: absolute;
+    margin: 4px;
+    padding: 0;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 250px;
+    border: 0px;
+    outline: none;
+    font-family: 'Inconsolata';
+    font-size: 10pt;
+    color: #333333;
+}
+
+#sideMenu input[type='submit'] {
+    width: 50px;
+}
+
+#treePane {
+    margin: 0;
+    padding: 3px;
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    bottom: 201px;
+    width: 253px;
+    background-color: #eeeeee;
+    overflow: auto;
+}
+
+#sidePane {
+    margin: 0;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 259px;
+    background-color: #EEEEEE;
+    border-right: 1px solid #999999;
+}
+
+#mainVideo {
+    margin: 0;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 195px;
+    width: 259px;
+    background-color: #CCCCDD;
+    border-top: 1px solid #999999;
+}
+
+#mainVideo video {
+    height: 200px;
+}
+
+#otherUserPtr {
+    position: absolute;
+    top: 200px;
+    right: 200px;
+    height: 20px;
+    width: 20px;
+    background-color: blue;
+    z-index: 100;
+}

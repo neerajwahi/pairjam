@@ -1,0 +1,24 @@
+STACK:
+
+	TOOLS
+	Gulp (build)
+	Mocha (testing)
+
+	SERVER
+	(nginx)
+	node.js
+	socket.io
+	Express (dev only)
+
+	CLIENT
+	Browserify
+	React
+	webrtc.io
+
+
+TODO:
+- Need to maintain state on the server and determine an out of sync event
+
+
+WebRTC:
+	STUN/TURN servers
