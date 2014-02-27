@@ -11,8 +11,12 @@ io.set('log level', 2);
 var port = process.env.PORT || 3000;
 httpServer.listen(port);
 
+var welcomeMsg =  '$ man pairjam\n\nWelcome to pair/jam\n\nShare the url to this page to start coding.\n\n' +
+                  'You can browse github repos on the top left.\nYou can enable audio/video by clicking on empty blue-ish box on the bottom left.';
+
 // Github
 var GitHubApi = require("github");
+var gitCred = require('./gitapiSecret');
 
 var github = new GitHubApi({
     // required
@@ -23,20 +27,15 @@ var github = new GitHubApi({
     timeout: 5000
 });
 
-function getTree() {
-    github.gitdata.getTree({
-        user: "neerajwahi",
-        repo: "pairjam",
-        sha: "master",
-        recursive: 1
-    }, function(err, res) {
-        console.log(JSON.stringify(res));
-    });
-}
+github.authenticate({
+    type: "oauth",
+    key: gitCred.client_id,
+    secret: gitCred.client_secret
+});
 
 // Utility funnctions
 var util = require('./util.js');
-''
+
 // A session is a group of users in the same 'room' with a shared document
 var Session = require('./app/client/public/js/ot/serverSession.js');
 var sessions = [];
@@ -71,7 +70,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('join', function(data) {
         session = sessions[ data.sessionId ];
         if(! sessions[ data.sessionId ] ) {
-            session = sessions[ data.sessionId ] = new Session();
+            session = sessions[ data.sessionId ] = new Session(welcomeMsg);
         }
         sessionId = data.sessionId;
         clients[ socket.id ] = data.sessionId;

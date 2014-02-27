@@ -15,7 +15,7 @@ function xformSel(sel, op) {
 }
 
 function writeLog(str) {
-	console.log(str);
+	//console.log(str);
 }
 
 function debugDump(obj) {

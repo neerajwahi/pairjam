@@ -1,5 +1,4 @@
 STACK:
-
 	TOOLS
 	Gulp (build)
 	Mocha (testing)
@@ -22,3 +21,27 @@ TODO:
 
 WebRTC:
 	STUN/TURN servers
+
+
+TODO
+	Bugs
+		Can't insert after another person if on last line
+		Insert last line in doc
+		PDF crashes server
+
+	Look into node streams
+	Move socket code into connect on client
+	(146) app.js - change to slice
+	Use redis to cache sessions!
+
+	Strip out sub-projects:
+		OT: xform js, optimus prime
+		UI:
+			Components:
+				Tree
+				Buttons
+				Search / autocomplete
+				Accordian
+				Menu
+				Chooser (combo-box)
+				Pop-ups

@@ -7,8 +7,8 @@ function removeFromArray(arr, val) {
     }
 }
 
-function Session() {
-	this.doc = '';					// The 'master' document that the server knows
+function Session(welcomeMsg) {
+	this.doc = welcomeMsg;			// The 'master' document that the server knows
 	this.history = [];				// History of prior operations
 	this.clientIds = [];			// List of clients' ids
 	this.clientNames = {};			// Dict of clients' names
