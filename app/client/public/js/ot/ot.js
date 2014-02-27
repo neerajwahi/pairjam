@@ -1,6 +1,10 @@
 /*
-	OT for OGs
-	Library for operational transformations (for original gangstas)
+	OT
+	Library for operational transformations
+
+	Heavily influenced by https://github.com/Operational-Transformation/ot.js
+
+	Great article on OT: http://www.codecommit.com/blog/java/understanding-and-applying-operational-transformation
 */
 
 module.exports = function ot() {

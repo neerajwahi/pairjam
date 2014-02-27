@@ -11,7 +11,7 @@ io.set('log level', 2);
 var port = process.env.PORT || 3000;
 httpServer.listen(port);
 
-var welcomeMsg =  '$ man pairjam\n\nWelcome to pair/jam\n\nShare the url to this page to start coding.\n\n' +
+var welcomeMsg =  '$ man pairsjam\n\nWelcome to pair/jam\n\nShare the url to this page to start coding.\n\n' +
                   'You can browse github repos on the top left.\nYou can enable audio/video by clicking on empty blue-ish box on the bottom left.';
 
 // Github

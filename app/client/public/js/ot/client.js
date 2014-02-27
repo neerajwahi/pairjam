@@ -1,11 +1,5 @@
 var ot = require('./ot.js');
 
-/*
-function sha1Hash(str) {
-	return SHA1( str ).toString( CryptoJS.enc.Hex );
-}
-*/
-
 function xformSel(sel, op) {
 	for(var i = 0; i < sel.length; i++ ) {
 		sel[i] = [ 	ot.xformIdx( sel[i][0], op ),
@@ -114,7 +108,6 @@ Client.prototype = {
 				// We are now synchronized - woo hoo!
 				this.pending = [];
 				if(this.clientDoc !== this.doc) debugDump(this);
-				writeLog('STATE SYNC' + this.clientDoc);
 			}
 		} else {
 			if( this.pending.length ) {
@@ -153,15 +146,12 @@ Client.prototype = {
 
 		if( this.pending.length ) {
 			// We already sent an operation, so add this one to the buffer and don't send yet
-			writeLog( 'STATE: AWAITING ACK + BUFFERING' );
-
 			if(this.buffer.length) {
 				this.buffer = ot.compose(this.buffer, op);
 			} else {
 				this.buffer = op;
 			}
 		} else {
-			writeLog( 'STATE: AWAITING ACK' );
 			this.pending = op;
 			this.send( this.clientId, 'op', {	'id' : this.clientId,
 														'rev' : this.rev,

@@ -6,51 +6,50 @@ var TreeNode = React.createClass({
 
     getInitialState: function() {
         return {
-            visible: false
+            isOpen: false
         };
     },
 
     render: function() {
+
         var childNodes;
         var className = "";
         if (this.props.node.children != null) {
             var _this = this;
-            childNodes = this.props.node.children.map( function(node) {
+            var children = this.props.node.children;
+            childNodes = children.map( function(node) {
                 return (<TreeNode user={_this.props.user} repo={_this.props.repo} node={node} onLoadDoc={_this.props.onLoadDoc} />);
             });
 
             className = "togglable";
-            if (this.state.visible) {
-                className += " togglable-down";
-            } else {
-                className += " togglable-up";
-            }
+            if (this.state.isOpen) className += " togglable-down";
+            else className += " togglable-up";
         }
 
         var style = {};
-        if (!this.state.visible) {
-            style.display = "none";
-        }
+        if (!this.state.isOpen) style.display = "none";
+
+        childNodes = (
+            <ul style={style}>
+                <li>                      
+                    {childNodes}
+                </li>
+            </ul>
+        );
 
         return (
             <ul>
                 <li onClick={this.toggle} className={className}>
                     {this.props.node.name}
                 </li>
-                <li>
-                    <ul style={style}>
-                        <li>                      
-                            {childNodes}
-                        </li>
-                    </ul>
-                </li>
+                <li>{ this.props.node.children? childNodes : '' }</li>
             </ul>
         );
     },
 
     toggle: function() {
         if(this.props.node.children != null) {
-            this.setState({visible: !this.state.visible});
+            this.setState({isOpen: !this.state.isOpen});
         } else {
             this.loadDocument();
         }

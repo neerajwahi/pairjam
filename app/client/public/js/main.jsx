@@ -17,11 +17,13 @@ elMainVid.addEventListener('click', function() {
 
 // we have to wait until it's ready
 webrtc.on('readyToCall', function () {
+	// TODO: Hack-y, fix this stuff
 	// you can name it anything
 	webrtc.joinRoom('pairjam');
 	elMainVid.innerHTML = '';
 	elMainVid.classList.remove('notInSession');
 	elMainVid.classList.add('inSession');
+	document.getElementById('treePane').style.bottom = '201px';
 });
 
 webrtc.on('connectionReady', function() {
@@ -55,6 +57,7 @@ var pairjam = (function() {
 	var client = new Client();
 
 	editor.setTheme("ace/theme/tomorrow");
+	//editor.setTheme("ace/theme/xcode");
 	editor.getSession().setMode("ace/mode/javascript");
 	editor.getSession().setUseWorker(false);
 
@@ -111,7 +114,7 @@ var pairjam = (function() {
 		var tree = util.buildTree(data.tree);
 		repoSearch.setState( {'user' : data.user, 'repo' : data.repo} );
 		treePane.setProps( {'user' : data.user, 'repo' : data.repo, 'node' : tree} );
-		treePane.setState( {'visible' : true} );
+		treePane.setState( {'isOpen' : true} );
 	});
 
 	socket.on('joined', function(data) {

@@ -29,9 +29,15 @@ module.exports = {
 					})[0];
 
 					if(subNode) temp = subNode;
-					else temp = temp.children.push( { 'name' : splitPath[j], 'sha' : sha } );
+					else {
+						var obj = { 'name' : splitPath[j], 'sha' : sha };
+						temp.children.push( obj );
+						temp = obj;
+					}
 				}
 			}
+
+			temp.path = flatNode.path;
 		}
 
 		return node;

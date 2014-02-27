@@ -1,1 +1,1 @@
-Real-time web-based collaborative coding tool
+Real-time web-based collaborative coding platform
