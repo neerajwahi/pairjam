@@ -37,7 +37,7 @@ github.authenticate({
 var util = require('./util.js');
 
 // A session is a group of users in the same 'room' with a shared document
-var Session = require('./app/client/public/js/ot/serverSession.js');
+var Session = require('../lib/ot/serverSession.js');
 var sessions = [];
 var clients = [];   // Maps clients to rooms
 
@@ -52,13 +52,13 @@ Session.prototype.sendAll = function( clientId, msg, args ) {
 };
 
 app.use(
-    express.static(__dirname + '/app/client/public')
+    express.static(__dirname + '/../client/public')
 ).get('/', function (req, res) {
             var sessionId = util.generateSessionId(6);
             res.redirect('/' + sessionId);
         }
 ).get('/*', function(req, res) {
-            res.sendfile(__dirname + '/app/client/index.html');
+            res.sendfile('client/public/index.html', {'root': __dirname + '/../'} );
         }
 );
 

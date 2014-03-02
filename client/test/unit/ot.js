@@ -9,7 +9,7 @@
 */
 
 var assert = require('assert');
-var ot = require('../../public/js/ot/ot.js');
+var ot = require('../../../lib/ot/ot.js');
 
 // Test 'applyOp'
 describe('OT: applying operations to document', function() {

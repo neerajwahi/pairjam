@@ -28,6 +28,7 @@ TODO
 		Can't insert after another person if on last line
 		Insert last line in doc
 		PDF crashes server
+		Code folding
 
 	Look into node streams
 	Move socket code into connect on client
@@ -45,6 +46,10 @@ TODO
 				Menu
 				Chooser (combo-box)
 				Pop-ups
+				Data table
+				Like button
+				Voting
+				Rating
 
 
 

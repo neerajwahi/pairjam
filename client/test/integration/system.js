@@ -18,7 +18,7 @@ var docLength = 100;
 var rounds = 10;
 
 var assert = require('assert');
-var ot = require('../../public/js/ot/ot.js');
+var ot = require('../../../lib/ot/ot.js');
 
 var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ{} \n ""'
 function randomString(length) {

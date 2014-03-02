@@ -17,6 +17,7 @@ var TreeNode = React.createClass({
         if (this.props.node.children != null) {
             var _this = this;
             var children = this.props.node.children;
+
             childNodes = children.map( function(node) {
                 return (<TreeNode user={_this.props.user} repo={_this.props.repo} node={node} onLoadDoc={_this.props.onLoadDoc} />);
             });
@@ -24,6 +25,8 @@ var TreeNode = React.createClass({
             className = "togglable";
             if (this.state.isOpen) className += " togglable-down";
             else className += " togglable-up";
+        } else {
+            
         }
 
         var style = {};

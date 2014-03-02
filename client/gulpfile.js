@@ -9,19 +9,19 @@ var rename = require('gulp-rename');
 // Basic usage
 gulp.task('scripts', function() {
 	// Single entry point to browserify
-	gulp.src('public/js/main.jsx')
+	gulp.src('src/main.jsx')
 	    .pipe( browserify({
 			transform: ['reactify'],
 			insertGlobals : false,
 			debug : !gulputil.env.production
 	     }) )
 	    .pipe( rename('main.js') )
-	    .pipe( gulp.dest('./public/js/build') );
+	    .pipe( gulp.dest('./public/js') );
 });
 
 // JS hint task
 gulp.task('jshint', function() {
-	gulp.src('public/js/*.js')
+	gulp.src('src/*.js')
 		.pipe( jshint() )
 		.pipe( jshint.reporter('default') );
 });

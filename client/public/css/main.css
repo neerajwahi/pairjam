@@ -6,7 +6,7 @@ body {
         667796
     */
     background-color: #667796;
-    font-family: 'Inconsolata';
+    font-family: sans-serif, monospace;
     font-size: 11pt;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -25,15 +25,16 @@ body {
 }
 
 #treePane li {
-    font-family: 'Inconsolata';
-    font-size: 10.5pt;
+    font-family: sans-serif;
+    font-size: 10pt;
     margin: 3px;
-    padding-left: 5px;
+    padding-left: 6px;
     cursor: pointer;
 }
 
 #treePane li .togglable {
-    margin: 3px;
+    margin: 0px;
+    padding-left: 0px;
 }
 
 .togglable {
@@ -47,8 +48,8 @@ body {
 
 .togglable-down::before,
 .togglable-up::before {
-    font-size: 7pt;
-    margin-right: 3px;
+    font-size: 8px;
+    margin-right: 2px;
     color: #553311;
 }
 
@@ -65,20 +66,21 @@ body {
 /* General layout */
 #container {
     position: absolute;
-    top: 0px;
+    top: 35px;
     left: 0px;
     right: 0px;
     bottom: 0px;
-    margin: 35px;
+    /*margin: 20px;
+    margin-top: 35px;
     margin-bottom: 15px;
-    border: 1px solid #666666;
+    border: 1px solid #666666;*/
 }
 
 #menuContainer {
     position:absolute;
     top: 0px;
-    left: 30px;
-    right: 30px;
+    left: 5px;
+    right: 5px;
 }
 
 #menubar {
@@ -104,8 +106,7 @@ body {
 
 #menubar #logo {
     float: left;
-    padding: 8px;
-    padding-left: 15px;
+    padding: 6px;
     vertical-align: top;
     color: #eeeeee;
 }
@@ -121,11 +122,12 @@ body {
     text-align: right;
 }
 
-#menubar #langbox {
+#langbox {
+    float: right;
     margin: 0;
-    font-family: 'Inconsolata';
     font-size: 10pt;
-    color: #BBBBBB;
+    color: #333333;
+    line-height: 15px;
 }
 
 #menubar ul {
@@ -145,11 +147,22 @@ body {
     margin : 0px;
     position: absolute;
     top: 0px;
-    bottom: 0px;
+    bottom: 26px;
     right: 0px;
     left: 260px;
-    font-family: 'Inconsolata';
+    font-family: 'Inconsolata', monospace;
     font-size: 10.5pt;
+}
+
+#editorFooter {
+    position: absolute;
+    height: 15px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    padding: 5px;
+    background-color: #cccccc;
+    border-top: 1px solid #999999;
 }
 
 .lineHighlight {
@@ -204,7 +217,7 @@ body {
     position: absolute;
     top: 30px;
     left: 0px;
-    bottom: 31px;
+    bottom: 26px;
     width: 253px;
     background-color: #eeeeee;
     overflow: auto;
@@ -229,8 +242,7 @@ body {
     width: 259px;
     color: #333333;
     border-top: 1px solid #999999;
-    font-family: 'Inconsolata';
-    font-size: 10.5pt;
+    font-size: 10pt;
     text-align: center;
     font-weight: normal;
     cursor: pointer;
@@ -238,8 +250,8 @@ body {
 
 .notInSession {
     background-color: #DDBBBB;
-    height: 30px;
-    line-height: 30px;
+    height: 25px;
+    line-height: 25px;
 }
 
 .inSession {

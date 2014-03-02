@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
+
 var webrtc = new SimpleWebRTC({
 	// the id/element dom element that will hold "our" video
 	localVideoEl: 'localVideo',
@@ -34,22 +35,22 @@ var pairjam = (function() {
 	var util = require('./util.js');
 
 	// Ace code editor
-	var AceAdapter = require('./ot/ace_adapter.js');
+	var AceAdapter = require('../../lib/ot/ace_adapter.js');
 	var editor = ace.edit('editor');
 	var modelist = ace.require('ace/ext/modelist');
 
 	// OT client
-	var Client = require('./ot/client.js');
+	var Client = require('../../lib/ot/client.js');
 	Client.prototype.send = function(clientId, msg, args) {
 		socket.emit(msg, args);
 	}
 
 	// React components
 	var React = require('react')
-	var TreeNode = require('./TreeNode.jsx');
-	var RepoSearch = require('./RepoSearch.jsx');
-	var LangBox = require('./LangBox.jsx');
-	var Gutter = require('./Gutter.jsx');
+	var TreeNode = require('./react/TreeNode.jsx');
+	var RepoSearch = require('./react/RepoSearch.jsx');
+	var LangBox = require('./react/LangBox.jsx');
+	var Gutter = require('./react/Gutter.jsx');
 
 	// Instantiation (sic?)
 	var socket = io.connect(window.location.hostname);
