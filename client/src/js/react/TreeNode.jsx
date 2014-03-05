@@ -42,10 +42,12 @@ var TreeNode = React.createClass({
 
         return (
             <ul>
-                <li onClick={this.toggle} className={className}>
-                    {this.props.node.name}
+                <li>
+                    <label onClick={this.toggle} className={className}>
+                        {this.props.node.name}
+                    </label>
+                    { this.props.node.children? childNodes : '' }
                 </li>
-                <li>{ this.props.node.children? childNodes : '' }</li>
             </ul>
         );
     },

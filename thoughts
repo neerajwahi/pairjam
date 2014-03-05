@@ -40,6 +40,9 @@ TODO
 		UI:
 			Components:
 				Tree
+				Tabs
+				Tour
+				Loading
 				Buttons
 				Search / autocomplete
 				Accordian
@@ -50,6 +53,8 @@ TODO
 				Like button
 				Voting
 				Rating
+				Progress bar
+				Slider
 
 
 

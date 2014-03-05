@@ -1,46 +1,16 @@
 /** @jsx React.DOM */
 
-
-var webrtc = new SimpleWebRTC({
-	// the id/element dom element that will hold "our" video
-	localVideoEl: 'localVideo',
-	// the id/element dom element that will hold remote videos
-	remoteVideosEl: 'mainVideo',
-	// immediately ask for camera access
-	autoRequestMedia: false
-});
-
-var elMainVid = document.getElementById('mainVideo');
-elMainVid.addEventListener('click', function() {
-	webrtc.startLocalVideo();
-	elMainVid.innerHTML = 'Please allow video access';
-});
-
-// we have to wait until it's ready
-webrtc.on('readyToCall', function () {
-	// TODO: Hack-y, fix this stuff
-	// you can name it anything
-	webrtc.joinRoom('pairjam');
-	elMainVid.innerHTML = '';
-	elMainVid.classList.remove('notInSession');
-	elMainVid.classList.add('inSession');
-	document.getElementById('treePane').style.bottom = '201px';
-});
-
-webrtc.on('connectionReady', function() {
-});
-
 var pairjam = (function() {
 
 	var util = require('./util.js');
 
 	// Ace code editor
-	var AceAdapter = require('../../lib/ot/ace_adapter.js');
+	var AceAdapter = require('../../../lib/ot/ace_adapter.js');
 	var editor = ace.edit('editor');
 	var modelist = ace.require('ace/ext/modelist');
 
 	// OT client
-	var Client = require('../../lib/ot/client.js');
+	var Client = require('../../../lib/ot/client.js');
 	Client.prototype.send = function(clientId, msg, args) {
 		socket.emit(msg, args);
 	}

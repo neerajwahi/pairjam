@@ -2,6 +2,9 @@
 var express = require('express');
 var app = express();
 
+// Utility funnctions
+var util = require('./util.js');
+
 // Socket.io
 var http = require('http');
 var httpServer = http.createServer(app);
@@ -11,7 +14,7 @@ io.set('log level', 2);
 var port = process.env.PORT || 3000;
 httpServer.listen(port);
 
-var welcomeMsg =  '$ man pairsjam\n\nWelcome to pair/jam\n\nShare the url to this page to start coding.\n\n' +
+var welcomeMsg =  '$ man pairjam\n\nWelcome to pair/jam\n\nShare the url to this page to start coding.\n\n' +
                   'You can browse github repos on the top left.\nYou can enable audio/video by clicking on empty blue-ish box on the bottom left.';
 
 // Github
@@ -33,9 +36,6 @@ github.authenticate({
     secret: gitCred.client_secret
 });
 
-// Utility funnctions
-var util = require('./util.js');
-
 // A session is a group of users in the same 'room' with a shared document
 var Session = require('../lib/ot/serverSession.js');
 var sessions = [];
@@ -51,14 +51,18 @@ Session.prototype.sendAll = function( clientId, msg, args ) {
     io.sockets.in(room).emit( msg, args );
 };
 
+//TODO: bug, this matches index.html and prevents a session from being created
 app.use(
     express.static(__dirname + '/../client/public')
-).get('/', function (req, res) {
+);
+
+app.get('/', function (req, res) {
             var sessionId = util.generateSessionId(6);
+            console.log(sessionId);
             res.redirect('/' + sessionId);
         }
 ).get('/*', function(req, res) {
-            res.sendfile('client/public/index.html', {'root': __dirname + '/../'} );
+            res.sendfile('client/index.html', {'root': __dirname + '/../'} );
         }
 );
 

@@ -1,3 +1,6 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+@import url(http://fonts.googleapis.com/css?family=Inconsolata);
+
 body {
     overflow: hidden;
     /* background-color: #555560; 
@@ -6,7 +9,7 @@ body {
         667796
     */
     background-color: #667796;
-    font-family: sans-serif, monospace;
+    font-family: 'Droid Sans', monospace;
     font-size: 11pt;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -17,6 +20,7 @@ body {
 }
 
 /* Tree UI */
+
 #treePane ul {
     list-style-type: none;
     margin: 0;
@@ -24,20 +28,27 @@ body {
     color: #333333;
 }
 
+
+#treePane > ul {
+    margin: 0.5em;
+    margin-left: 1em;
+}
+
 #treePane li {
     font-family: sans-serif;
     font-size: 10pt;
     margin: 3px;
-    padding-left: 6px;
+    padding-left: 3px;
     cursor: pointer;
 }
 
-#treePane li .togglable {
+#treePane li label {
     margin: 0px;
     padding-left: 0px;
+    display: block;
 }
 
-.togglable {
+#treePane label {
     color: #553311;
     cursor: pointer;
 }
@@ -46,27 +57,34 @@ body {
     background-color: #999999;
 }
 
+.togglable {
+    position: relative;
+}
+
 .togglable-down::before,
 .togglable-up::before {
-    font-size: 8px;
-    margin-right: 2px;
     color: #553311;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5em;
+    left: -1.2em;
+    font-size: 0.7em;
 }
 
 .togglable-down::before {
-    content: "▼";
-    display: inline-block;
+    content: '▼';
+    /*display: inline-block;*/
 }
 
 .togglable-up::before {
-    content: "▶";
-    display: inline-block;
+    content: '▶';
+    /*display: inline-block;*/
 }
 
 /* General layout */
 #container {
     position: absolute;
-    top: 35px;
+    top: 30px;
     left: 0px;
     right: 0px;
     bottom: 0px;
@@ -90,7 +108,7 @@ body {
     color: #cccccc;
     vertical-align: top;
     font-family: 'Inconsolata';
-    font-size: 14pt;
+    font-size: 12pt;
     font-weight: normal;
 }
 
@@ -106,7 +124,8 @@ body {
 
 #menubar #logo {
     float: left;
-    padding: 6px;
+    padding: 4px;
+    padding-left: 0px;
     vertical-align: top;
     color: #eeeeee;
 }
@@ -125,7 +144,7 @@ body {
 #langbox {
     float: right;
     margin: 0;
-    font-size: 10pt;
+    font-size: 9pt;
     color: #333333;
     line-height: 15px;
 }
@@ -202,7 +221,7 @@ body {
     width: 250px;
     border: 0px;
     outline: none;
-    font-family: 'Inconsolata';
+    font-family: 'Droid Sans', sans-serif;
     font-size: 10pt;
     color: #333333;
 }
@@ -213,13 +232,15 @@ body {
 
 #treePane {
     margin: 0;
-    padding: 3px;
+    padding: 0;
     position: absolute;
     top: 30px;
     left: 0px;
     bottom: 26px;
     width: 253px;
     background-color: #eeeeee;
+    /*background-color: #666666;
+    color: #eeeeee;*/
     overflow: auto;
 }
 

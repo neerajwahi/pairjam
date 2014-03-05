@@ -9,7 +9,7 @@ var rename = require('gulp-rename');
 // Basic usage
 gulp.task('scripts', function() {
 	// Single entry point to browserify
-	gulp.src('src/main.jsx')
+	gulp.src('src/js/main.jsx')
 	    .pipe( browserify({
 			transform: ['reactify'],
 			insertGlobals : false,
@@ -21,7 +21,7 @@ gulp.task('scripts', function() {
 
 // JS hint task
 gulp.task('jshint', function() {
-	gulp.src('src/*.js')
+	gulp.src('src/js/*.js')
 		.pipe( jshint() )
 		.pipe( jshint.reporter('default') );
 });
