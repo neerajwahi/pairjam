@@ -66,6 +66,7 @@ app.get('/', function (req, res) {
         }
 );
 
+
 io.sockets.on('connection', function (socket) {
 
     var session = undefined;
