@@ -1,0 +1,63 @@
+/* Tree UI component */
+
+#treePane {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    bottom: 75px;
+    width: 260px;
+    overflow: auto;
+    font-family: 'Droid Sans', sans-serif;
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        color: #ffffff;
+
+        li {
+            font-size: 10pt;
+            margin: 3px;
+            padding-left: 3px;
+            cursor: pointer;
+
+            label {
+                margin: 0;
+                padding-left: 0;
+                display: block;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &>ul {
+        margin: 0.5em;
+        margin-left: 1em;
+    }
+}
+
+.togglable {
+    color: rgb(255,204,102); /* fff080 */
+    position: relative;
+}
+
+.togglable-down::before,
+.togglable-up::before {
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5em;
+    left: -1.2em;
+    font-size: 0.7em;
+}
+
+.togglable-down::before {
+    content: '\25BC';
+    /*display: inline-block;*/
+}
+
+.togglable-up::before {
+    content: "\25B6";
+    /*display: inline-block;*/
+}

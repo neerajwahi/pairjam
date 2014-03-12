@@ -1,0 +1,30 @@
+DONE
+- Clean up css and use scss
+- Serve fonts locally (as opposed to from Google Fonts)
+- Remove Express
+- Clean up code + protocol
+- Switch to sockJS
+- Show how many users are online / alert when users join and leave
+- Auto-reconnect
+
+WORKING ON
+- Show other users' cursors (markers for where users are)
+- Sync GitHub tree exploration and be graceful about document changes
+- Custom scrollbars
+
+TODO
+- Set up STUN server for WebRTC
+- Speed up code and in particular loops
+- Get a CSS audit, code audit, and server setup audit
+- Set up production gulp tasks (minify etc...)
+- Set up HTTPS
+- Set up logging in both client and server (in case of errors, etc...)
+- Show 'loading' while loading repos and documents (add a spinner)
+
+TODO (LATER)
+- Allow user to choose themes and remember the theme in a cookie
+- Dynamic themes (when a theme is selected, editor AND pairjam UI changes)
+- Box-sizing: border box
+- Expand beyond GitHub integration
+- Password protection
+- WSS

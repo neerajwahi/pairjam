@@ -4,9 +4,9 @@
   "description": "Real-time web-based pair programming tool",
   "main": "app.js",
   "dependencies": {
-    "socket.io": "latest",
-    "express": "latest",
-    "github": "~0.1.14"
+    "github": "~0.1.14",
+    "sockjs": "~0.3.8",
+    "node-uuid": "~1.4.1"
   },
   "author": "Neeraj Wahi",
   "license": "MIT"

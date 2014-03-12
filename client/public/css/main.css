@@ -1,216 +1,272 @@
-@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
-@import url(http://fonts.googleapis.com/css?family=Inconsolata);
+@font-face {
+  font-family: 'Inconsolata';
+  src: url('../fonts/Inconsolata-Regular.ttf'); }
 
-body {
-    overflow: hidden;
-    /* background-color: #555560; 
-        445566
-        CCE6FF
-        667796
-    */
-    background-color: #667796;
-    font-family: 'Droid Sans', monospace;
-    font-size: 11pt;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
+@font-face {
+  font-family: 'Droid Sans';
+  src: url('../fonts/DroidSans.ttf'); }
 
-/* Tree UI */
+@font-face {
+  font-family: 'Fantasque';
+  src: url('../fonts/FantasqueSansMono-Regular.ttf'); }
 
-#treePane ul {
+/* Menu bar */
+#menuContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: #272727;
+  margin: 0;
+  padding: 0;
+  font-size: 12pt;
+  font-weight: normal; }
+  #menuContainer #logo {
+    float: left;
+    padding: 8px;
+    padding-left: 4px;
+    font-family: 'Inconsolata';
+    color: #ffffff; }
+    #menuContainer #logo span {
+      color: #667796; }
+  #menuContainer #rightMenu {
+    float: right;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    color: #eeeeee; }
+  #menuContainer ul {
+    margin: 0;
+    padding: 0;
+    height: 100%; }
+    #menuContainer ul li {
+      float: left;
+      display: block;
+      margin: 0;
+      padding: 0;
+      font-family: 'Droid Sans', sans-serif;
+      font-size: 9.5pt;
+      height: 100%; }
+
+.menuButton {
+  float: left;
+  margin: 0;
+  padding: 0;
+  height: 35px;
+  line-height: 35px;
+  text-align: center; }
+
+.notification {
+  float: left;
+  margin: 0;
+  padding: 0px 5px 0px 5px;
+  margin: 6px;
+  height: 23px;
+  line-height: 23px;
+  min-width: 15px;
+  text-align: center;
+  font-weight: normal; }
+
+.inactiveSession {
+  background-color: #d55; }
+
+.activeSession {
+  background-color: #2873AB;
+  transition: background 0.15s ease-in-out;
+  -moz-transition: background 0.15s ease-in-out;
+  -webkit-transition: background 0.15s ease-in-out; }
+  .activeSession:hover {
+    background-color: #4455bb;
+    cursor: pointer; }
+
+.notificationPopup {
+  position: absolute;
+  right: 6px;
+  top: 29px;
+  z-index: 100;
+  font-size: 10pt;
+  font-family: 'Droid Sans';
+  text-align: right;
+  font-weight: normal; }
+
+.joinMsg, .leaveMsg, .stateMsg, .errorMsg, .loadingMsg {
+  float: right;
+  clear: both;
+  height: 25px;
+  line-height: 25px;
+  color: #ffffff;
+  opacity: 1;
+  padding: 2px 4px 2px 8px; }
+
+.joinMsg {
+  background-color: #2873AB; }
+
+.leaveMsg {
+  background-color: #d55; }
+
+.stateMsg {
+  background-color: #696; }
+
+.loadingMsg {
+  background-color: #666; }
+
+.errorMsg {
+  background-color: #d55; }
+  .errorMsg .button:hover {
+    background-color: #e44;
+    padding: 5px;
+    cursor: pointer; }
+
+.shareThisLink {
+  height: 30px;
+  line-height: 30px;
+  background-color: #d55;
+  color: #ffffff;
+  opacity: 1;
+  padding: 0px 0px 0px 5px;
+  font-family: 'Droid Sans', sans-serif;
+  font-weight: normal; }
+  .shareThisLink input[type='text'] {
+    width: 200px;
+    outline: none;
+    height: 20px;
+    line-height: 20px;
+    border: 0;
+    margin: 0px;
+    margin-left: 4px;
+    padding: 5px;
+    font-size: 10pt;
+    font-family: 'Droid Sans', sans-serif;
+    background-color: #e99; }
+
+.fadeInOut-enter {
+  opacity: 0.01;
+  transition: opacity 0.5s ease-in; }
+
+.fadeInOut-enter.fadeInOut-enter-active {
+  opacity: 1; }
+
+.fadeInOut-leave {
+  opacity: 1;
+  transition: opacity 0.5s ease-in; }
+
+.fadeInOut-leave.fadeInOut-leave-active {
+  opacity: 0.01; }
+
+/* Tree UI component */
+#treePane {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  bottom: 75px;
+  width: 260px;
+  overflow: auto;
+  font-family: 'Droid Sans', sans-serif; }
+  #treePane ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    color: #333333;
-}
-
-
-#treePane > ul {
+    color: #ffffff; }
+    #treePane ul li {
+      font-size: 10pt;
+      margin: 3px;
+      padding-left: 3px;
+      cursor: pointer; }
+      #treePane ul li label {
+        margin: 0;
+        padding-left: 0;
+        display: block;
+        cursor: pointer; }
+  #treePane > ul {
     margin: 0.5em;
-    margin-left: 1em;
-}
-
-#treePane li {
-    font-family: sans-serif;
-    font-size: 10pt;
-    margin: 3px;
-    padding-left: 3px;
-    cursor: pointer;
-}
-
-#treePane li label {
-    margin: 0px;
-    padding-left: 0px;
-    display: block;
-}
-
-#treePane label {
-    color: #553311;
-    cursor: pointer;
-}
-
-#treePane .selected {
-    background-color: #999999;
-}
+    margin-left: 1em; }
 
 .togglable {
-    position: relative;
-}
+  color: #ffcc66;
+  /* fff080 */
+  position: relative; }
 
-.togglable-down::before,
-.togglable-up::before {
-    color: #553311;
-    position: absolute;
-    top: 50%;
-    margin-top: -0.5em;
-    left: -1.2em;
-    font-size: 0.7em;
-}
+.togglable-down::before, .togglable-up::before {
+  position: absolute;
+  top: 50%;
+  margin-top: -0.5em;
+  left: -1.2em;
+  font-size: 0.7em; }
 
 .togglable-down::before {
-    content: '▼';
-    /*display: inline-block;*/
-}
+  content: '\25BC';
+  /*display: inline-block;*/ }
 
 .togglable-up::before {
-    content: '▶';
-    /*display: inline-block;*/
-}
+  content: "\25B6";
+  /*display: inline-block;*/ }
+
+body {
+  overflow: hidden;
+  font-family: 'Droid Sans', monospace;
+  font-size: 11pt;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: #272727; }
 
 /* General layout */
 #container {
-    position: absolute;
-    top: 30px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    /*margin: 20px;
-    margin-top: 35px;
-    margin-bottom: 15px;
-    border: 1px solid #666666;*/
-}
-
-#menuContainer {
-    position:absolute;
-    top: 0px;
-    left: 5px;
-    right: 5px;
-}
-
-#menubar {
-    height: 30px;
-    border-bottom: 0px solid #000000;
-    background-color: none;
-    color: #cccccc;
-    vertical-align: top;
-    font-family: 'Inconsolata';
-    font-size: 12pt;
-    font-weight: normal;
-}
-
-.userMarker {
-    position: absolute;
-    right: -20px;
-    top: 0px;
-    height: 15px;
-    width: 20px;
-    background-color: yellow;
-    z-index: 1000;
-}
-
-#menubar #logo {
-    float: left;
-    padding: 4px;
-    padding-left: 0px;
-    vertical-align: top;
-    color: #eeeeee;
-}
-
-#menubar #logo span {
-    color: #BBBBBB;
-}
-
-#menubar #rightMenu {
-    margin: 0;
-    float: right;
-    margin-right: 10px;
-    text-align: right;
-}
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 35px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #272727; }
 
 #langbox {
-    float: right;
-    margin: 0;
-    font-size: 9pt;
-    color: #333333;
-    line-height: 15px;
-}
+  position: absolute;
+  margin: 0;
+  padding: 2px 15px 2px 15px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 100;
+  width: auto;
+  height: 25px;
+  text-align: right;
+  background-color: #272727;
+  font-size: 9.5pt;
+  color: #eeeeee;
+  line-height: 25px;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: background 0.15s ease-in-out;
+  -moz-transition: background 0.15s ease-in-out;
+  -webkit-transition: background 0.15s ease-in-out; }
+  #langbox:hover {
+    background-color: #444444; }
 
-#menubar ul {
-    margin-top: 12px;
-    margin-bottom: 12px;
-    margin-left: 100px;
-}
-
-#menubar li {
-   display: inline-block;
-   font-family: sans-serif;
-   font-size: 10pt;
-}
-
-/* code editor */
-#editor {
-    margin : 0px;
-    position: absolute;
-    top: 0px;
-    bottom: 26px;
-    right: 0px;
-    left: 260px;
-    font-family: 'Inconsolata', monospace;
-    font-size: 10.5pt;
-}
-
-#editorFooter {
-    position: absolute;
-    height: 15px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    padding: 5px;
-    background-color: #cccccc;
-    border-top: 1px solid #999999;
-}
-
-.lineHighlight {
-    position: absolute;
-    background-color: yellow;
-    opacity: 0.2;
-}
-
-#localVideo {
-    margin: 0;
-    position: absolute;
-    bottom: 200px;
-    right: 0;
-    height: 100px;
-    background-color: #4455ff;
-}
+/* Side pane */
+#sidePane {
+  margin: 0;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 260px;
+  background-color: #555555; }
 
 #sideMenu {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    top: 0px;
-    height: 30px;
-    width: 259px;
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #999999;
-}
-
-#sideMenu input[type='text'] {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0px;
+  height: 30px;
+  width: 260px;
+  background-color: #404040; }
+  #sideMenu input[type='text'] {
     position: absolute;
     margin: 4px;
     padding: 0;
@@ -218,78 +274,88 @@ body {
     bottom: 0px;
     left: 0px;
     right: 0px;
-    width: 250px;
+    width: 225px;
     border: 0px;
     outline: none;
     font-family: 'Droid Sans', sans-serif;
     font-size: 10pt;
-    color: #333333;
-}
+    color: #cccccc;
+    background-color: #404040;
+    background-image: url('../img/github.svg');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    padding-left: 25px; }
 
-#sideMenu input[type='submit'] {
-    width: 50px;
-}
+/* code editor */
+#editor {
+  margin: 0px;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 260px;
+  font-family: 'Inconsolata', monospace;
+  font-size: 10.5pt;
+  visibility: hidden; }
 
-#treePane {
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 30px;
-    left: 0px;
-    bottom: 26px;
-    width: 253px;
-    background-color: #eeeeee;
-    /*background-color: #666666;
-    color: #eeeeee;*/
-    overflow: auto;
-}
+#editorFooter {
+  position: absolute;
+  height: 15px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  padding: 5px;
+  /*background-color: #555555;*/
+  background-color: #313131;
+  /*border-top: 1px solid #999999;*/
+  color: #ffffff; }
 
-#sidePane {
-    margin: 0;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    width: 259px;
-    background-color: #EEEEEE;
-    border-right: 1px solid #999999;
-}
+.lineHighlight {
+  position: absolute;
+  background-color: yellow;
+  opacity: 0.2; }
+
+#localVideo {
+  margin: 0;
+  position: absolute;
+  bottom: 200px;
+  right: 0;
+  height: 100px;
+  background-color: #4455ff; }
 
 #mainVideo {
-    margin: 0;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 259px;
-    color: #333333;
-    border-top: 1px solid #999999;
-    font-size: 10pt;
-    text-align: center;
-    font-weight: normal;
-    cursor: pointer;
-}
+  margin: 0;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 260px;
+  color: #dddddd;
+  /*border-top: 1px solid #999999;*/
+  font-size: 10pt;
+  text-align: center;
+  font-weight: normal;
+  cursor: pointer; }
 
 .notInSession {
-    background-color: #DDBBBB;
-    height: 25px;
-    line-height: 25px;
-}
+  background-color: #629372;
+  height: 75px;
+  line-height: 25px;
+  transition: background 0.15s ease-in-out;
+  -moz-transition: background 0.15s ease-in-out;
+  -webkit-transition: background 0.15s ease-in-out; }
+
+.notInSession:hover {
+  /*background-color: #38b368;*/
+  background-color: #38b358;
+  content: 'Enable video'; }
+
+.notInSession img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 16px;
+  margin: -9px 0 0 -18px; }
 
 .inSession {
-    height: 195px;
-    background-color: #CCCCDD;
-}
-
-#mainVideo video {
-    height: 200px;
-}
-
-#otherUserPtr {
-    position: absolute;
-    top: 200px;
-    right: 200px;
-    height: 20px;
-    width: 20px;
-    background-color: blue;
-    z-index: 100;
-}
+  height: 195px;
+  background-color: #CCCCDD; }

@@ -1,0 +1,174 @@
+/* Menu bar */
+#menuContainer {
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: $headerColor;
+    margin: 0;
+    padding: 0;
+    font-size: 12pt;
+    font-weight: normal;
+
+    #logo {
+        float: left;
+        padding: 8px;
+        padding-left: 4px;
+        font-family: 'Inconsolata';
+        color: #ffffff;
+
+        span {
+            color: #667796;
+        }
+    }
+
+    #rightMenu {
+        float: right;
+        margin: 0;
+        padding: 0;
+        text-align: right;
+        color: #eeeeee;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+
+        li {
+            float: left;
+            display: block;
+            margin: 0;
+            padding: 0;
+            font-family: 'Droid Sans', sans-serif;
+            font-size: 9.5pt;
+            height: 100%;
+        }
+    }
+}
+
+.menuButton {
+    float: left;
+    margin: 0;
+    padding: 0;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.notification {
+    float: left;
+    margin: 0;
+    padding: 0px 5px 0px 5px;
+    margin: 6px;
+    height: 23px;
+    line-height: 23px;
+    min-width: 15px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.inactiveSession {
+    background-color: #d55;
+}
+
+.activeSession {
+    background-color: #2873AB;
+    @include buttonfade;
+
+    &:hover {
+        background-color: #4455bb;
+        cursor: pointer;    
+    }
+}
+
+.notificationPopup {
+    position: absolute;
+    right: 6px;
+    top: 29px;
+    z-index: 100;
+    font-size: 10pt;
+    font-family: 'Droid Sans';
+    text-align: right;
+    font-weight: normal;
+}
+
+.joinMsg, .leaveMsg, .stateMsg, .errorMsg, .loadingMsg {
+    float: right;
+    clear: both;
+    height: 25px;
+    line-height: 25px;
+    color: #ffffff;
+    opacity: 1.0;
+    padding: 2px 4px 2px 8px;
+}
+
+.joinMsg {
+    background-color: #2873AB;
+}
+
+.leaveMsg {
+    background-color: #d55;
+}
+
+.stateMsg {
+    background-color: #696;
+}
+
+.loadingMsg {
+    background-color: #666;
+}
+
+.errorMsg {
+    background-color: #d55;
+    .button {
+        &:hover {
+            background-color: #e44;
+            padding: 5px;
+            cursor: pointer;
+        }
+    }
+}
+
+.shareThisLink {
+    height: 30px;
+    line-height: 30px;
+    background-color: #d55;
+    color: #ffffff;
+    opacity: 1.0;
+    padding: 0px 0px 0px 5px;
+    font-family: 'Droid Sans', sans-serif;
+    font-weight: normal;
+
+    input[type='text'] {
+        width: 200px;
+        outline: none;
+        height: 20px;
+        line-height: 20px;
+        border: 0;
+        margin: 0px;
+        margin-left: 4px;
+        padding: 5px;
+        font-size: 10pt;
+        font-family: 'Droid Sans', sans-serif;
+        background-color: #e99;
+    }
+}
+
+.fadeInOut-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.fadeInOut-enter.fadeInOut-enter-active {
+  opacity: 1;
+}
+
+.fadeInOut-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.fadeInOut-leave.fadeInOut-leave-active {
+  opacity: 0.01;
+}

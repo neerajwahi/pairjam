@@ -1,0 +1,170 @@
+@import 'header';
+@import 'menu';
+@import 'react/tree';
+
+body {
+    overflow: hidden;
+    font-family: 'Droid Sans', monospace;
+    font-size: 11pt;
+    -webkit-touch-callout: none;
+    @include userselect;
+    background-color: $headerColor;
+}
+
+/* General layout */
+#container {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 35px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: $headerColor;
+}
+
+#langbox {
+    position: absolute;
+    margin: 0;
+    padding: 2px 15px 2px 15px;
+    bottom: 0px;
+    right: 0px;
+    z-index: 100;
+    width: auto;
+    height: 25px;
+    text-align: right;
+    background-color: $headerColor;
+    font-size: 9.5pt;
+    color: #eeeeee;
+    line-height: 25px;
+    opacity: 0.8;
+    cursor: pointer;
+    @include buttonfade;
+
+    &:hover {
+        background-color: #444444;
+    }
+}
+
+/* Side pane */
+#sidePane {
+    margin: 0;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 260px;
+    background-color: #555555;
+}
+
+#sideMenu {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 0px;
+    height: 30px;
+    width: 260px;
+    background-color: #404040;
+
+    input[type='text'] {
+        position: absolute;
+        margin: 4px;
+        padding: 0;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        width: 225px;
+        border: 0px;
+        outline: none;
+        font-family: 'Droid Sans', sans-serif;
+        font-size: 10pt;
+        color: #cccccc;
+        background-color: #404040;
+        background-image: url('../img/github.svg');
+        background-size: 20px 20px;
+        background-repeat: no-repeat;
+        padding-left: 25px;
+    }
+}
+
+/* code editor */
+#editor {
+    margin : 0px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 260px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 10.5pt;
+    visibility: hidden;
+}
+
+#editorFooter {
+    position: absolute;
+    height: 15px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    padding: 5px;
+    /*background-color: #555555;*/
+    background-color: #313131;
+    /*border-top: 1px solid #999999;*/
+    color: #ffffff;
+}
+
+.lineHighlight {
+    position: absolute;
+    background-color: yellow;
+    opacity: 0.2;
+}
+
+#localVideo {
+    margin: 0;
+    position: absolute;
+    bottom: 200px;
+    right: 0;
+    height: 100px;
+    background-color: #4455ff;
+}
+
+#mainVideo {
+    margin: 0;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 260px;
+    color: #dddddd;
+    /*border-top: 1px solid #999999;*/
+    font-size: 10pt;
+    text-align: center;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.notInSession {
+    background-color: #629372;
+    height: 75px;
+    line-height: 25px;
+    @include buttonfade;
+}
+
+.notInSession:hover {
+    /*background-color: #38b368;*/
+    background-color: #38b358;
+    content: 'Enable video';
+}
+
+.notInSession img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 16px;
+    margin: -9px 0 0 -18px;
+}
+
+.inSession {
+    height: 195px;
+    background-color: #CCCCDD;
+}

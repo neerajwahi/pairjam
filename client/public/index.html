@@ -8,16 +8,17 @@
 </head>
  
 <body>
+	<!--<div class="joinMsg">Another user has joined the party</div>-->
+
 	<div id="menuContainer">
-		<div id="menubar">
-			<div id="logo">pair<span>/</span>jam</div>
-			<div id="rightMenu">
-				<ul>
-					<li></li>
-					<li></li>
-					<li></li>
-				</ul>
-			</div>
+		<div id="logo">pair<span>/</span>jam</div>
+		<div id="rightMenu">
+			<ul>
+				<li>
+					<div id="peerInfoBox"></div>
+					<div id="notifications" class="notificationPopup"></div>
+				</li>
+			</ul>
 		</div>
 	</div>
 
@@ -25,9 +26,7 @@
 
 		<div id="editorPane">
 			<pre id="editor"></pre>
-			<div id="editorFooter">
-				<div id="langbox"></div>
-			</div>
+			<div id="langbox"></div>
 		</div>
 
 		<div id="gutter" style="visibility: hidden;"></div>
@@ -37,12 +36,15 @@
 			<div id="sideMenu">
 				<div id="repoSearch"></div>
 			</div>
-			<div id="mainVideo" class="notInSession">Enable audio/video</div>
+			<div id="mainVideo" class="notInSession"><img src="img/video-camera.svg"></div>
 		</div>
 	</div>
 
-    <!-- <script src="http://simplewebrtc.com/latest.js"></script> -->
-    <script src="/socket.io/socket.io.js"></script>
+	<!--
+		TODO:	move SockJS from public CDN to static server
+				integrate Ace into main.js so that only file is served
+	-->
+    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
 	<script src="js/ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/ace/src-noconflict/ext-modelist.js" type="text/javascript" charset="utf-8"></script>
 

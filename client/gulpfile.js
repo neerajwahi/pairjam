@@ -5,6 +5,7 @@ var browserify = require('gulp-browserify');
 var mocha = require('gulp-mocha');
 var shell = require('gulp-shell');
 var rename = require('gulp-rename');
+var sass = require('gulp-sass');
 
 // Basic usage
 gulp.task('scripts', function() {
@@ -19,9 +20,16 @@ gulp.task('scripts', function() {
 	    .pipe( gulp.dest('./public/js') );
 });
 
+// SASS
+gulp.task('sass', function () {
+    gulp.src('src/scss/main.scss')
+        .pipe(sass())
+        .pipe(gulp.dest('./public/css'));
+});
+
 // JS hint task
 gulp.task('jshint', function() {
-	gulp.src('src/js/*.js')
+	gulp.src(['src/js/*.js','../lib/ot/*.js'])
 		.pipe( jshint() )
 		.pipe( jshint.reporter('default') );
 });
@@ -34,15 +42,15 @@ gulp.task('unitTests', function() {
 
 // Integration tests (run using node)
 gulp.task('integration', function() {
-	gulp.src( ['test/integration/*.js'] )
+	gulp.src( ['test/system/*.js'] )
     	.pipe( shell(['node  <%= file.path %>']) );
 });
 
 // Default build task
-gulp.task('default', ['scripts', 'unitTests'] );
+gulp.task('default', ['sass', 'scripts'] );
 
 // Runs development tasks (jshint, etc...)
-gulp.task('dev', ['jshint', 'scripts', 'unitTests'] );
+gulp.task('dev', ['sass', 'jshint', 'scripts', 'unitTests'] );
 
 // Runs full testing suite (including stochastic integration)
 gulp.task('test', ['unitTests', 'integration'] );

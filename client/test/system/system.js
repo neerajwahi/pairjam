@@ -28,8 +28,8 @@ function randomString(length) {
 }
 
 // Set up a fake client/server system
-var Server = require('../../public/js/ot/serverSession.js');
-var Client = require('../../public/js/ot/client.js');
+var Server = require('../../public/js/ot/ServerSession.js');
+var Client = require('../../public/js/ot/Client.js');
 
 Server.prototype.send = function(clientId, msg, args) {
     var onMsg = function() {
