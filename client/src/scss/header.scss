@@ -28,4 +28,12 @@
     -webkit-transition: background .15s ease-in-out;
 }
 
+@mixin blureffect {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+}
+
 $headerColor: rgb(39, 39, 39);

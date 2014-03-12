@@ -13,26 +13,26 @@
 
     ul {
         list-style-type: none;
-        margin: 0;
+        margin: 2px;
         padding: 0;
         color: #ffffff;
 
         li {
             font-size: 10pt;
             margin: 3px;
-            padding-left: 3px;
+            padding-left: 5px;
             cursor: pointer;
 
             label {
                 margin: 0;
-                padding-left: 0;
+                padding: 0;
                 display: block;
                 cursor: pointer;
             }
         }
     }
 
-    &>ul {
+    &>div {
         margin: 0.5em;
         margin-left: 1em;
     }
@@ -60,4 +60,9 @@
 .togglable-up::before {
     content: "\25B6";
     /*display: inline-block;*/
+}
+
+.selected {
+    position: relative;
+    color: #bcf;
 }

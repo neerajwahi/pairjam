@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react/addons');
+var uuid = require('node-uuid');
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -45,7 +46,7 @@ var Notification = React.createClass({
     render: function() {
         items = this.props.items.map( function(item) {
             return (
-                <div className={item.type}>
+                <div key={uuid.v4()} className={item.type}>
                     {item.content}
                 </div>
             );

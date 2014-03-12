@@ -1,6 +1,7 @@
 // Github
 var GitHubApi = require("github");
 var gitCred = require('./github_api_secret');
+var util = require('./util.js');
 
 var github = new GitHubApi({
     // required
@@ -31,12 +32,14 @@ module.exports = {
                 if(err.code = 404) msg = 'GitHub repo ' + user + '/' + repo + ' does not exist';
                 errorCb(msg);
 		    } else {
-				cb(res.tree);
+                var tree = util.buildTree(res.tree);
+                tree.opened = true;
+				cb(tree);
 		    }
 		});
 	},
 
-	getFile: function(user, repo, sha, cb) {
+	getFile: function(user, repo, sha, cb, errorCb) {
 		github.gitdata.getBlob({
             user: user,
             repo: repo,
@@ -49,6 +52,10 @@ module.exports = {
                 cb(buf.toString());
             } else {
                 console.error(err);
+
+                var msg = 'Error loading GitHub file';
+                if(err.code = 404) msg = 'File does not exist';
+                errorCb(msg);
             }
         });
 	}

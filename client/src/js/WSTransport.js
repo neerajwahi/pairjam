@@ -3,8 +3,8 @@ var uuid = require('node-uuid');
 
 var retryNext = function(retryPrev) { return retryPrev * 2 };
 
-function WSTransport(sessionId) {
-	this.sockjs = new SockJS('http://localhost:9000/jam');
+function WSTransport(url, sessionId) {
+	this.url = url;
 	this.sessionId = sessionId;
 
 	//Connection retry parameters (exponential backoff)
@@ -20,7 +20,8 @@ function WSTransport(sessionId) {
 
 WSTransport.prototype = {
 	connect : function() {
-		this.sockjs = new SockJS('http://localhost:9000/jam');
+		//TODO: remove hardcoding
+		this.sockjs = new SockJS(this.url);
 		_this = this;
 
 		this.sockjs.onopen = function() {

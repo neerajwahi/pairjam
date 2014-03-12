@@ -11,6 +11,47 @@ body {
     background-color: $headerColor;
 }
 
+.popupScreen {
+    position: absolute;
+    margin: 0;
+    padding: 0;   
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0.5;
+    z-index: 1000;
+
+    @include blureffect;
+}
+
+#popupContainer {
+    position: absolute;
+    margin: 0;
+    padding: 0;   
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+#popup {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -200px;
+    height: 300px;
+    width: 400px;
+    background: rgba(150, 175, 200, 1.0);
+    padding: 10px;
+    border-radius: 0px;
+    color: #000;
+    z-index: 1001;
+}
+
 /* General layout */
 #container {
     position: absolute;

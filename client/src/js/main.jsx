@@ -17,7 +17,7 @@ var pairjam = (function() {
 	// Instantiation (sic?)
 	var adapter = new AceAdapter(ace, editor.getSession());
 	var client = new Client();
-	var transport = new Transport(hashURL);
+	var transport = new Transport('http://' + location.hostname + ':3001' + '/jam', hashURL);
 
 	var suppressEvents = false;
 	var pendingItem = {};
@@ -37,7 +37,7 @@ var pairjam = (function() {
 	// React components
 	var React = require('react');
 	var Notification = require('./react/Notification.jsx');
-	var TreeNode = require('./react/TreeNode.jsx');
+	var Tree = require('./react/TreeNode.jsx');
 	var RepoSearch = require('./react/RepoSearch.jsx');
 	var LangBox = require('./react/LangBox.jsx');
 	var Gutter = require('./react/Gutter.jsx');
@@ -48,12 +48,18 @@ var pairjam = (function() {
 	var notifications = React.renderComponent(<Notification items={[]} />, document.getElementById('notifications'));
 
 	// React callbacks
-	var onLoadDocFn = function(user, repo, sha, docPath) {
+	var onLoadDocFn = function(user, repo, sha, name, path) {
 		transport.send('reqGitFile', {	'id' : client.clientId,
 										'user' : user,
 										'repo' : repo,
 										'sha' : sha,
-										'filename' : docPath	});
+										'filename' : name,
+										'filepath' : path	});
+	};
+
+	var openFolderFn = function(user, repo, path, isOpen) {
+		transport.send('setGitTreeState', {	'path' : path,
+											'isopen' : isOpen	});
 	};
 
 	var onRepoSearch = function(user, repo) {
@@ -63,7 +69,7 @@ var pairjam = (function() {
 										'sha' : 'master'		});
 	};
 
-	var treePane = React.renderComponent(<TreeNode node={{}} onLoadDoc={onLoadDocFn} />, document.getElementById('treePane'));
+	var treePane = React.renderComponent(<Tree data={{}} onLoadDoc={onLoadDocFn} openFolder={openFolderFn}/>, document.getElementById('treePane'));
 	var repoSearch = React.renderComponent(<RepoSearch onSubmit={onRepoSearch}/>, document.getElementById('repoSearch'));
 	var langBox = React.renderComponent(<LangBox test={[]} />, document.getElementById('langbox'));
 	var gutter = React.renderComponent(<Gutter pos='0'/>, document.getElementById('gutter'));
@@ -101,6 +107,7 @@ var pairjam = (function() {
 	transport.handlers = {
 		welcome : function(data) {
 			this.setDoc(data);
+			if(data.workspace && data.workspace.tree) this.setGitRepo(data.workspace);
 			peerInfoBox.setState( { peers: client.getPeers() } );
 		},
 
@@ -110,8 +117,7 @@ var pairjam = (function() {
 		},
 
 		reconnecting : function(time) {
-			notifications.replaceItem( pendingItem, Notify.lostConnection(time) );
-			pendingItem = {};
+			pendingItem = notifications.replaceItem( pendingItem, Notify.lostConnection(time) );
 		},
 
 		closed : function() {
@@ -141,6 +147,13 @@ var pairjam = (function() {
 					pendingItem = {};
 				}
 				notifications.addItem( Notify.loaded(data.filename) );
+
+				if(data.filepath) {
+					var tree = treePane.props.data;
+					util.clearKeyOnTree(tree, 'selected');
+					util.setKeyOnTreePath(tree, data.filepath, 'selected', true);
+					treePane.setProps( { 'data' : tree } );
+				}
 			}
 		},
 
@@ -193,13 +206,21 @@ var pairjam = (function() {
 		},
 
 		setGitRepo : function(data) {
-			var tree = util.buildTree(data.tree);
+			//var tree = util.buildTree(data.tree);
+			var tree = data.tree;
 			repoSearch.setState( {'user' : data.user, 'repo' : data.repo} );
-			treePane.setProps( {'user' : data.user, 'repo' : data.repo, 'node' : tree} );
-			treePane.setState( {'isOpen' : true} );
+
+			treePane.setProps( {'user' : data.user, 'repo' : data.repo, 'data' : tree} );
 
 			notifications.replaceItem( pendingItem, Notify.loaded(data.user + '/' + data.repo, ' from GitHub' ) );
 			pendingItem = {};
+			console.log(data.tree);
+		},
+
+		setGitTreeState : function(data) {
+			var tree = treePane.props.data;
+			util.setKeyOnTreePath(tree, data.path, 'opened', data.isopen);
+			treePane.setProps( { 'data' : tree } );
 		}
 	};
 

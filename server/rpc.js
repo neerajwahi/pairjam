@@ -1,4 +1,5 @@
 var github = require('./github.js');
+var util = require('./util.js');
 
 module.exports = {
 	// Text operation
@@ -22,6 +23,7 @@ module.exports = {
 		                               				'sha' : data.sha	});
 
 		github.getTree(user, repo, sha, function(tree) {
+			session.setWorkspace( {'user' : data.user, 'repo' : data.repo, 'tree' : tree } );
 			session.sendAll( clientId, 'setGitRepo', { 	'user' : data.user,
 			                               				'repo' : data.repo,
 			                               				'sha' : data.sha,
@@ -42,10 +44,23 @@ module.exports = {
 		session.sendAll( clientId, 'reqGitFile', { 	'user' : data.user,
 		                               				'repo' : data.repo,
 		                               				'sha' : data.sha,
-		                               				'filename' : data.filename });
+		                               				'filename' : data.filename,
+		                               				'filepath' : data.filepath });
 
 		github.getFile(user, repo, sha, function(file) {
-			session.setDoc( clientId, file, data.filename );
+			util.clearKeyOnTree( session.workspace.tree, 'selected' );
+			util.setKeyOnTreePath( session.workspace.tree, data.filepath, 'selected', true );
+			session.setDoc( clientId, file, data.filename, data.filepath );
+		},
+
+		function(errorMsg) {
+			session.sendAll( clientId, 'reqGitFile', { 	'error' : errorMsg } );
 		});
+	},
+
+	setGitTreeState: function(session, clientId, data) {
+		util.setKeyOnTreePath( session.workspace.tree, data.path, 'opened', data.isopen );
+		session.sendAll( clientId, 'setGitTreeState', { 'path' : data.path,
+		                               					'isopen' : data.isopen	});
 	}
 };

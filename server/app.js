@@ -7,7 +7,7 @@ var rpc = require('./rpc.js');
 
 // HTTP server
 var httpServer = http.createServer();
-var port = process.env.PORT || 9000;
+var port = process.env.PORT || 3001;
 
 // SockJS
 var sock_opts = {sockjs_url: "http://cdn.sockjs.org/sockjs-0.3.min.js"};

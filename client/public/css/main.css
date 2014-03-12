@@ -166,20 +166,20 @@
   font-family: 'Droid Sans', sans-serif; }
   #treePane ul {
     list-style-type: none;
-    margin: 0;
+    margin: 2px;
     padding: 0;
     color: #ffffff; }
     #treePane ul li {
       font-size: 10pt;
       margin: 3px;
-      padding-left: 3px;
+      padding-left: 5px;
       cursor: pointer; }
       #treePane ul li label {
         margin: 0;
-        padding-left: 0;
+        padding: 0;
         display: block;
         cursor: pointer; }
-  #treePane > ul {
+  #treePane > div {
     margin: 0.5em;
     margin-left: 1em; }
 
@@ -203,6 +203,10 @@
   content: "\25B6";
   /*display: inline-block;*/ }
 
+.selected {
+  position: relative;
+  color: #bcf; }
+
 body {
   overflow: hidden;
   font-family: 'Droid Sans', monospace;
@@ -214,6 +218,47 @@ body {
   -ms-user-select: none;
   user-select: none;
   background-color: #272727; }
+
+.popupScreen {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0.5;
+  z-index: 1000;
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px); }
+
+#popupContainer {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0; }
+
+#popup {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -200px;
+  height: 300px;
+  width: 400px;
+  background: #96afc8;
+  padding: 10px;
+  border-radius: 0px;
+  color: #000;
+  z-index: 1001; }
 
 /* General layout */
 #container {
