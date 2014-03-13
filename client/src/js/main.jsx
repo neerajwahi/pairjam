@@ -17,7 +17,7 @@ var pairjam = (function() {
 	// Instantiation (sic?)
 	var adapter = new AceAdapter(ace, editor.getSession());
 	var client = new Client();
-	var transport = new Transport('http://' + location.hostname + ':3001' + '/jam', hashURL);
+	var transport = new Transport('http://' + location.hostname + ':3001' + '/jam', hashURL, 'Guest');
 
 	var suppressEvents = false;
 	var pendingItem = {};
@@ -29,6 +29,7 @@ var pairjam = (function() {
 	editor.setTheme("ace/theme/tomorrow_night_eighties");
 	editor.getSession().setMode("ace/mode/javascript");
 	editor.getSession().setUseWorker(false);
+	editor.setShowFoldWidgets(false);
 
 	editor.renderer.on('themeLoaded', function() {
 		document.getElementById('editor').style.visibility = 'visible';
@@ -40,8 +41,8 @@ var pairjam = (function() {
 	var Tree = require('./react/TreeNode.jsx');
 	var RepoSearch = require('./react/RepoSearch.jsx');
 	var LangBox = require('./react/LangBox.jsx');
-	var Gutter = require('./react/Gutter.jsx');
 	var PeerInfoBox = require('./react/PeerInfoBox.jsx');
+	var ModalWindow = require('./react/ModalWindow.jsx');
 
 	var Notify = require('./notifications.jsx');
 
@@ -72,8 +73,16 @@ var pairjam = (function() {
 	var treePane = React.renderComponent(<Tree data={{}} onLoadDoc={onLoadDocFn} openFolder={openFolderFn}/>, document.getElementById('treePane'));
 	var repoSearch = React.renderComponent(<RepoSearch onSubmit={onRepoSearch}/>, document.getElementById('repoSearch'));
 	var langBox = React.renderComponent(<LangBox test={[]} />, document.getElementById('langbox'));
-	var gutter = React.renderComponent(<Gutter pos='0'/>, document.getElementById('gutter'));
-	var peerInfoBox = React.renderComponent(<PeerInfoBox content={''} />, document.getElementById('peerInfoBox'));
+	var peerInfoBox = React.renderComponent(<PeerInfoBox peers={{}} />, document.getElementById('peerInfoBox'));
+
+	var onEntrySuccess = function(state) {
+		document.getElementById('main').className = '';
+		transport.userName = state.userName;
+		console.log(state.userName);
+		transport.connect();
+	};
+
+	var welcomeModal = React.renderComponent(<ModalWindow onSuccess={onEntrySuccess}/>, document.getElementById('welcomeModal'));
 
 	// Handle editor events (TODO: should this be done here?)
 	editor.getSession().on('change', function(e) {
@@ -84,12 +93,20 @@ var pairjam = (function() {
 		adapter.setMarkers( client.getSelections() );
 	});
 
-	editor.getSession().selection.on('changeSelection', function() {
-	    if(suppressEvents === true) return;
+	var onChangeCursor = function() {
+		setTimeout( function() {
+		    if(suppressEvents === true) return;
 
-	    var sel = adapter.getSelection();
-	    client.applyInternalSel( sel );
-	});
+	   		var sel = adapter.getSelection();
+		    if(sel && sel.length) {
+		    	client.applyInternalSel(sel);
+		    }
+		}, 0);
+	};
+
+	editor.getSession().selection.on('changeSelection', onChangeCursor);
+	editor.getSession().selection.on('changeCursor', onChangeCursor);
+
 
 	// Handle incoming messages (TODO: should this be done here?)
 	transport.preProcess = function() {
@@ -100,15 +117,20 @@ var pairjam = (function() {
 		suppressEvents = false;
 	}
 
+/*	setTimeout(function() {
+		notifications.addItem( Notify.begForFeedback() );
+	}, 5000);
 	var pendingItem = {};
+*/
 
 	// TODO: clean up selection handling (in adapter)
 	// TODO: clean up notifications
 	transport.handlers = {
 		welcome : function(data) {
+			client.reset(data);
 			this.setDoc(data);
 			if(data.workspace && data.workspace.tree) this.setGitRepo(data.workspace);
-			peerInfoBox.setState( { peers: client.getPeers() } );
+			peerInfoBox.setProps( { peers: client.getPeers() } );
 		},
 
 		opened : function() {
@@ -133,7 +155,7 @@ var pairjam = (function() {
 		},
 
 		setDoc : function(data) {
-			client.reset( data );
+			client.setDoc( data );
 			editor.setValue( data.doc, -1 );
 			adapter.saveState();
 			adapter.setMarkers( client.getSelections() );
@@ -160,11 +182,11 @@ var pairjam = (function() {
 		joined : function(data) {
 			client.addPeer( data );
 
-			peerInfoBox.setState( { peers: client.getPeers() } );
+			peerInfoBox.setProps( { peers: client.getPeers() } );
 
 			console.log(client.clientId);
 			if(data.id !== client.clientId) {
-				notifications.addItem( Notify.joined('Guest') );
+				notifications.addItem( Notify.joined(data.name) );
 			}
 
 			adapter.setMarkers( client.getSelections() );
@@ -173,20 +195,19 @@ var pairjam = (function() {
 		left : function(data) {
 			client.removePeer(data);
 
-			peerInfoBox.setState( { peers: client.getPeers() } );
-			notifications.addItem( Notify.left('Guest') );
+			peerInfoBox.setProps( { peers: client.getPeers() } );
+			notifications.addItem( Notify.left(data.name) );
 
 			adapter.setMarkers( client.getSelections() );
 		},
 
 		opSel : function(data) {
-			var sels = client.applyExternalSel( data );
-			adapter.setMarkers( sels );
+			client.applyExternalSel( data );
+			adapter.setMarkers( client.getSelections() );
 
 			if(data.sel) {
 				var rng = adapter.indicesToRange(data.sel[0]);
 				var pos = editor.renderer.$cursorLayer.getPixelPosition( {'row' : rng.start.row, 'col' : rng.start.col } );
-				gutter.setProps({'pos' : pos.top });
 			}
 		},
 

@@ -1,6 +1,7 @@
 @import 'header';
 @import 'menu';
 @import 'react/tree';
+@import 'react/modalWindow';
 
 body {
     overflow: hidden;
@@ -9,47 +10,10 @@ body {
     -webkit-touch-callout: none;
     @include userselect;
     background-color: $headerColor;
-}
 
-.popupScreen {
-    position: absolute;
-    margin: 0;
-    padding: 0;   
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0.5;
-    z-index: 1000;
-
-    @include blureffect;
-}
-
-#popupContainer {
-    position: absolute;
-    margin: 0;
-    padding: 0;   
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-}
-
-#popup {
-    position: absolute;
-    display: inline-block;
-    top: 50%;
-    left: 50%;
-    margin-top: -150px;
-    margin-left: -200px;
-    height: 300px;
-    width: 400px;
-    background: rgba(150, 175, 200, 1.0);
-    padding: 10px;
-    border-radius: 0px;
-    color: #000;
-    z-index: 1001;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 /* General layout */
@@ -155,10 +119,62 @@ body {
     color: #ffffff;
 }
 
+$colorClient1: #56b;
+
+.guest1, .guest2 {
+    color: #fff;
+}
+
+.guest1 {
+    background-color: $colorClient1;
+    border-color: $colorClient1 !important;
+}
+
+.guest2 {
+    background-color: #933;
+    border-color: #933 !important;
+}
+
+.guest3 {
+    background-color: #757510;
+    border-color: #757510 !important;
+}
+
 .lineHighlight {
     position: absolute;
-    background-color: yellow;
-    opacity: 0.2;
+    background: darken(adjust-hue($colorClient1, -20deg), 10%);
+    z-index: 6;
+}
+
+.userMarker {
+    position: absolute;
+    opacity: 0.9;
+    height: 15px;
+    z-index: 900;
+    color: #fff;
+    padding: 1px 3px 1px 3px;
+}
+
+.userMarkerAbove {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    opacity: 0.9;
+    height: 15px;
+    z-index: 900;
+    color: #fff;
+    padding: 1px 3px 1px 3px;
+}
+
+.userMarkerBelow {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.9;
+    height: 15px;
+    z-index: 900;
+    color: #fff;
+    padding: 1px 3px 1px 3px;
 }
 
 #localVideo {
@@ -185,7 +201,7 @@ body {
 }
 
 .notInSession {
-    background-color: #629372;
+    background-color: rgb(153,204,153);
     height: 75px;
     line-height: 25px;
     @include buttonfade;

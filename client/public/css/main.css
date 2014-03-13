@@ -48,10 +48,14 @@
       font-size: 9.5pt;
       height: 100%; }
 
+#codingWith {
+  margin-right: 4px; }
+
 .menuButton {
   float: left;
   margin: 0;
   padding: 0;
+  margin-right: 2px;
   height: 35px;
   line-height: 35px;
   text-align: center; }
@@ -59,8 +63,8 @@
 .notification {
   float: left;
   margin: 0;
-  padding: 0px 5px 0px 5px;
-  margin: 6px;
+  padding: 0px 4px 0px 4px;
+  margin: 6px 2px 6px 2px;
   height: 23px;
   line-height: 23px;
   min-width: 15px;
@@ -68,28 +72,26 @@
   font-weight: normal; }
 
 .inactiveSession {
-  background-color: #d55; }
+  /*background-color: #d55;*/
+  background-color: #333; }
 
 .activeSession {
   background-color: #2873AB;
   transition: background 0.15s ease-in-out;
   -moz-transition: background 0.15s ease-in-out;
   -webkit-transition: background 0.15s ease-in-out; }
-  .activeSession:hover {
-    background-color: #4455bb;
-    cursor: pointer; }
 
 .notificationPopup {
   position: absolute;
   right: 6px;
-  top: 29px;
+  top: 35px;
   z-index: 100;
   font-size: 10pt;
   font-family: 'Droid Sans';
   text-align: right;
   font-weight: normal; }
 
-.joinMsg, .leaveMsg, .stateMsg, .errorMsg, .loadingMsg {
+.joinMsg, .leaveMsg, .stateMsg, .errorMsg, .loadingMsg, .infoMsg {
   float: right;
   clear: both;
   height: 25px;
@@ -109,6 +111,9 @@
 
 .loadingMsg {
   background-color: #666; }
+
+.infoMsg {
+  background-color: #994; }
 
 .errorMsg {
   background-color: #d55; }
@@ -170,7 +175,7 @@
     padding: 0;
     color: #ffffff; }
     #treePane ul li {
-      font-size: 10pt;
+      font-size: 9.5pt;
       margin: 3px;
       padding-left: 5px;
       cursor: pointer; }
@@ -180,8 +185,8 @@
         display: block;
         cursor: pointer; }
   #treePane > div {
-    margin: 0.5em;
-    margin-left: 1em; }
+    margin: 0.3em;
+    margin-left: 0.5em; }
 
 .togglable {
   color: #ffcc66;
@@ -207,6 +212,62 @@
   position: relative;
   color: #bcf; }
 
+.popupScreen {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 5;
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px); }
+
+.modalContainer {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 800; }
+
+.modalWindow {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -200px;
+  height: 200px;
+  width: 400px;
+  background: #337;
+  padding: 20px;
+  border-radius: 5px;
+  color: #eee;
+  z-index: 1001; }
+  .modalWindow .btn-success {
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+    background-color: #393; }
+    .modalWindow .btn-success:hover {
+      cursor: pointer; }
+  .modalWindow input[type='text'] {
+    width: 225px;
+    padding: 5px;
+    border: 0px;
+    outline: none;
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 12pt;
+    color: #333333; }
+
 body {
   overflow: hidden;
   font-family: 'Droid Sans', monospace;
@@ -217,48 +278,10 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color: #272727; }
-
-.popupScreen {
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0.5;
-  z-index: 1000;
-  -webkit-filter: blur(2px);
-  -moz-filter: blur(2px);
-  -o-filter: blur(2px);
-  -ms-filter: blur(2px);
-  filter: blur(2px); }
-
-#popupContainer {
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0; }
-
-#popup {
-  position: absolute;
-  display: inline-block;
-  top: 50%;
-  left: 50%;
-  margin-top: -150px;
-  margin-left: -200px;
-  height: 300px;
-  width: 400px;
-  background: #96afc8;
-  padding: 10px;
-  border-radius: 0px;
-  color: #000;
-  z-index: 1001; }
+  background-color: #272727;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
 
 /* General layout */
 #container {
@@ -355,10 +378,53 @@ body {
   /*border-top: 1px solid #999999;*/
   color: #ffffff; }
 
+.guest1, .guest2 {
+  color: #fff; }
+
+.guest1 {
+  background-color: #56b;
+  border-color: #56b !important; }
+
+.guest2 {
+  background-color: #933;
+  border-color: #933 !important; }
+
+.guest3 {
+  background-color: #757510;
+  border-color: #757510 !important; }
+
 .lineHighlight {
   position: absolute;
-  background-color: yellow;
-  opacity: 0.2; }
+  background: #3f709e;
+  z-index: 6; }
+
+.userMarker {
+  position: absolute;
+  opacity: 0.9;
+  height: 15px;
+  z-index: 900;
+  color: #fff;
+  padding: 1px 3px 1px 3px; }
+
+.userMarkerAbove {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  opacity: 0.9;
+  height: 15px;
+  z-index: 900;
+  color: #fff;
+  padding: 1px 3px 1px 3px; }
+
+.userMarkerBelow {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0.9;
+  height: 15px;
+  z-index: 900;
+  color: #fff;
+  padding: 1px 3px 1px 3px; }
 
 #localVideo {
   margin: 0;
@@ -382,7 +448,7 @@ body {
   cursor: pointer; }
 
 .notInSession {
-  background-color: #629372;
+  background-color: #99cc99;
   height: 75px;
   line-height: 25px;
   transition: background 0.15s ease-in-out;

@@ -3,9 +3,10 @@ var uuid = require('node-uuid');
 
 var retryNext = function(retryPrev) { return retryPrev * 2 };
 
-function WSTransport(url, sessionId) {
+function WSTransport(url, sessionId, userName) {
 	this.url = url;
 	this.sessionId = sessionId;
+	this.userName = userName;
 
 	//Connection retry parameters (exponential backoff)
 	this.retryTimeInitial = 2;
@@ -14,8 +15,6 @@ function WSTransport(url, sessionId) {
 
 	//Pending requests
 	this.pendingRequests = [];
-
-	this.connect();
 }
 
 WSTransport.prototype = {
@@ -27,7 +26,7 @@ WSTransport.prototype = {
 		this.sockjs.onopen = function() {
 			_this.retryTime = _this.retryTimeInitial;
 			_this.send('join', {	'sessionId' : _this.sessionId,
-									'name' : 'Guest'} );
+									'name' : _this.userName} );
 			if( _this.handlers.opened ) _this.handlers.opened();
 		};
 

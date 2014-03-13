@@ -1,24 +1,35 @@
 /** @jsx React.DOM */
 
 var React = require('react/addons');
+var uuid = require('node-uuid');
 
 var PeerInfoBox = React.createClass({
     getInitialState: function() {
-        return {
-        	'peers' : []
-        };
+        return {};
     },
 
     render: function() {
-        var className = "inactiveSession";
-        if(this.state.peers.length > 0) className = " activeSession";
+        var classList = [], users = '';
+        classList.push('notification');
 
-        className = "notification " + className;
+        if(this.props.peers.length) {
+            classList.push('activeSession');
+            var i = 1;
+            users = this.props.peers.map( function(peer) {
+                var guestClass = 'guest' + (i++);
+                return (
+                    <div key={uuid.v4()} className={classList.concat([guestClass]).join(' ')}>{peer}</div>
+                );
+            } );
+        } else {
+            classList.push('inactiveSession');
+            users = (<div className={classList.join(' ')}>nobody :[</div>);
+        }
 
         return (
-            <div>
+            <div id="codingWith">
                 <div className="menuButton">Coding with</div>
-                <div className={className}>{this.state.peers.length}</div>
+                {users}
             </div>
         );
     }

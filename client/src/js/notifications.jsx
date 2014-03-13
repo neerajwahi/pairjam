@@ -44,5 +44,16 @@ module.exports = {
 
 	error : function(msg) {
 		return { type: 'errorMsg', content: msg };
+	},
+
+	begForFeedback : function() {
+		var msg = 'Do you have a second to provide your feedback on pair/jam?';
+		var content = (
+			<div>
+				{msg}<br/>
+				<div>Sure></div><div>Leave me alone</div>
+			</div>
+		);
+		return { type: 'infoMsg', content: content, keepAlive: true };
 	}
 };
