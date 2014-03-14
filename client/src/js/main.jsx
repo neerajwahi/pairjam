@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+// TODO: remove non-printable characters from server output
+
 var pairjam = (function() {
 
 	var hashURL = location.hash.replace('#', '');
@@ -38,7 +40,7 @@ var pairjam = (function() {
 	// React components
 	var React = require('react');
 	var Notification = require('./react/Notification.jsx');
-	var Tree = require('./react/TreeNode.jsx');
+	var Tree = require('./react/Tree.jsx');
 	var RepoSearch = require('./react/RepoSearch.jsx');
 	var LangBox = require('./react/LangBox.jsx');
 	var PeerInfoBox = require('./react/PeerInfoBox.jsx');

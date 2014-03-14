@@ -1,0 +1,61 @@
+.popupScreen {
+    position: absolute;
+    margin: 0;
+    padding: 0;   
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 5;
+
+    @include blureffect;
+}
+
+.modalContainer {
+    position: absolute;
+    margin: 0;
+    padding: 0;   
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 800;
+}
+
+.modalWindow {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -200px;
+    height: 200px;
+    width: 400px;
+    background: #337;
+    padding: 20px;
+    border-radius: 5px;
+    color: #eee;
+    z-index: 1001;
+
+    .btn-success {
+        padding: 10px;
+        width: 100px;
+        text-align: center;
+        background-color: #393;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    input[type='text'] {
+        width: 225px;
+        padding: 5px;
+        border: 0px;
+        outline: none;
+        font-family: 'Droid Sans', sans-serif;
+        font-size: 12pt;
+        color: #333333;
+    }
+}

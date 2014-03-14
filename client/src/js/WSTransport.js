@@ -1,6 +1,6 @@
-
 var uuid = require('node-uuid');
 
+// Function for exponential back-off in case of disconnect
 var retryNext = function(retryPrev) { return retryPrev * 2 };
 
 function WSTransport(url, sessionId, userName) {
@@ -8,7 +8,7 @@ function WSTransport(url, sessionId, userName) {
 	this.sessionId = sessionId;
 	this.userName = userName;
 
-	//Connection retry parameters (exponential backoff)
+	//Connection retry parameters
 	this.retryTimeInitial = 2;
 	this.retryTime = this.retryTimeInitial;
 	this.retryWaited = 0;
@@ -19,7 +19,6 @@ function WSTransport(url, sessionId, userName) {
 
 WSTransport.prototype = {
 	connect : function() {
-		//TODO: remove hardcoding
 		this.sockjs = new SockJS(this.url);
 		_this = this;
 
@@ -47,14 +46,6 @@ WSTransport.prototype = {
 				_this.preProcess(args);
 				_this.handlers[fn](args);
 				_this.postProcess(args);
-
-				/*
-				if(msg.reqId && _this.pendingRequests.indexOf(msg.reqId) !== -1) {
-					// Remove from pending requests
-					_this.pendingRequest = _this.pendingRequest.filter( function(x) { x === msg.reqId } );
-					if( _this.handlers.completedRequest ) this.handlers.completedRequest(fn, args);
-				}
-				*/
 			}
 		};
 
@@ -66,11 +57,6 @@ WSTransport.prototype = {
 	},
 
 	send : function(fn, args, requireResponse) {
-		/*var requestId = uuid.v4();
-		if(requireResponse) {
-			this.pendingRequests.push(requestId);
-			if( this.handlers.pendingRequest ) this.handlers.pendingRequest(fn, args);
-		}*/
 		this.sockjs.send( JSON.stringify( { 'fn': fn, 'args' : args } ) );
 	},
 
@@ -99,6 +85,7 @@ WSTransport.prototype = {
 		// Empty implementation
 	},
 
+	// Handlers for RPCs should be provided by the application
 	handlers : {}
 };
 

@@ -10,15 +10,18 @@ var httpServer = http.createServer();
 var port = process.env.PORT || 3001;
 
 // SockJS
+// TODO: change URL
 var sock_opts = {sockjs_url: "http://cdn.sockjs.org/sockjs-0.3.min.js"};
 var sockServer = sockjs.createServer(sock_opts);
 sockServer.installHandlers(httpServer, {prefix: '/jam'});
 httpServer.listen(port);
 
-//  A session is a group of users in the same 'room' with a shared document
+// A session is a group of users in the same 'room' with a shared document
 var Session = require('../lib/ot/ServerSession.js');
-var sessions = {};  // A map indexed by session Id
-var clients = {};   // Maps clients to rooms => format: clients [sessionId] [clientId] = socket object
+// A map keyed by sessionId
+var sessions = {};
+// Maps clients to rooms => format: clients [sessionId] [clientId] = socket object
+var clients = {};
 
 Session.prototype.send = function( clientId, msg, args ) {
     clients[this.sessionId][clientId].write( JSON.stringify( {'fn': msg, 'args': args} ) );
@@ -89,7 +92,8 @@ sockServer.on('connection', function(socket) {
 
     socket.on('close', function() {
         if(sessionId) {
-            if(rpc['close']) rpc['close'](sessions[sessionId], clientId);
+            // TODO: should we delete sessions right away? Or GC later?
+            if(rpc.close) rpc.close(sessions[sessionId], clientId);
 
             delete clients[sessionId][clientId];
             sessions[sessionId].removeClient( clientId );

@@ -1,4 +1,3 @@
-// Github
 var GitHubApi = require("github");
 var gitCred = require('./github_api_secret');
 var util = require('./util.js');
@@ -19,7 +18,7 @@ github.authenticate({
 });
 
 module.exports = {
-	getTree: function(user, repo, sha, cb, errorCb) {
+	getTree: function(user, repo, sha, successCb, errorCb) {
 		github.gitdata.getTree({
 		    user: user,
 		    repo: repo,
@@ -34,12 +33,12 @@ module.exports = {
 		    } else {
                 var tree = util.buildTree(res.tree);
                 tree.opened = true;
-				cb(tree);
+				successCb(tree);
 		    }
 		});
 	},
 
-	getFile: function(user, repo, sha, cb, errorCb) {
+	getFile: function(user, repo, sha, successCb, errorCb) {
 		github.gitdata.getBlob({
             user: user,
             repo: repo,
@@ -49,7 +48,7 @@ module.exports = {
             if(!err) {
                 var b64contents = res.content;
                 var buf = new Buffer(b64contents, 'base64');
-                cb(buf.toString());
+                successCb( buf.toString('ascii') );
             } else {
                 console.error(err);
 

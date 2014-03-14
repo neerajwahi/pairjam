@@ -6,10 +6,10 @@ DONE
 - Switch to sockJS
 - Show how many users are online / alert when users join and leave
 - Auto-reconnect
+- Sync GitHub tree exploration and be graceful about document changes
 
 WORKING ON
 - Show other users' cursors (markers for where users are)
-- Sync GitHub tree exploration and be graceful about document changes
 - Custom scrollbars
 
 TODO
@@ -31,3 +31,9 @@ TODO (LATER)
 - Tabs?
 - Terminal?
 - Whiteboard?
+
+BUGS
+- Can't insert after another person on last lane
+- Binary data crashes client
+- Can code folding be turned on?
+- Cursor sync is not robust

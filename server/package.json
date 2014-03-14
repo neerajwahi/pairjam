@@ -1,7 +1,7 @@
 {
   "name": "pairjam",
-  "version": "0.0.0",
-  "description": "Real-time web-based pair programming tool",
+  "version": "0.0.1",
+  "description": "Real-time web-based collaborative coding",
   "main": "app.js",
   "dependencies": {
     "github": "~0.1.14",
