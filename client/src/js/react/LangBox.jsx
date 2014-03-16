@@ -5,14 +5,12 @@ var React = require('react');
 var LangBox = React.createClass({
 
     getInitialState: function() {
-        return {
-        	'lang' : 'Javascript'
-        };
+        return {};
     },
 
     render: function() {
         return (
-            <div>{this.state.lang}</div>
+            <div className="langBox">{this.props.lang}</div>
         );
     }
 

@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
 
-var React = require('react/addons');
-var uuid = require('node-uuid');
+var React = require('react');
 
 var ModalWindow = React.createClass({
+
     getInitialState: function() {
         return {
         	visible: true,

@@ -7,13 +7,9 @@ body {
     overflow: hidden;
     font-family: 'Droid Sans', monospace;
     font-size: 11pt;
-    -webkit-touch-callout: none;
-    @include userselect;
+    @include userSelect;
+    @include borderBox;
     background-color: $headerColor;
-
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
 }
 
 /* General layout */
@@ -28,7 +24,7 @@ body {
     background-color: $headerColor;
 }
 
-#langbox {
+.langBox {
     position: absolute;
     margin: 0;
     padding: 2px 15px 2px 15px;
@@ -44,7 +40,7 @@ body {
     line-height: 25px;
     opacity: 0.8;
     cursor: pointer;
-    @include buttonfade;
+    @include buttonFade;
 
     &:hover {
         background-color: #444444;
@@ -62,7 +58,7 @@ body {
     background-color: #555555;
 }
 
-#sideMenu {
+.repoSearchBox {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -204,7 +200,7 @@ $colorClient1: #56b;
     background-color: rgb(153,204,153);
     height: 75px;
     line-height: 25px;
-    @include buttonfade;
+    @include buttonFade;
 }
 
 .notInSession:hover {

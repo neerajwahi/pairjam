@@ -1,26 +1,25 @@
 /* Tree UI component */
 
-#treePane {
-    margin: 0;
-    padding: 0;
+.treePane {
+    padding: 0px 0px 0px 8px;
     position: absolute;
     top: 30px;
     left: 0px;
     bottom: 75px;
-    width: 260px;
+    width: 252px;
     overflow: auto;
     font-family: 'Droid Sans', sans-serif;
+    font-size: 9.5pt;
 
     ul {
         list-style-type: none;
-        margin: 2px;
+        margin: 0;
         padding: 0;
         color: #ffffff;
 
         li {
-            font-size: 9.5pt;
             margin: 3px;
-            padding-left: 5px;
+            padding-left: 7px;
             cursor: pointer;
 
             label {
@@ -30,11 +29,6 @@
                 cursor: pointer;
             }
         }
-    }
-
-    &>div {
-        margin: 0.3em;
-        margin-left: 0.5em;
     }
 }
 

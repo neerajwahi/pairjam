@@ -1,9 +1,9 @@
 // Requires
 var http = require('http');
 var sockjs = require('sockjs');
-var uuid = require('node-uuid');
 var util = require('./util.js');
-var rpc = require('./rpc.js');
+var rpc = require('./protocol.js');
+var uuid = require('node-uuid');
 
 // HTTP server
 var httpServer = http.createServer();
@@ -17,7 +17,7 @@ sockServer.installHandlers(httpServer, {prefix: '/jam'});
 httpServer.listen(port);
 
 // A session is a group of users in the same 'room' with a shared document
-var Session = require('../lib/ot/ServerSession.js');
+var Session = require('../lib/ot/Session.js');
 // A map keyed by sessionId
 var sessions = {};
 // Maps clients to rooms => format: clients [sessionId] [clientId] = socket object
@@ -50,8 +50,6 @@ sockServer.on('connection', function(socket) {
         if(!isValidSessionId(args.sessionId)) {
             console.error('Join message does not contain a valid sessionId');
         } else {
-            clientId = uuid.v4();
-
             if( !sessions[args.sessionId] ) {
                 // Session does not exist, create it
                 sessions[args.sessionId] = new Session(args.sessionId, '');
@@ -59,6 +57,8 @@ sockServer.on('connection', function(socket) {
             }
 
             sessionId = args.sessionId;
+            //TODO: change away from uuid
+            clientId = uuid.v4();
             clients[sessionId][clientId] = socket;
             sessions[sessionId].addClient( clientId, args.name );
         }

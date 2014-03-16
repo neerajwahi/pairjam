@@ -1,9 +1,7 @@
-var uuid = require('node-uuid');
-
 // Function for exponential back-off in case of disconnect
 var retryNext = function(retryPrev) { return retryPrev * 2 };
 
-function WSTransport(url, sessionId, userName) {
+function Transport(url, sessionId, userName) {
 	this.url = url;
 	this.sessionId = sessionId;
 	this.userName = userName;
@@ -12,15 +10,12 @@ function WSTransport(url, sessionId, userName) {
 	this.retryTimeInitial = 2;
 	this.retryTime = this.retryTimeInitial;
 	this.retryWaited = 0;
-
-	//Pending requests
-	this.pendingRequests = [];
 }
 
-WSTransport.prototype = {
+Transport.prototype = {
 	connect : function() {
 		this.sockjs = new SockJS(this.url);
-		_this = this;
+		var _this = this;
 
 		this.sockjs.onopen = function() {
 			_this.retryTime = _this.retryTimeInitial;
@@ -85,8 +80,9 @@ WSTransport.prototype = {
 		// Empty implementation
 	},
 
-	// Handlers for RPCs should be provided by the application
-	handlers : {}
+	handlers : {
+		// Handlers for RPCs should be provided by the application
+	}
 };
 
-module.exports = WSTransport;
+module.exports = Transport;

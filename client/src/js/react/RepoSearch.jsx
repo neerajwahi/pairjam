@@ -2,6 +2,7 @@
 
 var React = require('react');
 
+// TODO: refactor this code
 var RepoSearch = React.createClass({
 
     getInitialState: function() {
@@ -9,19 +10,6 @@ var RepoSearch = React.createClass({
             'user': undefined,
             'repo': undefined
         };
-    },
-
-    render: function() {
-    	return (
-    		<form onSubmit={this.handleSubmit}>
-        		<input type="text" onChange={this.onChange} 
-        			placeholder="user/repo"
-        			value={
-        				(typeof this.state.user !== 'undefined'? this.state.user : '') + 
-        				(typeof this.state.repo !== 'undefined'? '/' + this.state.repo : '') 
-        			} ref="userrepo" />
-      		</form>
-    	);
     },
 
     onChange : function(e) {
@@ -37,6 +25,19 @@ var RepoSearch = React.createClass({
     		this.props.onSubmit( this.state.user, this.state.repo );
     	}
     	return false;
+    },
+
+    render: function() {
+        return (
+            <form className="repoSearchBox" onSubmit={this.handleSubmit}>
+                <input type="text" onChange={this.onChange} 
+                    placeholder="user/repo"
+                    value={
+                        (typeof this.state.user !== 'undefined'? this.state.user : '') + 
+                        (typeof this.state.repo !== 'undefined'? '/' + this.state.repo : '') 
+                    } ref="userrepo" />
+            </form>
+        );
     }
 
 });

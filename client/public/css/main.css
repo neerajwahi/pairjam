@@ -6,10 +6,6 @@
   font-family: 'Droid Sans';
   src: url('../fonts/DroidSans.ttf'); }
 
-@font-face {
-  font-family: 'Fantasque';
-  src: url('../fonts/FantasqueSansMono-Regular.ttf'); }
-
 /* Menu bar */
 #menuContainer {
   position: absolute;
@@ -27,7 +23,7 @@
     padding-left: 4px;
     font-family: 'Inconsolata';
     color: #ffffff; }
-    #menuContainer #logo span {
+    #menuContainer #logo .slash {
       color: #667796; }
   #menuContainer #rightMenu {
     float: right;
@@ -48,9 +44,6 @@
       font-size: 9.5pt;
       height: 100%; }
 
-#codingWith {
-  margin-right: 4px; }
-
 .menuButton {
   float: left;
   margin: 0;
@@ -64,9 +57,9 @@
   float: left;
   margin: 0;
   padding: 0px 4px 0px 4px;
-  margin: 6px 2px 6px 2px;
-  height: 23px;
-  line-height: 23px;
+  margin: 7px 2px 7px 2px;
+  height: 21px;
+  line-height: 21px;
   min-width: 15px;
   text-align: center;
   font-weight: normal; }
@@ -159,34 +152,30 @@
   opacity: 0.01; }
 
 /* Tree UI component */
-#treePane {
-  margin: 0;
-  padding: 0;
+.treePane {
+  padding: 0px 0px 0px 8px;
   position: absolute;
   top: 30px;
   left: 0px;
   bottom: 75px;
-  width: 260px;
+  width: 252px;
   overflow: auto;
-  font-family: 'Droid Sans', sans-serif; }
-  #treePane ul {
+  font-family: 'Droid Sans', sans-serif;
+  font-size: 9.5pt; }
+  .treePane ul {
     list-style-type: none;
-    margin: 2px;
+    margin: 0;
     padding: 0;
     color: #ffffff; }
-    #treePane ul li {
-      font-size: 9.5pt;
+    .treePane ul li {
       margin: 3px;
-      padding-left: 5px;
+      padding-left: 7px;
       cursor: pointer; }
-      #treePane ul li label {
+      .treePane ul li label {
         margin: 0;
         padding: 0;
         display: block;
         cursor: pointer; }
-  #treePane > div {
-    margin: 0.3em;
-    margin-left: 0.5em; }
 
 .togglable {
   color: #ffcc66;
@@ -278,10 +267,10 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color: #272727;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  background-color: #272727; }
 
 /* General layout */
 #container {
@@ -294,7 +283,7 @@ body {
   bottom: 0px;
   background-color: #272727; }
 
-#langbox {
+.langBox {
   position: absolute;
   margin: 0;
   padding: 2px 15px 2px 15px;
@@ -313,7 +302,7 @@ body {
   transition: background 0.15s ease-in-out;
   -moz-transition: background 0.15s ease-in-out;
   -webkit-transition: background 0.15s ease-in-out; }
-  #langbox:hover {
+  .langBox:hover {
     background-color: #444444; }
 
 /* Side pane */
@@ -326,7 +315,7 @@ body {
   width: 260px;
   background-color: #555555; }
 
-#sideMenu {
+.repoSearchBox {
   position: absolute;
   margin: 0;
   padding: 0;
@@ -334,7 +323,7 @@ body {
   height: 30px;
   width: 260px;
   background-color: #404040; }
-  #sideMenu input[type='text'] {
+  .repoSearchBox input[type='text'] {
     position: absolute;
     margin: 4px;
     padding: 0;

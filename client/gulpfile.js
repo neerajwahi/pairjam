@@ -53,4 +53,4 @@ gulp.task('default', ['sass', 'scripts'] );
 gulp.task('dev', ['sass', 'jshint', 'scripts', 'unitTests'] );
 
 // Runs full testing suite (including stochastic integration)
-gulp.task('test', ['unitTests', 'integration'] );
+gulp.task('test', ['unitTests'] );

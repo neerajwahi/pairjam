@@ -12,13 +12,7 @@ module.exports = {
 	lostConnection: function(retryTime) {
 		var msg = 'Retrying connection.'
 		if(retryTime > 0) msg = 'Lost connection. Retrying in ' + retryTime + '...'
-		var content = (
-			<div>
-				{msg}
-			</div>
-		);
-
-		return { type: 'errorMsg', content: content, keepAlive: true };
+		return { type: 'errorMsg', content: msg, keepAlive: true };
 	},
 
 	joined: function(name) {

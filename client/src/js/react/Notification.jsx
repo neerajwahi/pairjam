@@ -1,50 +1,47 @@
 /** @jsx React.DOM */
 
-var React = require('react/addons');
+var React = require('react');
 var uuid = require('node-uuid');
 
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+// TODO: get rid of uuid here
 
 var Notification = React.createClass({
+
     getInitialState: function() {
         return {
+            items: [],
+            pendingNotice: {},
             displayTime: 2500
         };
     },
 
     addItem: function(item) {
-        this.setProps( { items: [item].concat(this.props.items) } );
+        var pending = this.state.pendingNotice;
+
+        var items = this.state.items.filter( function(elem) {
+            return (elem !== pending);
+        } );
+
+        pending = item.keepAlive? item : {};
+        this.setState( { pendingNotice: pending, items: [item].concat(items) } );
+
         if(!item.keepAlive) {
-            setTimeout(function() {
-                this.clearItem( item )
-            }.bind(this), this.state.displayTime);
+            setTimeout( (function() {
+                this.clearItem(item);
+            }).bind(this), this.state.displayTime);
         }
         return item;
     },
 
-    replaceItem: function(oldItem, newItem) {
-        this.clearItem(oldItem);
-        this.addItem(newItem);
-        return newItem;
-    },
-
     clearItem: function(item) {
-        if(item) {
-            var length = this.props.items.length;
-            var items = [];
-
-            for(var i=0; i<length; i++) {
-                if( this.props.items[i] !== item ) {
-                    items.push( this.props.items[i] );
-                }
-            }
-
-            this.setProps( { items: items } );
-        }
+        var items = this.state.items.filter( function(elem) {
+            return (elem !== item);
+        } );
+        this.setState( { items: items } );
     },
 
     render: function() {
-        items = this.props.items.map( function(item) {
+        items = this.state.items.map( function(item) {
             return (
                 <div key={uuid.v4()} className={item.type}>
                     {item.content}
@@ -53,11 +50,12 @@ var Notification = React.createClass({
         });
 
         return (
-            <div>
+            <div className="notificationPopup">
                 { items }
             </div>
         );
     }
+
 });
 
 module.exports = Notification;

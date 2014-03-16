@@ -8,13 +8,8 @@
     src: url('../fonts/DroidSans.ttf');
 }
 
-
-@font-face {
-    font-family: 'Fantasque';
-    src: url('../fonts/FantasqueSansMono-Regular.ttf');
-}
-
-@mixin userselect {
+@mixin userSelect {
+    -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -22,13 +17,19 @@
     user-select: none;
 }
 
-@mixin buttonfade {
+@mixin borderBox {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@mixin buttonFade {
     transition: background .15s ease-in-out;
     -moz-transition: background .15s ease-in-out;
     -webkit-transition: background .15s ease-in-out;
 }
 
-@mixin blureffect {
+@mixin blurEffect {
     -webkit-filter: blur(4px);
     -moz-filter: blur(4px);
     -o-filter: blur(4px);

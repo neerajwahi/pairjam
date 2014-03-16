@@ -1,8 +1,9 @@
 /** @jsx React.DOM */
 
-var React = require('react/addons');
+var React = require('react');
 var uuid = require('node-uuid');
 
+// TODO: replace uuid with client ID
 var PeerInfoBox = React.createClass({
     getInitialState: function() {
         return {};
@@ -27,7 +28,7 @@ var PeerInfoBox = React.createClass({
         }
 
         return (
-            <div id="codingWith">
+            <div id="peerInfoBox">
                 <div className="menuButton">Coding with</div>
                 {users}
             </div>

@@ -8,7 +8,7 @@ module.exports = {
 	},
 
 	// Selection operation
-	opSel: function(session, clientId, data) {
+	opCursor: function(session, clientId, data) {
 		session.applySel(clientId, data);
 	},
 
