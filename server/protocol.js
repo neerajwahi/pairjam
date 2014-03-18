@@ -1,66 +1,56 @@
 var github = require('./github.js');
 var util = require('./util.js');
 
+// TODO: add validation!
 module.exports = {
 	// Text operation
 	opText: function(session, clientId, data) {
-		session.applyOp(clientId, data);
+		session.applyOp(clientId, data.op, data.rev);
 	},
 
 	// Selection operation
 	opCursor: function(session, clientId, data) {
-		session.applySel(clientId, data);
+		session.applyCursor(clientId, data.sel);
 	},
 
 	// Request a GitHub repo tree
-	reqGitRepo: function(session, clientId, data) {
+	reqWorkspace: function(session, clientId, data) {
 		var user = data.user;
 		var repo = data.repo;
 		var sha = data.sha;
 
-		session.sendAll( clientId, 'reqGitRepo', { 	'user' : data.user,
-		                               				'repo' : data.repo,
-		                               				'sha' : data.sha	});
-
-		github.getTree(user, repo, sha, function(tree) {
-			session.setWorkspace( {'user' : data.user, 'repo' : data.repo, 'tree' : tree } );
-			session.sendAll( clientId, 'setGitRepo', { 	'user' : data.user,
-			                               				'repo' : data.repo,
-			                               				'sha' : data.sha,
-			                                            'tree' : tree  	});
-		},
-
-		function(errorMsg) {
-			session.sendAll( clientId, 'reqGitRepo', { 	'error' : errorMsg } );
+		session.setWorkspaceAsync( user, repo, function(success, error) {
+			github.getTree(user, repo, sha, function(tree) {
+				success( {'user' : data.user, 'repo' : data.repo, 'tree' : tree } );	
+			},
+			function(err) {
+				//console.log(err);
+				error( err );
+			});
 		});
 	},
 
 	// Request a GitHub file
-	reqGitFile: function(session, clientId, data) {
+	reqDoc: function(session, clientId, data) {
 		var user = data.user;
 		var repo = data.repo;
 		var sha = data.sha;
 
-		session.sendAll( clientId, 'reqGitFile', { 	'user' : data.user,
-		                               				'repo' : data.repo,
-		                               				'sha' : data.sha,
-		                               				'filename' : data.filename,
-		                               				'filepath' : data.filepath });
-
-		github.getFile(user, repo, sha, function(file) {
-			util.clearKeyOnTree( session.workspace.tree, 'selected' );
-			util.setKeyOnTreePath( session.workspace.tree, data.filepath, 'selected', true );
-			session.setDoc( clientId, file, data.filename, data.filepath );
-		},
-
-		function(errorMsg) {
-			session.sendAll( clientId, 'reqGitFile', { 	'error' : errorMsg } );
+		session.setDocAsync( data.filename, data.filepath, function(success, error) {
+			github.getFile(user, repo, sha, function(file) {
+				util.clearKeyOnTree( session.workspace.tree, 'selected' );
+				util.setKeyOnTreePath( session.workspace.tree, data.filepath, 'selected', true );
+				success( file, data.filename, data.filepath );	
+			},
+			function(err) {
+				error( err );
+			});
 		});
 	},
 
-	setGitTreeState: function(session, clientId, data) {
+	// Set a folder open or closed
+	setWorkTreeState: function(session, clientId, data) {
 		util.setKeyOnTreePath( session.workspace.tree, data.path, 'opened', data.isopen );
-		session.sendAll( clientId, 'setGitTreeState', { 'path' : data.path,
-		                               					'isopen' : data.isopen	});
+		session.setWorkTreeState(data.path, data.isopen);
 	}
 };

@@ -25,6 +25,11 @@ function App(sessionId) {
 App.prototype = {
 
 	initTransport: function() {
+		/*
+			this.transport.subscribe( protocol(this.client, this.UI) );
+
+			this.transport.publish(stream, args)
+		*/
 		this.transport.handlers = protocol(this.client, this.UI);
 	},
 
@@ -59,24 +64,24 @@ App.prototype = {
 			},
 
 			onLoadFile: function(user, repo, sha, name, path) {
-				transport.send('reqGitFile', {	'id' : client.clientId,
-												'user' : user,
-												'repo' : repo,
-												'sha' : sha,
-												'filename' : name,
-												'filepath' : path	});
+				transport.send('reqDoc', {	'id' : client.clientId,
+											'user' : user,
+											'repo' : repo,
+											'sha' : sha,
+											'filename' : name,
+											'filepath' : path	});
 			},
 
 			onOpenFolder: function(user, repo, path, isOpen) {
-				transport.send('setGitTreeState', {	'path' : path,
-													'isopen' : isOpen	});
+				transport.send('setWorkTreeState', {	'path' : path,
+														'isopen' : isOpen	});
 			},
 
 			onLoadRepo: function(user, repo) {
-				transport.send('reqGitRepo', {	'id' : client.clientId,
-												'user' : user,
-												'repo' : repo,
-												'sha' : 'master'		});
+				transport.send('reqWorkspace', {	'id' : client.clientId,
+													'user' : user,
+													'repo' : repo,
+													'sha' : 'master'		});
 			},
 
 			onDocChg: function(op) {

@@ -12,79 +12,23 @@
 
 // Parameters for testing
 var noOfClients = 5;
-var networkDelay = 50;
-var activityDelay = 5;
+var networkDelay = 100;
+var activityDelay = 0;
 var docLength = 100;
-var rounds = 10;
+var rounds = 100;
 
 var assert = require('assert');
 var ot = require('../../../lib/ot/ot.js');
+
+// Set up a fake client/server system
+var Document = require('../../../lib/ot/CodeDocument.js');
+var Client = require('../../../lib/ot/Client.js');
 
 var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ{} \n ""'
 function randomString(length) {
     var result = '';
     for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
     return result;
-}
-
-// Set up a fake client/server system
-var Server = require('../../public/js/ot/ServerSession.js');
-var Client = require('../../public/js/ot/Client.js');
-
-Server.prototype.send = function(clientId, msg, args) {
-    var onMsg = function() {
-        var client = clients[clientId];
-
-        if(msg === 'welcome') {
-            client.reset(args);
-        } else if(msg === 'joined') {
-            client.addPeer(args);
-        } else if(msg === 'docChange') {
-            client.applyExternalOp(args);
-        }
-    };
-
-    onMsg();
-    //if(networkDelay) setTimeout(onMsg, networkDelay);
-    //else onMsg();
-};
-
-Server.prototype.sendAll = function(clientId, msg, args) {
-    var onMsg = function() {
-        for(var i = 0; i < clients.length; i++) {
-            var client = clients[i];
-
-            if(msg === 'welcome') {
-                client.reset(args);
-            } else if(msg === 'joined') {
-                client.addPeer(args);
-            } else if(msg === 'docChange') {
-                client.applyExternalOp(args);
-            }
-        }
-    };
-
-    onMsg();
-    //if(networkDelay) setTimeout(onMsg, networkDelay);
-    //else onMsg();
-};
-
-Client.prototype.send = function(clientId, msg, args) {
-    var onMsg = function() {
-        if(msg === 'docChange') {
-            server.applyOp(clientId, args);
-        }
-    };
-
-    if(networkDelay) setTimeout(onMsg, networkDelay);
-    else onMsg();
-};
-
-var server = new Server();
-var clients = [];
-
-for(var i = 0; i < noOfClients; i++) {
-    clients[i] = new Client();
 }
 
 // Helper function to generate valid operations from a given document
@@ -99,68 +43,105 @@ function generateOp(doc) {
     if(type === 'del') {
         var length = Math.round( Math.random()*(docLen - start - 1) ) + 1;
         var remaining = docLen - start - length;
-        op.push( {'ret' : start} );
-        op.push( {'del' : length} );
-        op.push( {'ret' : remaining} );
+        op.push( start );
+        op.push( -length );
+        op.push( remaining );
     } else {
         var length = Math.round( Math.random()*100 ) + 1;
         var remaining = docLen - start;
         str = randomString(length);
-        op.push( {'ret' : start} );
-        op.push( {'ins' : str} );
-        op.push( {'ret' : remaining} );
+        op.push( start );
+        op.push( str );
+        op.push( remaining );
     }
     return ot.packOp(op);
 }
 
 function test1(callback) {
-    var doc = randomString(docLength);
-    //console.log(doc);
-    server.setDoc( doc );
+    var doc = new Document();
+    var serverQueue = [];
+    var clients = [];
 
-    // Clients connect
-    for(var i = 0; i < clients.length; i++) {
-        server.addClient( i );
-        clients[i].setClientDoc( doc );
+    doc.setText( randomString(docLength) );
+    console.log(doc.text);
+
+    var sendToClients = function(id, op, rev) {
+        var applyOp = function() {
+            op = doc.apply(op, rev);
+
+            for(var i = 0; i < noOfClients; i++) {
+                //console.log(id + ', ' + op + ', ' + rev);
+                clients[i].applyExternalOp({'id':id, 'op':op, 'rev':rev});
+            }
+        };
+
+        if(networkDelay) setTimeout(applyOp, networkDelay);
+        else applyOp();
     }
 
-    // Simulate concurrent operations
-    var round = 0;
+    var serverRound = function() {
+        while(serverQueue.length) {
+            var msg = serverQueue.shift();
+            //console.log(msg);
+            sendToClients(msg.id, msg.op, msg.rev);
+        }
+    };
+
+    // Clients connect
+    for(var i = 0; i < noOfClients; i++) {
+        clients[i] = new Client();
+        clients[i].setDoc( doc.text, 0, {} );
+        clients[i].clientId = i;
+        clients[i].sendOp = function(op) {
+            var clientId = this.clientId;
+            var rev = this.rev;
+
+            //console.log(op);
+            serverQueue.push(  {'id': clientId,
+                                'op': op,
+                                'rev': rev      });
+            serverRound();
+        };
+    }
 
     var doneCallback = function() {
         // Check that things went ok!
-        var serverDoc = server.getDoc();
+        var serverDoc = doc.text;
 
         for(var i = 0; i < clients.length; i++) {
-            var doc = clients[i].getClientDoc();
-            if(doc !== serverDoc) {
+            var clientDoc = clients[i].clientDoc;
+            if(clientDoc !== serverDoc) {
                 console.log('ERROR: Client ' + i + ' does not match server.\n');
                 console.log('Client thinks the document is:\n');
-                console.log('\t' + doc + '\n\n');
-                console.log('Server thinks the document is:\n');
-                console.log('\t' + serverDoc + '\n\n');
+                console.log('\t' + clientDoc + '\n\n');
             } else {
                 console.log('SUCCESS: Client ' + i + ' matches server.');
             }
         }
-
-        console.log('Final doc: ' + serverDoc);
+        console.log('Server thinks the document is:\n');
+        console.log('\t' + serverDoc + '\n\n');
     };
 
-    var timeoutFn = function() {
+    // Simulate concurrent operations
+    var round = 0;
+
+    var doRound = function() {
         for(var i = 0; i < clients.length; i++) {
-            var doc = clients[i].getClientDoc();
-            var op = generateOp(doc);
+            var clientDoc = clients[i].clientDoc;
+            var op = generateOp(clientDoc);
+            //console.log(op);
             clients[i].applyInternalOp(op);
         }
 
+        console.log('Round ' + (round+1) + '. Done.');
         round++;
-        if(round < rounds) setTimeout(timeoutFn, activityDelay);
+
+        if(round < rounds) setTimeout(doRound, activityDelay);
         // Make sure we wait long enough for all the communication to complete
-        else setTimeout(doneCallback, noOfClients * Math.max(activityDelay, networkDelay));
+        else setTimeout(doneCallback, noOfClients * Math.max(activityDelay, 2*networkDelay));
     };
 
-    setTimeout(timeoutFn , activityDelay);
+    setTimeout(doRound, activityDelay);
 }
 
 console.log('Starting stochastic integration test...');

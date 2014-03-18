@@ -29,13 +29,13 @@ var RepoSearch = React.createClass({
 
     render: function() {
         return (
-            <form className="repoSearchBox" onSubmit={this.handleSubmit}>
-                <input type="text" onChange={this.onChange} 
+            <form className='repoSearchBox' onSubmit={this.handleSubmit}>
+                <input type='text' onChange={this.onChange} 
                     placeholder="user/repo"
                     value={
                         (typeof this.state.user !== 'undefined'? this.state.user : '') + 
                         (typeof this.state.repo !== 'undefined'? '/' + this.state.repo : '') 
-                    } ref="userrepo" />
+                    } ref='userrepo' />
             </form>
         );
     }

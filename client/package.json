@@ -8,7 +8,8 @@
     "gulp-shell": "~0.2.4",
     "envify": "~1.2.1",
     "gulp-rename": "~1.1.0",
-    "gulp-sass": "~0.7.1"
+    "gulp-sass": "~0.7.1",
+    "gulp-sweetjs": "~0.3.0"
   },
   "dependencies": {
     "reactify": "~0.8.1",

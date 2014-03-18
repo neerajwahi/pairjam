@@ -6,7 +6,8 @@
   "dependencies": {
     "github": "~0.1.14",
     "sockjs": "~0.3.8",
-    "node-uuid": "~1.4.1"
+    "node-uuid": "~1.4.1",
+    "winston": "~0.7.2"
   },
   "author": "Neeraj Wahi",
   "license": "MIT"

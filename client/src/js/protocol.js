@@ -44,7 +44,7 @@ module.exports = function(model, view) {
 		},
 
 		// Workspace change functions
-		reqGitFile: function(data) {
+		reqDoc: function(data) {
 			if(data.error) {
 				view.notify( notice.error(data.error) );
 			} else {
@@ -52,7 +52,7 @@ module.exports = function(model, view) {
 			}
 		},
 
-		reqGitRepo: function(data) {
+		reqWorkspace: function(data) {
 			if(data.error) {
 				view.notify( notice.error(data.error) );
 			} else {
@@ -67,18 +67,15 @@ module.exports = function(model, view) {
 			view.updateCursors( model.getCursors() );
 		},
 
-		setGitRepo: function(data) {
+		setWorkspace: function(data) {
 			var tree = data.tree;
-
-			view.setProps( {'user': data.user, 'repo': data.repo, 'tree': tree} );
-			view.notify( notice.loaded(data.user + '/' + data.repo, ' from GitHub') );
+			view.setWorkspace( {'user': data.user, 'repo': data.repo, 'tree': tree} );
 		},
 
-		setGitTreeState: function(data) {
-			var tree = view.props.tree;
+		setWorkTreeState: function(data) {
+			var tree = view.state.tree;
 			util.setKeyOnTreePath(tree, data.path, 'opened', data.isopen);
-			view.setProps( {'tree' : tree} );
-			console.log('what the');
+			view.setState( {'tree': tree} );
 		},
 
 		// Operations

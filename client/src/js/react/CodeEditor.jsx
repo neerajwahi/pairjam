@@ -10,6 +10,8 @@ var CodeEditor = React.createClass({
 	componentDidMount: function() {
 		adapter = new Adapter(ace, 'editor');
 
+		// TODO: don't like this method of callback
+		// Event listeners?
 		adapter.onOp = (function(op) {
 			this.props.onDocChg(op);
 		}).bind(this);
@@ -23,6 +25,7 @@ var CodeEditor = React.createClass({
 		adapter.setFocus();
 	},
 	
+	// TODO: 'languageMode' should not live with AceAdapter
 	getMode: function() {
 		return adapter.getMode();
 	},
@@ -39,13 +42,38 @@ var CodeEditor = React.createClass({
 		adapter.setDoc( doc, filename );
 	},
 
-    // The code editor doesn't really fall under React's control, so don't re-render it
+	refreshMarkers: function(firstRow, lastRow, cursors) {
+		for(var s=0; s<cursors.length; s++) {
+			var sel = cursors[s].sel;
+
+			for(var i=0; i<sel.length; i++) {
+				// User marker
+				var pos = this.doc.indexToPosition( sel[i][1] );
+				if(pos.row < firstRow) {
+					document.getElementById('userBehindMarker').style.visibility = 'visible';
+				} else if(pos.row > lastRow) {
+					document.getElementById('userAheadMarker').style.visibility = 'visible';
+				} else {
+					document.getElementById('userBehindMarker').style.visibility = 'hidden';
+					document.getElementById('userAheadMarker').style.visibility = 'hidden';
+				}
+			}
+		}
+	},
+
+    // This component doesn't really fall under React's control, so don't re-render it
     shouldComponentUpdate: function(nextProps, nextState) {
         return false;
     },
 
     render: function() {
-        return (<pre id='editor'></pre>);
+        return (
+        	<div>
+        		<pre id='editor'></pre>
+                <div id="userBehindMarker">Below</div>
+                <div id="userAheadMarker">Above</div>
+        	</div>
+        );
     }
 
 });

@@ -22,6 +22,9 @@ var UI = React.createClass({
     getInitialState: function() {
         return {
             allowInteraction: false,
+            user: '',
+            repo: '',
+            tree: {},
             lang: 'Text'
         };
     },
@@ -43,11 +46,19 @@ var UI = React.createClass({
 
             if(path) {
                 //TODO: fix this (not very reactive)
-                var tree = this.props.tree;
+                var tree = this.state.tree;
                 util.clearKeyOnTree(tree, 'selected');
                 util.setKeyOnTreePath(tree, path, 'selected', true);
-                this.setProps( {'tree' : tree} );
+                this.setState( {'tree': tree} );
             }
+        }
+    },
+
+    setWorkspace: function(workspace) {
+        this.refs.repoBox.setState( {'user': workspace.user, 'repo': workspace.repo} );
+        this.setState( {'user': workspace.user, 'repo': workspace.repo, 'tree': workspace.tree} );
+        if(workspace.user && workspace.repo && workspace.tree) {
+            this.notify( notice.loaded(workspace.user + '/' + workspace.repo, ' from GitHub') );
         }
     },
 
@@ -85,11 +96,12 @@ var UI = React.createClass({
 
                     <div id="container">
                         <div id="sidePane">
-                            <RepoSearch onSubmit={this.props.handlers.onLoadRepo}/>
+                            <RepoSearch ref={'repoBox'}
+                                        onSubmit={this.props.handlers.onLoadRepo}/>
                             <Tree   ref={'tree'}
-                                    user={this.props.user}
-                                    repo={this.props.repo}
-                                    data={this.props.tree}
+                                    user={this.state.user}
+                                    repo={this.state.repo}
+                                    data={this.state.tree}
                                     onSelect={this.props.handlers.onLoadFile}
                                     onToggleOpen={this.props.handlers.onOpenFolder}/>
                             <Video />
@@ -100,6 +112,7 @@ var UI = React.createClass({
                                     onCursorChg={this.props.handlers.onCursorChg}      />
                         <LangBox    ref={'lang'}
                                     lang={this.state.lang}  />
+
                     </div>
 
                 </div>
