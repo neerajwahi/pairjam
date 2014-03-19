@@ -6,7 +6,7 @@ var Adapter = require('../../../../lib/ot/AceAdapter.js');
 var adapter = undefined;
 
 var CodeEditor = React.createClass({
-
+	
 	componentDidMount: function() {
 		adapter = new Adapter(ace, 'editor');
 
@@ -19,46 +19,36 @@ var CodeEditor = React.createClass({
 		adapter.onCursor = (function(cursor) {
 			this.props.onCursorChg(cursor);
 		}).bind(this);
+
+		adapter.onRender( this.onRender );
+	},
+
+	onRender: function(firstRow, lastRow) {
+		var clientPos = {};
+		for(var key in this.props.cursors) {
+			var cursor = this.props.cursors[key];
+
+			if(cursor[0] < firstRow && cursor[1] < firstRow) clientPos[key] = -1;
+			else if(cursor[0] > lastRow && cursor[1] > lastRow) clientPos[key] = 1;
+			else clientPos[key] = 0;
+		}
+		this.props.onCursorPos(clientPos);
 	},
 
 	setFocus: function() {
 		adapter.setFocus();
-	},
-	
-	// TODO: 'languageMode' should not live with AceAdapter
-	getMode: function() {
-		return adapter.getMode();
 	},
 
 	applyOp: function(op) {
 		adapter.applyOp(op);
 	},
 
-	updateCursors: function(cursors) {
-		adapter.setMarkers( cursors );
+	updateCursors: function() {
+		adapter.updateMarkers(this.props.peers, this.props.peerColors, this.props.cursors);
 	},
 
 	updateDoc: function(doc, filename) {
-		adapter.setDoc( doc, filename );
-	},
-
-	refreshMarkers: function(firstRow, lastRow, cursors) {
-		for(var s=0; s<cursors.length; s++) {
-			var sel = cursors[s].sel;
-
-			for(var i=0; i<sel.length; i++) {
-				// User marker
-				var pos = this.doc.indexToPosition( sel[i][1] );
-				if(pos.row < firstRow) {
-					document.getElementById('userBehindMarker').style.visibility = 'visible';
-				} else if(pos.row > lastRow) {
-					document.getElementById('userAheadMarker').style.visibility = 'visible';
-				} else {
-					document.getElementById('userBehindMarker').style.visibility = 'hidden';
-					document.getElementById('userAheadMarker').style.visibility = 'hidden';
-				}
-			}
-		}
+		return adapter.setDoc( doc, filename );
 	},
 
     // This component doesn't really fall under React's control, so don't re-render it
@@ -70,8 +60,6 @@ var CodeEditor = React.createClass({
         return (
         	<div>
         		<pre id='editor'></pre>
-                <div id="userBehindMarker">Below</div>
-                <div id="userAheadMarker">Above</div>
         	</div>
         );
     }

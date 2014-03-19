@@ -6,30 +6,34 @@ var uuid = require('node-uuid');
 // TODO: replace uuid with client ID
 var PeerInfoBox = React.createClass({
     getInitialState: function() {
-        return {};
+        return {
+            peerPos: {}
+        };
     },
 
     render: function() {
         var classList = [], users = '';
         classList.push('notification');
 
-        if(this.props.peers.length) {
-            classList.push('activeSession');
+        if(Object.keys(this.props.peers).length) {
             var i = 1;
-            users = this.props.peers.map( function(peer) {
-                var guestClass = 'guest' + (i++);
+            users = Object.keys(this.props.peers).map( (function(id) {
+                var guestClass = this.props.peerColors[id];
+                var guestPos = this.state.peerPos[id];
+                if(guestPos && guestPos != 0) classList.push(guestPos < 0? 'userBehind' : 'userAhead');
+
                 return (
-                    <div key={uuid.v4()} className={classList.concat([guestClass]).join(' ')}>{peer}</div>
+                    <div key={uuid.v4()} className={classList.concat([guestClass]).join(' ')}>{this.props.peers[id]}</div>
                 );
-            } );
+            }).bind(this) );
         } else {
             classList.push('inactiveSession');
             users = (<div className={classList.join(' ')}>nobody :[</div>);
         }
 
         return (
-            <div id="peerInfoBox">
-                <div className="menuButton">Coding with</div>
+            <div id='peerInfoBox'>
+                <div className='menuButton'>Coding with</div>
                 {users}
             </div>
         );

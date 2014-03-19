@@ -56,6 +56,17 @@ var Tree = React.createClass({
         }
     },
 
+    //TODO: make sure this is bulletproof
+    shouldComponentUpdate: function(nextProps, nextState) {
+/*        var shouldUpdate = false;
+        for(key in nextProps) {
+            if(nextProps[key] !== this.props[key]) shouldUpdate = true;
+        }
+        return shouldUpdate;
+*/
+        return true;
+    },
+
     renderNode : function(node) {
         if(!node) return;
 

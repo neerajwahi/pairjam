@@ -79,6 +79,18 @@
     @include buttonFade;
 }
 
+.userBehind::before {
+    content: '\25B2';
+    padding-right: 2px;
+    font-size: 8pt;
+}
+
+.userAhead::before {
+    content: '\25BC';
+    padding-right: 2px;
+    font-size: 8pt;
+}
+
 .notificationPopup {
     position: absolute;
     right: 6px;

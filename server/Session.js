@@ -22,7 +22,6 @@ Session.prototype = {
 	send: function(socket, fn, args) {
 		var payload = JSON.stringify( {'fn': fn, 'args': args} );
 		socket.write(payload);
-		//console.log('Sent ' + payload);
 	},
 
 	sendAll: function(fn, args) {
@@ -30,7 +29,6 @@ Session.prototype = {
 		for(var i = 0; i < this.sockets.length; i++) {
 			this.sockets[i].write(payload);
 		}
-		//console.log('Sent ' + payload);
 	},
 
 	addClient: function(client, socket, name) {
@@ -45,6 +43,8 @@ Session.prototype = {
 		this.send(socket, 'setWorkspace', this.workspace	);
 
 		this.send(socket, 'setDoc', { 	'doc': this.doc.text,
+										'filename': this.doc.filename,
+										'filepath': this.doc.filepath,
 										'sels': this.doc.cursors,
 										'rev': this.doc.history.length	});
 										
@@ -60,7 +60,8 @@ Session.prototype = {
 		removeFromArray(this.clients, client);
 		removeFromArray(this.sockets, socket);
 		delete this.clientNames[ client ];
-		this.doc.setCursor(client, []);
+
+		this.doc.removeCursor(client);
 	},
 
 	reqDoc: function(filename, filepath) {

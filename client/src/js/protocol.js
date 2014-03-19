@@ -19,28 +19,28 @@ module.exports = function(model, view) {
 		// Joining and leaving
 		welcome: function(data) {
 			model.reset(data);
-			view.setProps( {clients: model.getPeers()} );
+			view.setProps( {clients: model.clientNames} );
 		},
 
 		joined: function(data) {
 			model.addPeer( data );
 
-			view.setProps( {clients: model.getPeers()} );
+			view.setProps( {clients: model.clientNames} );
 
 			// Someone else joined
 			if(data.id !== model.clientId) {
 				view.notify( notice.joined(data.name) );
 			}
 
-			view.updateCursors( model.getCursors() );
+			view.updateCursors( model.clientCursors );
 		},
 
 		left: function(data) {
 			model.removePeer(data);
 
-			view.setProps( {clients: model.getPeers()} );
+			view.setProps( {clients: model.clientNames} );
 			view.notify( notice.left(data.name) );
-			view.updateCursors( model.getCursors() );
+			view.updateCursors( model.clientCursors );
 		},
 
 		// Workspace change functions
@@ -64,7 +64,9 @@ module.exports = function(model, view) {
 			model.setDoc( data.doc, data.rev, data.sels );
 
 			view.updateDoc( data.doc, data.filename, data.filepath );
-			view.updateCursors( model.getCursors() );
+
+			// TODO: fix this
+			view.updateCursors( model.clientCursors );
 		},
 
 		setWorkspace: function(data) {
@@ -82,13 +84,12 @@ module.exports = function(model, view) {
 		opText: function(data) {
 			var op = model.applyExternalOp( data );
 			if(op.length) view.applyOp( op );
-			view.updateCursors( model.getCursors() );
+			view.updateCursors( model.clientCursors );
 		},
 
 		opCursor: function(data) {
 			model.applyExternalSel( data );
-			view.updateCursors( model.getCursors() );
+			view.updateCursors( model.clientCursors );
 		}
-
 	};
 };

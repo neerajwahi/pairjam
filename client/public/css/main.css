@@ -74,6 +74,16 @@
   -moz-transition: background 0.15s ease-in-out;
   -webkit-transition: background 0.15s ease-in-out; }
 
+.userBehind::before {
+  content: '\25B2';
+  padding-right: 2px;
+  font-size: 8pt; }
+
+.userAhead::before {
+  content: '\25BC';
+  padding-right: 2px;
+  font-size: 8pt; }
+
 .notificationPopup {
   position: absolute;
   right: 6px;
@@ -384,8 +394,8 @@ body {
 
 .lineHighlight {
   position: absolute;
-  background: #3f709e;
-  z-index: 6; }
+  z-index: 6;
+  opacity: 0.25; }
 
 .userMarker {
   position: absolute;
@@ -395,27 +405,31 @@ body {
   color: #fff;
   padding: 1px 3px 1px 3px; }
 
-#userBehindMarker {
+.editorMarker {
   position: absolute;
-  top: 20px;
-  right: 20px;
   opacity: 0.9;
   height: 15px;
-  z-index: 900;
+  z-index: 6;
   color: #fff;
-  background-color: #000;
-  padding: 1px 3px 1px 3px; }
+  padding: 4px;
+  font-family: 'Droids Sans', sans-serif;
+  font-size: 10pt; }
 
-#userAheadMarker {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  opacity: 0.9;
-  height: 15px;
-  z-index: 900;
-  color: #fff;
-  background-color: #000;
-  padding: 1px 3px 1px 3px; }
+.behind {
+  top: 10px;
+  right: 10px; }
+
+.behind::before {
+  content: '\25B2';
+  font-size: 8pt; }
+
+.ahead {
+  bottom: 35px;
+  right: 10px; }
+
+.ahead::before {
+  content: '\25BC';
+  font-size: 8pt; }
 
 #localVideo {
   margin: 0;
@@ -439,7 +453,8 @@ body {
   cursor: pointer; }
 
 .notInSession {
-  background-color: #99cc99;
+  background-color: #60a060;
+  /*rgb(153,204,153);*/
   height: 75px;
   line-height: 25px;
   transition: background 0.15s ease-in-out;

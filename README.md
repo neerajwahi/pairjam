@@ -1,10 +1,10 @@
 Real-time web-based collaborative coding platform
 
-#Design overview#
+#Design overview
 
 Pairjam consists of two isolated components: the client and server.
 
-#GitHub integration#
+#GitHub integration
 
 In order to integrate the server with GitHub, an application API public key
 and secret are needed. These should be placed in a file called github_api_secret in

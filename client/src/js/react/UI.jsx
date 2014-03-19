@@ -25,8 +25,38 @@ var UI = React.createClass({
             user: '',
             repo: '',
             tree: {},
-            lang: 'Text'
+            lang: 'Text',
+            clientColors: {},
+            colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10']
         };
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        // TODO: add all of the CSS color classes
+        // TODO: this is so ugly, find a better way
+        // Generate color classes
+        var clientColors = this.state.clientColors;
+        var colorPool = this.state.colorPool;
+
+        var keys = Object.keys(nextProps.clients);
+        for(var i = 0; i < keys.length; i++) {
+            if( !clientColors[ keys[i] ] ) {
+                // Add client
+                clientColors[ keys[i] ] = colorPool[0];
+                colorPool = colorPool.slice(1);
+            }
+        }
+        keys = Object.keys(clientColors);
+        for(i = 0; i< keys.length; i++) {
+            if( !nextProps.clients[ keys[i] ] ) {
+                colorPool.push( clientColors[ keys[i] ] );
+                delete clientColors[ keys[i] ];
+            }
+        }
+        colorPool.sort(function(a, b) {
+            return parseInt( a.slice( 'guest'.length ) ) - parseInt( b.slice( 'guest'.length ) ) 
+        });
+        this.setState( {clientColors: clientColors, colorPool: colorPool} );
     },
 
     applyOp: function(op) {
@@ -34,14 +64,16 @@ var UI = React.createClass({
     },
 
     updateCursors: function(cursors) {
-        this.refs.editor.updateCursors(cursors);
+        // TODO: probably don't have to pass in 1st arg here
+        this.setProps( {cursors: cursors} );
+        this.refs.editor.updateCursors();
     },
 
     updateDoc: function(doc, filename, path) {
-        this.refs.editor.updateDoc(doc, filename);
+        var lang = this.refs.editor.updateDoc(doc, filename);
         if(filename) {
             //TODO: how?
-            this.setState( {'lang' : this.refs.editor.getMode() } );
+            if(lang) this.setState( {'lang' : lang } );
             this.notify( notice.loaded(filename) );
 
             if(path) {
@@ -52,6 +84,10 @@ var UI = React.createClass({
                 this.setState( {'tree': tree} );
             }
         }
+    },
+
+    updateClientPos: function(clientPos) {
+        this.refs.peerBox.setState( {peerPos: clientPos} );
     },
 
     setWorkspace: function(workspace) {
@@ -87,7 +123,9 @@ var UI = React.createClass({
                         <div id="rightMenu">
                             <ul>
                                 <li>
-                                    <PeerInfoBox peers={this.props.clients} />
+                                    <PeerInfoBox    ref={'peerBox'}
+                                                    peers={this.props.clients}
+                                                    peerColors={this.state.clientColors}    />
                                     <Notification ref={'notifications'} />
                                 </li>
                             </ul>
@@ -97,19 +135,23 @@ var UI = React.createClass({
                     <div id="container">
                         <div id="sidePane">
                             <RepoSearch ref={'repoBox'}
-                                        onSubmit={this.props.handlers.onLoadRepo}/>
+                                        onSubmit={this.props.handlers.onLoadRepo}   />
                             <Tree   ref={'tree'}
                                     user={this.state.user}
                                     repo={this.state.repo}
                                     data={this.state.tree}
                                     onSelect={this.props.handlers.onLoadFile}
-                                    onToggleOpen={this.props.handlers.onOpenFolder}/>
+                                    onToggleOpen={this.props.handlers.onOpenFolder} />
                             <Video />
                         </div>
 
                         <CodeEditor ref={'editor'}
+                                    peers={this.props.clients}
+                                    cursors={this.props.cursors}
+                                    peerColors={this.state.clientColors}
                                     onDocChg={this.props.handlers.onDocChg}
-                                    onCursorChg={this.props.handlers.onCursorChg}      />
+                                    onCursorChg={this.props.handlers.onCursorChg}
+                                    onCursorPos={this.updateClientPos}    />
                         <LangBox    ref={'lang'}
                                     lang={this.state.lang}  />
 

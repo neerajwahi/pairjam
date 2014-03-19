@@ -6,15 +6,6 @@ var mocha = require('gulp-mocha');
 var shell = require('gulp-shell');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
-var sweetjs = require('gulp-sweetjs');
-
-
-gulp.task('compileMacros', function() {
-	gulp.src('../lib/ot/ot_src.js')
-		.pipe( sweetjs() )
-		.pipe( rename('ot.js') )
-		.pipe( gulp.dest('../lib/ot') );
-});
 
 // Basic usage
 gulp.task('scripts', function() {
@@ -53,6 +44,11 @@ gulp.task('unitTests', function() {
 gulp.task('integration', function() {
 	gulp.src( ['test/system/*.js'] )
     	.pipe( shell(['node  <%= file.path %>']) );
+});
+
+gulp.task('watch', function() {
+	gulp.watch('src/js/**/*.{js,jsx}', ['scripts']);
+	gulp.watch('src/scss/**/*.scss', ['sass']);
 });
 
 // Default build task
