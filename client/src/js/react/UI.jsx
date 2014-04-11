@@ -9,7 +9,6 @@ var notice = require('../notifications.jsx');
 var Notification = require('./Notification.jsx');
 var Tree = require('./Tree.jsx');
 var RepoSearch = require('./RepoSearch.jsx');
-var LangBox = require('./LangBox.jsx');
 var PeerInfoBox = require('./PeerInfoBox.jsx');
 var ModalWindow = require('./ModalWindow.jsx');
 var Logo = require('./Logo.jsx');
@@ -17,6 +16,9 @@ var Video = require('./Video.jsx');
 var CodeEditor = require('./CodeEditor.jsx');
 
 // TODO: remove unnecessary DIVs
+// TODO: speed up UI using shouldComponentRender
+// BUG: with 2+ ppl random dropped connections (is this a Chrome limit?)
+
 var UI = React.createClass({
 
     getInitialState: function() {
@@ -25,7 +27,6 @@ var UI = React.createClass({
             user: '',
             repo: '',
             tree: {},
-            lang: 'Text',
             clientColors: {},
             colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10']
         };
@@ -73,7 +74,6 @@ var UI = React.createClass({
         var lang = this.refs.editor.updateDoc(doc, filename);
         if(filename) {
             //TODO: how?
-            if(lang) this.setState( {'lang' : lang } );
             this.notify( notice.loaded(filename) );
 
             if(path) {
@@ -152,8 +152,6 @@ var UI = React.createClass({
                                     onDocChg={this.props.handlers.onDocChg}
                                     onCursorChg={this.props.handlers.onCursorChg}
                                     onCursorPos={this.updateClientPos}    />
-                        <LangBox    ref={'lang'}
-                                    lang={this.state.lang}  />
 
                     </div>
 

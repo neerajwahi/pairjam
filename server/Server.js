@@ -30,7 +30,7 @@ Server.prototype = {
 		        } else {
 		            if( !_this.sessions[args.sessionId] ) {
 		                // Session does not exist, create it
-		                _this.sessions[args.sessionId] = new Session(args.sessionId, 'Welcome');
+		                _this.sessions[args.sessionId] = new Session(args.sessionId);
 		            }
 
 		            sessionId = args.sessionId;

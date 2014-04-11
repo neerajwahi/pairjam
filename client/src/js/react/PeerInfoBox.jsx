@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var uuid = require('node-uuid');
 
 // TODO: replace uuid with client ID
 var PeerInfoBox = React.createClass({
@@ -23,7 +22,7 @@ var PeerInfoBox = React.createClass({
                 if(guestPos && guestPos != 0) classList.push(guestPos < 0? 'userBehind' : 'userAhead');
 
                 return (
-                    <div key={uuid.v4()} className={classList.concat([guestClass]).join(' ')}>{this.props.peers[id]}</div>
+                    <div className={classList.concat([guestClass]).join(' ')}>{this.props.peers[id]}</div>
                 );
             }).bind(this) );
         } else {

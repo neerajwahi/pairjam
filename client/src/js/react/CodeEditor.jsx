@@ -2,10 +2,19 @@ var React = require('react');
 
 // Note: as of right now the variable 'ace' is globally available
 // Not ideal
+
+// TODO: figure out where to put AceAdapter
+var LangBox = require('./LangBox.jsx');
 var Adapter = require('../../../../lib/ot/AceAdapter.js');
 var adapter = undefined;
 
 var CodeEditor = React.createClass({
+	getInitialState: function() {
+		return {
+			lang: 'Text',
+			langs: []
+		}
+	},
 	
 	componentDidMount: function() {
 		adapter = new Adapter(ace, 'editor');
@@ -21,6 +30,8 @@ var CodeEditor = React.createClass({
 		}).bind(this);
 
 		adapter.onRender( this.onRender );
+
+		this.setState({langs: adapter.getAllLangs()});
 	},
 
 	onRender: function(firstRow, lastRow) {
@@ -48,18 +59,32 @@ var CodeEditor = React.createClass({
 	},
 
 	updateDoc: function(doc, filename) {
-		return adapter.setDoc( doc, filename );
+		var lang = adapter.setDoc( doc, filename );
+		this.setState( {lang: lang} );
+		return lang;
 	},
 
+/*
     // This component doesn't really fall under React's control, so don't re-render it
     shouldComponentUpdate: function(nextProps, nextState) {
         return false;
     },
+*/
+
+	updateLang: function(lang) {
+		adapter.setLang(lang);
+		this.setState( {lang: lang} );
+	},
 
     render: function() {
         return (
         	<div>
         		<pre id='editor'></pre>
+                <LangBox    ref={'lang'}
+                            lang={this.state.lang}
+                            langs={this.state.langs} 
+                        	onChoseLang={this.updateLang} />
+
         	</div>
         );
     }

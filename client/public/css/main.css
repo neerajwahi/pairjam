@@ -6,6 +6,7 @@
   font-family: 'Droid Sans';
   src: url('../fonts/DroidSans.ttf'); }
 
+/* Colors */
 /* Menu bar */
 #menuContainer {
   position: absolute;
@@ -171,31 +172,37 @@
   width: 252px;
   overflow: auto;
   font-family: 'Droid Sans', sans-serif;
-  font-size: 9.5pt; }
+  font-size: 10pt; }
   .treePane ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     color: #ffffff; }
     .treePane ul li {
-      margin: 3px;
-      padding-left: 7px;
+      padding-left: 8px;
       cursor: pointer; }
       .treePane ul li label {
         margin: 0;
         padding: 0;
         display: block;
-        cursor: pointer; }
+        cursor: pointer;
+        line-height: 1.3em; }
+      .treePane ul li label:hover {
+        cursor: pointer;
+        color: #ccc; }
+      .treePane ul li label.togglable:hover {
+        cursor: pointer;
+        color: #ea4; }
 
 .togglable {
   color: #ffcc66;
-  /* fff080 */
+  /* rgb(255,204,102); fff080 */
   position: relative; }
 
 .togglable-down::before, .togglable-up::before {
   position: absolute;
   top: 50%;
-  margin-top: -0.5em;
+  margin-top: -0.8em;
   left: -1.2em;
   font-size: 0.7em; }
 
@@ -244,27 +251,31 @@
   left: 50%;
   margin-top: -100px;
   margin-left: -200px;
-  height: 200px;
-  width: 400px;
-  background: #337;
+  height: 100px;
+  width: 300px;
+  background: #557;
   padding: 20px;
   border-radius: 5px;
   color: #eee;
   z-index: 1001; }
+  .modalWindow label {
+    margin-right: 10px; }
   .modalWindow .btn-success {
+    float: right;
     padding: 10px;
-    width: 100px;
+    width: 80px;
     text-align: center;
-    background-color: #393; }
+    background-color: #60a060; }
     .modalWindow .btn-success:hover {
-      cursor: pointer; }
+      cursor: pointer;
+      background-color: #38b358; }
   .modalWindow input[type='text'] {
-    width: 225px;
+    width: 180px;
     padding: 5px;
     border: 0px;
     outline: none;
     font-family: 'Droid Sans', sans-serif;
-    font-size: 12pt;
+    font-size: 11pt;
     color: #333333; }
 
 body {
@@ -314,6 +325,29 @@ body {
   -webkit-transition: background 0.15s ease-in-out; }
   .langBox:hover {
     background-color: #444444; }
+
+.langBoxPopup {
+  position: absolute;
+  margin: 0;
+  top: 0px;
+  overflow: scroll;
+  bottom: 29px;
+  right: 0px;
+  z-index: 100;
+  text-align: right;
+  background-color: #272727;
+  font-size: 9.5pt;
+  color: #eeeeee;
+  line-height: 25px;
+  opacity: 0.8;
+  cursor: pointer; }
+  .langBoxPopup .langBoxItem {
+    padding: 2px 15px 2px 15px;
+    transition: background 0.15s ease-in-out;
+    -moz-transition: background 0.15s ease-in-out;
+    -webkit-transition: background 0.15s ease-in-out; }
+    .langBoxPopup .langBoxItem:hover {
+      background-color: #444444; }
 
 /* Side pane */
 #sidePane {
@@ -404,32 +438,6 @@ body {
   z-index: 900;
   color: #fff;
   padding: 1px 3px 1px 3px; }
-
-.editorMarker {
-  position: absolute;
-  opacity: 0.9;
-  height: 15px;
-  z-index: 6;
-  color: #fff;
-  padding: 4px;
-  font-family: 'Droids Sans', sans-serif;
-  font-size: 10pt; }
-
-.behind {
-  top: 10px;
-  right: 10px; }
-
-.behind::before {
-  content: '\25B2';
-  font-size: 8pt; }
-
-.ahead {
-  bottom: 35px;
-  right: 10px; }
-
-.ahead::before {
-  content: '\25BC';
-  font-size: 8pt; }
 
 #localVideo {
   margin: 0;

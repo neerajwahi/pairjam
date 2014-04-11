@@ -1,9 +1,8 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var uuid = require('node-uuid');
 
-// TODO: get rid of uuid here
+// TODO: add key to items for React
 
 var Notification = React.createClass({
 
@@ -43,7 +42,7 @@ var Notification = React.createClass({
     render: function() {
         items = this.state.items.map( function(item) {
             return (
-                <div key={uuid.v4()} className={item.type}>
+                <div className={item.type}>
                     {item.content}
                 </div>
             );

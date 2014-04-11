@@ -1,5 +1,5 @@
 // Function for exponential back-off in case of disconnect
-var retryNext = function(retryPrev) { return retryPrev * 2 };
+var retryNext = function(retryPrev) { return retryPrev * 2; };
 
 function Transport(url, sessionId, userName) {
 	this.url = url;

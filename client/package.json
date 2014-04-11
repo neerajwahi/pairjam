@@ -1,19 +1,16 @@
 {
   "devDependencies": {
-    "gulp-util": "~2.2.14",
-    "gulp": "~3.5.2",
-    "gulp-browserify": "~0.4.6",
-    "gulp-jshint": "~1.4.2",
-    "gulp-mocha": "~0.4.1",
-    "gulp-shell": "~0.2.4",
-    "envify": "~1.2.1",
-    "gulp-rename": "~1.1.0",
-    "gulp-sass": "~0.7.1",
-    "gulp-sweetjs": "~0.3.0"
-  },
-  "dependencies": {
-    "reactify": "~0.8.1",
-    "node-uuid": "~1.4.1",
-    "react": "~0.9.0"
+    "react": "latest",
+    "reactify": "latest",
+    "gulp-util": "latest",
+    "gulp": "latest",
+    "gulp-browserify": "latest",
+    "gulp-jshint": "latest",
+    "gulp-mocha": "latest",
+    "gulp-shell": "latest",
+    "envify": "latest",
+    "gulp-rename": "latest",
+    "gulp-sass": "latest",
+    "gulp-uglify": "latest"
   }
 }

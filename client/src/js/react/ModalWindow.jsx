@@ -25,10 +25,11 @@ var ModalWindow = React.createClass({
 	        return (
 				<div className={'modalContainer'}>
 					<div className={'modalWindow'}>
-						<div>Welcome!</div>
-						<label>Your name: </label>
-						<input type='text' onChange={this.onChange} value={this.state.userName} />
-						<div className='btn btn-success' onClick={this.handleSuccess}>Join</div>
+                        <div>Welcome!</div>
+                        <div style={ {float: 'right'} }>
+                            <div><label>Your name:</label><input type='text' onChange={this.onChange} value={this.state.userName} /></div>
+    						<div className='btn btn-success' onClick={this.handleSuccess}>Join</div>
+                        </div>
 					</div>
 				</div>
 	        );

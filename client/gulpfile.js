@@ -1,11 +1,12 @@
 var gulp = require('gulp');
-var gulputil = require('gulp-util');
+var util = require('gulp-util');
 var jshint = require('gulp-jshint');
 var browserify = require('gulp-browserify');
 var mocha = require('gulp-mocha');
 var shell = require('gulp-shell');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
+var uglify = require('gulp-uglify');
 
 // Basic usage
 gulp.task('scripts', function() {
@@ -14,17 +15,38 @@ gulp.task('scripts', function() {
 	    .pipe( browserify({
 			transform: ['reactify'],
 			insertGlobals : false,
-			debug : !gulputil.env.production
+			debug : !util.env.production
 	     }) )
 	    .pipe( rename('main.js') )
+	    .pipe( gulp.dest('./public/js') );
+});
+
+gulp.task('prod_scripts', function() {
+	process.env.NODE_ENV = "production";
+
+	// Single entry point to browserify
+	gulp.src('src/js/main.jsx')
+	    .pipe( browserify({
+			transform: ['reactify'],
+			insertGlobals : false,
+			debug : false
+	     }) )
+	    .pipe( rename('main.js') )
+	    .pipe( uglify() )
 	    .pipe( gulp.dest('./public/js') );
 });
 
 // SASS
 gulp.task('sass', function () {
     gulp.src('src/scss/main.scss')
-        .pipe(sass())
-        .pipe(gulp.dest('./public/css'));
+        .pipe( sass() )
+        .pipe( gulp.dest('./public/css') );
+});
+
+gulp.task('prod_sass', function () {
+    gulp.src('src/scss/main.scss')
+        .pipe( sass({style: 'compressed'}) )
+        .pipe( gulp.dest('./public/css') );
 });
 
 // JS hint task
@@ -46,16 +68,15 @@ gulp.task('integration', function() {
     	.pipe( shell(['node  <%= file.path %>']) );
 });
 
+// Watch folders for changes
 gulp.task('watch', function() {
 	gulp.watch('src/js/**/*.{js,jsx}', ['scripts']);
 	gulp.watch('src/scss/**/*.scss', ['sass']);
 });
 
-// Default build task
 gulp.task('default', ['sass', 'scripts'] );
-
-// Runs development tasks (jshint, etc...)
 gulp.task('dev', ['sass', 'jshint', 'scripts', 'unitTests'] );
+gulp.task('prod', ['prod_sass', 'prod_scripts']);
 
 // Runs full testing suite (including stochastic integration)
 gulp.task('test', ['unitTests', 'integration'] );

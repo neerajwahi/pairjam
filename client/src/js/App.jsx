@@ -23,13 +23,7 @@ function App(sessionId) {
 }
 
 App.prototype = {
-
 	initTransport: function() {
-		/*
-			this.transport.subscribe( protocol(this.client, this.UI) );
-
-			this.transport.publish(stream, args)
-		*/
 		this.transport.handlers = protocol(this.client, this.UI);
 	},
 

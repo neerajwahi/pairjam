@@ -30,32 +30,38 @@
     left: 50%;
     margin-top: -100px;
     margin-left: -200px;
-    height: 200px;
-    width: 400px;
-    background: #337;
+    height: 100px;
+    width: 300px;
+    background: #557;
     padding: 20px;
     border-radius: 5px;
     color: #eee;
     z-index: 1001;
 
+    label {
+        margin-right: 10px;
+    }
+
     .btn-success {
+        float: right;
         padding: 10px;
-        width: 100px;
+        width: 80px;
         text-align: center;
-        background-color: #393;
+        background-color: $successColor;
 
         &:hover {
             cursor: pointer;
+            background-color: $successColorHover;
         }
     }
 
     input[type='text'] {
-        width: 225px;
+        width: 180px;
         padding: 5px;
         border: 0px;
         outline: none;
         font-family: 'Droid Sans', sans-serif;
-        font-size: 12pt;
+        font-size: 11pt;
         color: #333333;
     }
 }

@@ -7,9 +7,11 @@ DONE
 - Show how many users are online / alert when users join and leave
 - Auto-reconnect
 - Sync GitHub tree exploration and be graceful about document changes
+- Show other users' cursors (markers for where users are)
+- Show 'loading' while loading repos and documents (add a spinner)
+- Box-sizing: border box
 
 WORKING ON
-- Show other users' cursors (markers for where users are)
 - Custom scrollbars
 
 TODO
@@ -19,12 +21,10 @@ TODO
 - Set up production gulp tasks (minify etc...)
 - Set up HTTPS
 - Set up logging in both client and server (in case of errors, etc...)
-- Show 'loading' while loading repos and documents (add a spinner)
 
 TODO (LATER)
 - Allow user to choose themes and remember the theme in a cookie
 - Dynamic themes (when a theme is selected, editor AND pairjam UI changes)
-- Box-sizing: border box
 - Expand beyond GitHub integration
 - Password protection
 - WSS

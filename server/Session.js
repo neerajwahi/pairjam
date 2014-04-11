@@ -6,10 +6,10 @@ function removeFromArray(arr, val) {
 	}
 }
 
-function Session(sessionId, defaultDoc) {
+function Session(sessionId) {
 	this.sessionId = sessionId;
 
-	this.doc = new Document(defaultDoc);	// The 'master' document that the server knows
+	this.doc = new Document('Welcome');	// The 'master' document that the server knows
 	this.workspace = {};
 
 	this.clients = [];				// List of clients' ids

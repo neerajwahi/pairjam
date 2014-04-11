@@ -47,6 +47,33 @@ body {
     }
 }
 
+.langBoxPopup {
+    position: absolute;
+    margin: 0;
+    top: 0px;
+    overflow: scroll;
+    bottom: 29px;
+    right: 0px;
+    z-index: 100;
+    text-align: right;
+    background-color: $headerColor;
+    font-size: 9.5pt;
+    color: #eeeeee;
+    line-height: 25px;
+    opacity: 0.8;
+    cursor: pointer;
+
+    .langBoxItem {
+        padding: 2px 15px 2px 15px;
+
+        @include buttonFade;
+
+        &:hover {
+            background-color: #444444;
+        }
+    }
+}
+
 /* Side pane */
 #sidePane {
     margin: 0;
@@ -151,37 +178,6 @@ $colorClient1: #56b;
     padding: 1px 3px 1px 3px;
 }
 
-.editorMarker {
-    position: absolute;
-    opacity: 0.9;
-    height: 15px;
-    z-index: 6;
-    color: #fff;
-    padding: 4px;
-    font-family: 'Droids Sans', sans-serif;
-    font-size: 10pt;
-}
-
-.behind {
-    top: 10px;
-    right: 10px;
-}
-
-.behind::before {
-    content: '\25B2';
-    font-size: 8pt;
-}
-
-.ahead {
-    bottom: 35px;
-    right: 10px;
-}
-
-.ahead::before {
-    content: '\25BC';
-    font-size: 8pt;
-}
-
 #localVideo {
     margin: 0;
     position: absolute;
@@ -206,7 +202,7 @@ $colorClient1: #56b;
 }
 
 .notInSession {
-    background-color: #60a060;/*rgb(153,204,153);*/
+    background-color: $successColor;/*rgb(153,204,153);*/
     height: 75px;
     line-height: 25px;
     @include buttonFade;
@@ -214,7 +210,7 @@ $colorClient1: #56b;
 
 .notInSession:hover {
     /*background-color: #38b368;*/
-    background-color: #38b358;
+    background-color: $successColorHover;
     content: 'Enable video';
 }
 
