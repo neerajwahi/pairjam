@@ -27,7 +27,7 @@ body {
 .langBox {
     position: absolute;
     margin: 0;
-    padding: 2px 15px 2px 15px;
+    padding: 0 12px 0 12px;
     bottom: 0px;
     right: 0px;
     z-index: 100;
@@ -51,8 +51,8 @@ body {
     position: absolute;
     margin: 0;
     top: 0px;
-    overflow: scroll;
-    bottom: 29px;
+    overflow: auto;
+    bottom: 25px;
     right: 0px;
     z-index: 100;
     text-align: right;
@@ -62,6 +62,7 @@ body {
     line-height: 25px;
     opacity: 0.8;
     cursor: pointer;
+    outline: none;
 
     .langBoxItem {
         padding: 2px 15px 2px 15px;
@@ -81,7 +82,7 @@ body {
     top: 0px;
     left: 0px;
     bottom: 0px;
-    width: 260px;
+    width: $sidePaneWidth;
     background-color: #555555;
 }
 
@@ -91,7 +92,7 @@ body {
     padding: 0;
     top: 0px;
     height: 30px;
-    width: 260px;
+    width: $sidePaneWidth;
     background-color: #404040;
 
     input[type='text'] {
@@ -102,7 +103,7 @@ body {
         bottom: 0px;
         left: 0px;
         right: 0px;
-        width: 225px;
+        width: $sidePaneWidth - 35;
         border: 0px;
         outline: none;
         font-family: 'Droid Sans', sans-serif;
@@ -123,34 +124,19 @@ body {
     top: 0px;
     bottom: 0px;
     right: 0px;
-    left: 260px;
+    left: $sidePaneWidth;
     font-family: 'Inconsolata', monospace;
     font-size: 10.5pt;
     visibility: hidden;
 }
 
-#editorFooter {
-    position: absolute;
-    height: 15px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    padding: 5px;
-    /*background-color: #555555;*/
-    background-color: #313131;
-    /*border-top: 1px solid #999999;*/
-    color: #ffffff;
-}
-
-$colorClient1: #56b;
-
-.guest1, .guest2 {
+.guest1, .guest2, .guest3, .guest4, .guest5, .guest6, .guest7, .guest8, .guest9, .guest10 {
     color: #fff;
 }
 
 .guest1 {
-    background-color: $colorClient1;
-    border-color: $colorClient1 !important;
+    background-color: #56b;
+    border-color: #56b !important;
 }
 
 .guest2 {
@@ -190,31 +176,40 @@ $colorClient1: #56b;
 #mainVideo {
     margin: 0;
     position: absolute;
-    bottom: 0px;
+    bottom: 60px;
     left: 0px;
-    width: 260px;
-    color: #dddddd;
-    /*border-top: 1px solid #999999;*/
+    width: $sidePaneWidth;
+    height: $sidePaneWidth / 1.33;
     font-size: 10pt;
     text-align: center;
     font-weight: normal;
-    cursor: pointer;
+    background: #333;
 }
 
-.notInSession {
-    background-color: $successColor;/*rgb(153,204,153);*/
-    height: 75px;
+#videoButton {
+    margin: 0;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: $sidePaneWidth;
+    font-size: 10pt;
+    text-align: center;
+    font-weight: normal;
+    color: #dddddd;
+    height: 60px;
     line-height: 25px;
     @include buttonFade;
+
+    .disabled {
+        background-color: $disabledColor;
+    }
+
+    .disabled:hover {
+        background-color: $disabledColorHover;
+    }
 }
 
-.notInSession:hover {
-    /*background-color: #38b368;*/
-    background-color: $successColorHover;
-    content: 'Enable video';
-}
-
-.notInSession img {
+#videoButton img {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -222,7 +217,20 @@ $colorClient1: #56b;
     margin: -9px 0 0 -18px;
 }
 
+.notInSession {
+    background-color: $successColor;
+}
+
+.notInSession:hover {
+    background-color: $successColorHover;
+    cursor: pointer;
+}
+
 .inSession {
-    height: 195px;
-    background-color: #CCCCDD;
+    background-color: $failureColor;
+}
+
+.inSession:hover {
+    background-color: $failureColorHover;
+    cursor: pointer;
 }

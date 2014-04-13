@@ -1,12 +1,13 @@
 /* Tree UI component */
 
 .treePane {
+    box-sizing: border-box;
     padding: 0px 0px 0px 8px;
     position: absolute;
     top: 30px;
     left: 0px;
-    bottom: 75px;
-    width: 252px;
+    bottom: 60px;
+    width: $sidePaneWidth;
     overflow: auto;
     font-family: 'Droid Sans', sans-serif;
     font-size: 10pt;

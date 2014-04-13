@@ -37,8 +37,39 @@
     filter: blur(4px);
 }
 
+/* Widths */
+$sidePaneWidth: 240px;
+
 /* Colors */
 $headerColor: rgb(39, 39, 39);
 
 $successColor: #60a060;
-$successColorHover: #38b358;
+$successColorHover: #38b368;
+
+$failureColor: #996666;
+$failureColorHover: #aa5555;
+
+$disabledColor: #666666;
+$disabledColorHover: #666666;
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+::-webkit-scrollbar-resizer {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0.6);
+}

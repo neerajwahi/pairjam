@@ -59,17 +59,10 @@ var CodeEditor = React.createClass({
 	},
 
 	updateDoc: function(doc, filename) {
-		var lang = adapter.setDoc( doc, filename );
+		var lang = adapter.setDoc(doc, filename);
 		this.setState( {lang: lang} );
 		return lang;
 	},
-
-/*
-    // This component doesn't really fall under React's control, so don't re-render it
-    shouldComponentUpdate: function(nextProps, nextState) {
-        return false;
-    },
-*/
 
 	updateLang: function(lang) {
 		adapter.setLang(lang);
@@ -80,15 +73,14 @@ var CodeEditor = React.createClass({
         return (
         	<div>
         		<pre id='editor'></pre>
-                <LangBox    ref={'lang'}
-                            lang={this.state.lang}
-                            langs={this.state.langs} 
-                        	onChoseLang={this.updateLang} />
+                <LangBox ref={'lang'}
+             			 lang={this.state.lang}
+                    	 langs={this.state.langs} 
+                      	 onChoseLang={this.updateLang} />
 
         	</div>
         );
     }
-
 });
 
 module.exports = CodeEditor;

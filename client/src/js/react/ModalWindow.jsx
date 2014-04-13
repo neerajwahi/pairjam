@@ -3,7 +3,6 @@
 var React = require('react');
 
 var ModalWindow = React.createClass({
-
     getInitialState: function() {
         return {
         	visible: true,
@@ -11,9 +10,11 @@ var ModalWindow = React.createClass({
         };
     },
 
-    handleSuccess: function() {
+    handleSuccess: function(e) {
+        e.preventDefault();
     	this.setState( {visible: false} );
     	this.props.onSuccess(this.state);
+        return false;
     },
 
     onChange : function(e) {
@@ -23,20 +24,22 @@ var ModalWindow = React.createClass({
     render: function() {
     	if(this.state.visible) {
 	        return (
-				<div className={'modalContainer'}>
-					<div className={'modalWindow'}>
+                <form className='modalContainer' onSubmit={this.handleSuccess}>
+					<div className='modalWindow'>
                         <div>Welcome!</div>
                         <div style={ {float: 'right'} }>
-                            <div><label>Your name:</label><input type='text' onChange={this.onChange} value={this.state.userName} /></div>
+                            <div>
+                                <label>Your name:</label>
+                                <input type='text' onChange={this.onChange} value={this.state.userName} />
+                            </div>
     						<div className='btn btn-success' onClick={this.handleSuccess}>Join</div>
                         </div>
 					</div>
-				</div>
-	        );
+                </form>
+            );
 	    }
 	    return (<div></div>);
     }
-
 });
 
 module.exports = ModalWindow;

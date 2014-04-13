@@ -7,6 +7,7 @@ var shell = require('gulp-shell');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
+var ghpages = require('gulp-gh-pages');
 
 // Basic usage
 gulp.task('scripts', function() {
@@ -19,6 +20,11 @@ gulp.task('scripts', function() {
 	     }) )
 	    .pipe( rename('main.js') )
 	    .pipe( gulp.dest('./public/js') );
+});
+
+gulp.task('gh_pages', ['prod_sass', 'prod_scripts'], function () {
+	gulp.src('public/**/*')
+		.pipe(ghpages('https://github.com/neerajwahi/pairjam.git', 'origin'));
 });
 
 gulp.task('prod_scripts', function() {
@@ -76,7 +82,7 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['sass', 'scripts'] );
 gulp.task('dev', ['sass', 'jshint', 'scripts', 'unitTests'] );
-gulp.task('prod', ['prod_sass', 'prod_scripts']);
+gulp.task('prod', ['prod_sass', 'prod_scripts', 'gh_pages']);
 
 // Runs full testing suite (including stochastic integration)
 gulp.task('test', ['unitTests', 'integration'] );

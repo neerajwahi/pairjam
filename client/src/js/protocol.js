@@ -2,7 +2,6 @@ var notice = require('./notifications.jsx');
 var util = require('./util.js');
 
 // TODO: adapter should be smarter about marker updates
-
 module.exports = function(model, view) {
 	return {
 		// Connection level
@@ -43,6 +42,23 @@ module.exports = function(model, view) {
 			view.updateCursors( model.clientCursors );
 		},
 
+		// Audio/video
+		peerVideoEnabled: function(data) {
+			if(data.client === client.clientId) return;
+
+			view.notify( notice.)
+		},
+
+		peerVideoDisabled: function(data) {
+			if(data.client === client.clientId) return;
+		}
+
+		rtcMessage: function(data) {
+			console.log('rtcMessage');
+			console.log(data);
+			view.state.av.onRTCMessage(data);
+		},
+
 		// Workspace change functions
 		reqDoc: function(data) {
 			if(data.error) {
@@ -54,7 +70,7 @@ module.exports = function(model, view) {
 
 		reqWorkspace: function(data) {
 			if(data.error) {
-				view.notify( notice.error(data.error) );
+				view.notify( notice.loadError(data.user + '/' + data.repo, data.error) );
 			} else {
 				view.notify( notice.loading(data.user + '/' + data.repo, ' from GitHub') );
 			}

@@ -12,7 +12,7 @@ var PeerInfoBox = React.createClass({
 
     render: function() {
         var classList = [], users = '';
-        classList.push('notification');
+        classList.push('userTag');
 
         if(Object.keys(this.props.peers).length) {
             var i = 1;
@@ -21,8 +21,19 @@ var PeerInfoBox = React.createClass({
                 var guestPos = this.state.peerPos[id];
                 if(guestPos && guestPos != 0) classList.push(guestPos < 0? 'userBehind' : 'userAhead');
 
+                console.log(id);
+                var peerStream = this.props.peerStreams[id], icons = '';
+                if(!peerStream) {
+                    icons = (
+                        <img src='img/video-camera.svg' />
+                    );
+                }
+
                 return (
-                    <div className={classList.concat([guestClass]).join(' ')}>{this.props.peers[id]}</div>
+                    <div className={classList.concat([guestClass]).join(' ')}>
+                    {this.props.peers[id]}
+                    {icons}
+                    </div>
                 );
             }).bind(this) );
         } else {
@@ -37,7 +48,6 @@ var PeerInfoBox = React.createClass({
             </div>
         );
     }
-
 });
 
 module.exports = PeerInfoBox;

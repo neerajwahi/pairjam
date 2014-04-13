@@ -11,6 +11,10 @@
     "envify": "latest",
     "gulp-rename": "latest",
     "gulp-sass": "latest",
-    "gulp-uglify": "latest"
+    "gulp-uglify": "latest",
+    "attachmediastream": "~1.0.1",
+    "getusermedia": "~0.2.2",
+    "rtcpeerconnection": "~2.1.1",
+    "webrtcsupport": "~0.7.3"
   }
 }

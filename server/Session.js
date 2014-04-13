@@ -1,7 +1,7 @@
 var Document = require('../lib/ot/CodeDocument.js');
 
 function removeFromArray(arr, val) {
-	for(var i=0; i<arr.length; i++) {
+	for (var i=0; i<arr.length; i++) {
 		if(arr[i] == val) arr.splice(i, 1);
 	}
 }
@@ -9,24 +9,30 @@ function removeFromArray(arr, val) {
 function Session(sessionId) {
 	this.sessionId = sessionId;
 
-	this.doc = new Document('Welcome');	// The 'master' document that the server knows
+	var defDoc = 'Welcome!\n\n' +
+				 'Share the link below to collaborate:\n' +
+				 'pairjam.com/#' + sessionId;
+
+	// The 'master' document that the server knows
+	this.doc = new Document(defDoc);
 	this.workspace = {};
 
 	this.clients = [];				// List of clients' ids
 	this.sockets = [];				// List of client sockets
 	this.clientNames = {};			// Dict of clients' names
+
+	this.videoStreams = {};
 }
 
 Session.prototype = {
-
 	send: function(socket, fn, args) {
-		var payload = JSON.stringify( {'fn': fn, 'args': args} );
+		var payload = JSON.stringify({'fn': fn, 'args': args});
 		socket.write(payload);
 	},
 
 	sendAll: function(fn, args) {
-		var payload = JSON.stringify( {'fn': fn, 'args': args} );
-		for(var i = 0; i < this.sockets.length; i++) {
+		var payload = JSON.stringify({'fn': fn, 'args': args});
+		for (var i = 0; i < this.sockets.length; i++) {
 			this.sockets[i].write(payload);
 		}
 	},
@@ -37,25 +43,25 @@ Session.prototype = {
 		this.sockets.push( socket );
 		this.clientNames[ client ] = name;
 
-		this.send(socket, 'welcome', { 	'id' : client,
-										'clients': this.clientNames	});
+		this.send(socket, 'welcome', {'id' : client,
+									  'clients': this.clientNames});
 
-		this.send(socket, 'setWorkspace', this.workspace	);
+		this.send(socket, 'setWorkspace', this.workspace);
 
-		this.send(socket, 'setDoc', { 	'doc': this.doc.text,
-										'filename': this.doc.filename,
-										'filepath': this.doc.filepath,
-										'sels': this.doc.cursors,
-										'rev': this.doc.history.length	});
+		this.send(socket, 'setDoc', {'doc': this.doc.text,
+									 'filename': this.doc.filename,
+									 'filepath': this.doc.filepath,
+									 'sels': this.doc.cursors,
+									 'rev': this.doc.history.length});
 										
 
-		this.sendAll( 'joined', { 	'id' : client,
-									'name' : name	});
+		this.sendAll('joined', { 'id' : client,
+								 'name' : name });
 	},
 
 	removeClient: function(client, socket) {
-		this.sendAll( 'left', { 	'id' : client,
-									'name' : this.clientNames[client]	});
+		this.sendAll('left', {'id' : client,
+							  'name' : this.clientNames[client]});
 
 		removeFromArray(this.clients, client);
 		removeFromArray(this.sockets, socket);
@@ -65,68 +71,88 @@ Session.prototype = {
 	},
 
 	reqDoc: function(filename, filepath) {
-		this.sendAll( 'reqDoc', {	'filename': filename,
-									'filepath': filepath	} );
+		this.sendAll('reqDoc', {'filename': filename,
+								'filepath': filepath});
 	},
 
 	setDocAsync: function(filename, filepath, fn) {
-		this.sendAll( 'reqDoc', {	'filename': filename,
-									'filepath': filepath	} );
+		this.sendAll('reqDoc', {'filename': filename,
+								'filepath': filepath});
 
 		fn( (function(file) {
 			this.setDoc(file, filename, filepath);
 		}).bind(this),
 		(function(errorMsg) {
-			this.sendAll( 'reqDoc', {	'error': errorMsg	} );
+			this.sendAll('reqDoc', {'error': errorMsg});
 		}).bind(this));
 	},
 
 	setDoc: function(str, filename, filepath) {
 		this.doc.setText(str);
-		this.sendAll( 'setDoc', {	'doc': this.doc.text,
-									'filename': filename,
-									'filepath': filepath,
-									'sels': this.doc.cursors,
-									'rev': this.doc.history.length	} );
+		this.sendAll('setDoc', {'doc': this.doc.text,
+								'filename': filename,
+								'filepath': filepath,
+								'sels': this.doc.cursors,
+								'rev': this.doc.history.length});
 		console.log(this.doc.text.length);
 	},
 
 	setWorkspaceAsync: function(user, repo, fn) {
-		this.sendAll( 'reqWorkspace', {	'user': user,
-										'repo': repo	} );
+		this.sendAll('reqWorkspace', {'user': user,
+									  'repo': repo});
 
 		fn( (function(workspace) {
 			this.setWorkspace(workspace);
 		}).bind(this),
 		(function(errorMsg) {
-			this.sendAll( 'reqWorkspace', {	'error': errorMsg } );
+			this.sendAll('reqWorkspace', {'user': user, 'repo': repo, 'error': errorMsg});
 		}).bind(this));
 	},
 
 	reqWorkspace: function(user, repo) {
-		this.sendAll( 'reqWorkspace', {	'user': user,
-										'repo': repo	} );
+		this.sendAll('reqWorkspace', {'user': user,
+									  'repo': repo});
 	},
 
 	setWorkspace: function(workspace) {
 		this.workspace = workspace;
-		this.sendAll( 'setWorkspace', this.workspace );
+		this.sendAll('setWorkspace', this.workspace);
 	},
 
 	setWorkTreeState: function(path, isopen) {
-		this.sendAll( 'setWorkTreeState', { 'path' : path, 'isopen' : isopen } );
+		this.sendAll('setWorkTreeState', {'path' : path, 'isopen' : isopen});
 	},
 
 	applyOp: function(client, op, rev) {
 		op = this.doc.apply(op, rev);
-		this.sendAll( 'opText', {'id': client, 'op': op} );
+		this.sendAll('opText', {'id': client, 'op': op});
 	},
 
 	applyCursor: function(client, cursor) {
 		this.doc.setCursor(client, cursor);
-		this.sendAll( 'opCursor', {'id': client, 'sel': cursor} );
-	}
+		this.sendAll('opCursor', {'id': client, 'sel': cursor});
+	},
 
+	shareVideo: function(client) {
+		this.video = {leader: client};
+		this.sendAll('enableVideo', {'leader': client});
+	},
+
+	unshareVideo: function(client) {
+		this.video = {};
+		this.sendAll('disableVideo', {'leader': client});
+	},
+
+	forwardRTCMessage: function(client, data) {
+		if(!data.to) {
+			this.sendAll('rtcMessage', data);
+		};
+
+		var idx = this.clients.indexOf(data.to);
+		if(idx === -1) return;
+
+		this.send(socket, 'rtcMessage', data);
+	}
 };
 
 module.exports = Session;

@@ -1,9 +1,5 @@
 /** @jsx React.DOM */
-
 var React = require('react');
-
-var util = require('../util.js');
-var notice = require('../notifications.jsx');
 
 // React UI components
 var Notification = require('./Notification.jsx');
@@ -15,12 +11,16 @@ var Logo = require('./Logo.jsx');
 var Video = require('./Video.jsx');
 var CodeEditor = require('./CodeEditor.jsx');
 
+//var AV = require('../AV.js');
+
+var util = require('../util.js');
+var notice = require('../notifications.jsx');
+
 // TODO: remove unnecessary DIVs
 // TODO: speed up UI using shouldComponentRender
 // BUG: with 2+ ppl random dropped connections (is this a Chrome limit?)
 
 var UI = React.createClass({
-
     getInitialState: function() {
         return {
             allowInteraction: false,
@@ -28,7 +28,10 @@ var UI = React.createClass({
             repo: '',
             tree: {},
             clientColors: {},
-            colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10']
+            clientStreams: {},
+            videoStatus: 'off',
+            colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10'],
+            av: null
         };
     },
 
@@ -94,7 +97,7 @@ var UI = React.createClass({
         this.refs.repoBox.setState( {'user': workspace.user, 'repo': workspace.repo} );
         this.setState( {'user': workspace.user, 'repo': workspace.repo, 'tree': workspace.tree} );
         if(workspace.user && workspace.repo && workspace.tree) {
-            this.notify( notice.loaded(workspace.user + '/' + workspace.repo, ' from GitHub') );
+            this.notify(notice.loaded(workspace.user + '/' + workspace.repo, ' from GitHub'));
         }
     },
 
@@ -104,28 +107,66 @@ var UI = React.createClass({
 
     // Welcome modal window handler
     onEntrySuccess: function(state) {
-        this.setState( {allowInteraction: true} );
+        this.setState({allowInteraction: true});
         this.refs.editor.setFocus();
-        var userName = state.userName;
         this.props.handlers.onReady(state);
+    },
+
+    // Audio/video
+    enableVideo: function() {
+        this.setState( {videoStatus: 'awaitingPermission'} );
+
+        var msg = '\u25b2 Allow pair/jam access to your camera and microphone';
+        this.notify({type: 'joinMsg', itemId: 'video', content: msg, keepAlive: true});
+
+        this.props.handlers.onEnableVideo();
+        this.state.av.enable(
+            (function(err) {
+                this.disableVideo();
+                this.setState( {videoStatus: 'off'} );
+                this.notify({type: 'errorMsg', itemId: 'video', content: err});
+            }).bind(this),
+            (function() {
+                this.setState( {videoStatus: 'connecting'} );
+
+                var msg = 'You are now sharing video.';
+                this.notify({type: 'stateMsg', itemId: 'video', content: msg});
+            }).bind(this)
+        );
+    },
+
+    disableVideo: function() {
+        if(this.state.videoStatus === 'awaitingPermission') {
+            var msg = '\u25b2 Your browser is already asking you for access to your camera and microphone.';
+            this.notify({type: 'errorMsg', content: msg});
+            return;
+        }
+        if(this.state.videoStatus === 'off') return;
+
+        this.setState( {videoStatus: 'off'} );
+
+        var msg = 'You are no longer sharing video.';
+        this.notify({type: 'errorMsg', itemId: 'video', content: msg});
+
+        this.props.handlers.onDisableVideo();
+        this.state.av.disable();
     },
 
     render: function() {
         return (
             <div>
-
                 <ModalWindow onSuccess={this.onEntrySuccess}/>
 
                 <div id="mainContainer" className={this.state.allowInteraction? '' : 'popupScreen'}>
-
                     <div id="menuContainer">
                         <Logo />
                         <div id="rightMenu">
                             <ul>
                                 <li>
-                                    <PeerInfoBox    ref={'peerBox'}
-                                                    peers={this.props.clients}
-                                                    peerColors={this.state.clientColors}    />
+                                    <PeerInfoBox ref={'peerBox'}
+                                                 peers={this.props.clients}
+                                                 peerStreams={this.state.clientStreams}
+                                                 peerColors={this.state.clientColors} />
                                     <Notification ref={'notifications'} />
                                 </li>
                             </ul>
@@ -135,14 +176,16 @@ var UI = React.createClass({
                     <div id="container">
                         <div id="sidePane">
                             <RepoSearch ref={'repoBox'}
-                                        onSubmit={this.props.handlers.onLoadRepo}   />
-                            <Tree   ref={'tree'}
-                                    user={this.state.user}
-                                    repo={this.state.repo}
-                                    data={this.state.tree}
-                                    onSelect={this.props.handlers.onLoadFile}
-                                    onToggleOpen={this.props.handlers.onOpenFolder} />
-                            <Video />
+                                        onSubmit={this.props.handlers.onLoadRepo} />
+                            <Tree ref={'tree'}
+                                  user={this.state.user}
+                                  repo={this.state.repo}
+                                  data={this.state.tree}
+                                  onSelect={this.props.handlers.onLoadFile}
+                                  onToggleOpen={this.props.handlers.onOpenFolder} />
+                            <Video videoStatus={this.state.videoStatus}
+                                   enableVideo={this.enableVideo}
+                                   disableVideo={this.disableVideo} />
                         </div>
 
                         <CodeEditor ref={'editor'}
@@ -151,16 +194,12 @@ var UI = React.createClass({
                                     peerColors={this.state.clientColors}
                                     onDocChg={this.props.handlers.onDocChg}
                                     onCursorChg={this.props.handlers.onCursorChg}
-                                    onCursorPos={this.updateClientPos}    />
-
+                                    onCursorPos={this.updateClientPos} />
                     </div>
-
                 </div>
-
             </div>
         );
     }
-
 });
 
 module.exports = UI;

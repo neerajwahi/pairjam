@@ -1,19 +1,16 @@
-// A session is a group of users in the same 'room' with a shared document
 var Session = require('./Session.js');
-var uuid = require('node-uuid');
 var rpc = require('./protocol.js');
 var logger = require('winston');
 
-function isValidSessionId(sesId) {
-    // TODO: validate sessionId more
-    if(!sesId) return false;
-    return true;
-}
-
 function Server() {
-	// A map keyed by sessionId
 	this.sessions = {};
 }
+
+function isValidSession(sesId) {
+    // TODO: better validation
+    if (!sesId) return false;
+    return true;
+};
 
 Server.prototype = {
 	start: function(transport) {
@@ -25,7 +22,7 @@ Server.prototype = {
 
 		    // TODO: I don't like the way sessionIds are being passed (how does it scale?)
 		    function join(args) {
-		        if(!isValidSessionId(args.sessionId)) {
+		        if (!isValidSession(args.sessionId)) {
 		            console.error('Join message does not contain a valid sessionId');
 		        } else {
 		            if( !_this.sessions[args.sessionId] ) {
@@ -34,12 +31,12 @@ Server.prototype = {
 		            }
 
 		            sessionId = args.sessionId;
-		            //TODO: change away from uuid
-		            clientId = _this.sessions[args.sessionId].clients.length? Math.max.apply(null, _this.sessions[args.sessionId].clients) + 1 : 0;
-		            _this.sessions[sessionId].addClient( clientId, socket, args.name );
+		           	var session = _this.sessions[sessionId];
+		            clientId = session.clients.length? Math.max.apply(null, session.clients) + 1 : 0;
+		            session.addClient(clientId, socket, args.name);
 
 		            logger.log('debug', clientId + ' joined');
-		            logger.log('debug', 'Current clients: ' + _this.sessions[args.sessionId].clients);
+		            logger.log('debug', 'Current clients: ' + session.clients);
 		        }
 		    }
 
@@ -53,7 +50,7 @@ Server.prototype = {
 		            return;
 		        }
 
-		        if(!msg.fn || !msg.args) {
+		        if (!msg.fn || !msg.args) {
 		            console.error('Invalid message received (must contain fn and args keys).');
 		        } else if( msg.fn === 'join' ) {
 		            join(msg.args);
@@ -70,7 +67,7 @@ Server.prototype = {
 		    });
 
 		    socket.on('close', function() {
-		        if(sessionId) {
+		        if (sessionId) {
 		            // TODO: should we delete sessions right away? Or GC later?
 		            if(rpc.close) rpc.close(_this.sessions[sessionId], clientId);
 

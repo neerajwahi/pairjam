@@ -1,28 +1,21 @@
 /** @jsx React.DOM */
-
 var React = require('react');
 
 // TODO: add key to items for React
-
 var Notification = React.createClass({
-
     getInitialState: function() {
         return {
             items: [],
-            pendingNotice: {},
             displayTime: 2500
         };
     },
 
     addItem: function(item) {
-        var pending = this.state.pendingNotice;
+        var items = this.state.items.filter(function(elem) {
+            return item.itemId? (elem.itemId !== item.itemId) : true;
+        });
 
-        var items = this.state.items.filter( function(elem) {
-            return (elem !== pending);
-        } );
-
-        pending = item.keepAlive? item : {};
-        this.setState( { pendingNotice: pending, items: [item].concat(items) } );
+        this.setState( {items: [item].concat(items)} );
 
         if(!item.keepAlive) {
             setTimeout( (function() {
@@ -33,10 +26,10 @@ var Notification = React.createClass({
     },
 
     clearItem: function(item) {
-        var items = this.state.items.filter( function(elem) {
+        var items = this.state.items.filter(function(elem) {
             return (elem !== item);
-        } );
-        this.setState( { items: items } );
+        });
+        this.setState( {items: items} );
     },
 
     render: function() {
@@ -50,11 +43,10 @@ var Notification = React.createClass({
 
         return (
             <div className="notificationPopup">
-                { items }
+                {items}
             </div>
         );
     }
-
 });
 
 module.exports = Notification;

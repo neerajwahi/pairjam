@@ -6,7 +6,25 @@
   font-family: 'Droid Sans';
   src: url('../fonts/DroidSans.ttf'); }
 
+/* Widths */
 /* Colors */
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; }
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); }
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.6); }
+
+::-webkit-scrollbar-resizer {
+  background: rgba(0, 0, 0, 0.6); }
+
+::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0.6); }
+
 /* Menu bar */
 #menuContainer {
   position: absolute;
@@ -23,7 +41,8 @@
     padding: 8px;
     padding-left: 4px;
     font-family: 'Inconsolata';
-    color: #ffffff; }
+    color: #ffffff;
+    text-decoration: none; }
     #menuContainer #logo .slash {
       color: #667796; }
   #menuContainer #rightMenu {
@@ -54,7 +73,7 @@
   line-height: 35px;
   text-align: center; }
 
-.notification {
+.userTag {
   float: left;
   margin: 0;
   padding: 0px 4px 0px 4px;
@@ -64,6 +83,11 @@
   min-width: 15px;
   text-align: center;
   font-weight: normal; }
+  .userTag img {
+    height: 8px;
+    padding-left: 4px; }
+  .userTag:hover {
+    cursor: pointer; }
 
 .inactiveSession {
   /*background-color: #d55;*/
@@ -85,6 +109,13 @@
   padding-right: 2px;
   font-size: 8pt; }
 
+#videoButton img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 16px;
+  margin: -9px 0 0 -18px; }
+
 .notificationPopup {
   position: absolute;
   right: 6px;
@@ -98,8 +129,8 @@
 .joinMsg, .leaveMsg, .stateMsg, .errorMsg, .loadingMsg, .infoMsg {
   float: right;
   clear: both;
-  height: 25px;
-  line-height: 25px;
+  height: 22px;
+  line-height: 22px;
   color: #ffffff;
   opacity: 1;
   padding: 2px 4px 2px 8px; }
@@ -126,28 +157,6 @@
     padding: 5px;
     cursor: pointer; }
 
-.shareThisLink {
-  height: 30px;
-  line-height: 30px;
-  background-color: #d55;
-  color: #ffffff;
-  opacity: 1;
-  padding: 0px 0px 0px 5px;
-  font-family: 'Droid Sans', sans-serif;
-  font-weight: normal; }
-  .shareThisLink input[type='text'] {
-    width: 200px;
-    outline: none;
-    height: 20px;
-    line-height: 20px;
-    border: 0;
-    margin: 0px;
-    margin-left: 4px;
-    padding: 5px;
-    font-size: 10pt;
-    font-family: 'Droid Sans', sans-serif;
-    background-color: #e99; }
-
 .fadeInOut-enter {
   opacity: 0.01;
   transition: opacity 0.5s ease-in; }
@@ -164,12 +173,13 @@
 
 /* Tree UI component */
 .treePane {
+  box-sizing: border-box;
   padding: 0px 0px 0px 8px;
   position: absolute;
   top: 30px;
   left: 0px;
-  bottom: 75px;
-  width: 252px;
+  bottom: 60px;
+  width: 240px;
   overflow: auto;
   font-family: 'Droid Sans', sans-serif;
   font-size: 10pt; }
@@ -268,7 +278,7 @@
     background-color: #60a060; }
     .modalWindow .btn-success:hover {
       cursor: pointer;
-      background-color: #38b358; }
+      background-color: #38b368; }
   .modalWindow input[type='text'] {
     width: 180px;
     padding: 5px;
@@ -307,7 +317,7 @@ body {
 .langBox {
   position: absolute;
   margin: 0;
-  padding: 2px 15px 2px 15px;
+  padding: 0 12px 0 12px;
   bottom: 0px;
   right: 0px;
   z-index: 100;
@@ -330,8 +340,8 @@ body {
   position: absolute;
   margin: 0;
   top: 0px;
-  overflow: scroll;
-  bottom: 29px;
+  overflow: auto;
+  bottom: 25px;
   right: 0px;
   z-index: 100;
   text-align: right;
@@ -340,7 +350,8 @@ body {
   color: #eeeeee;
   line-height: 25px;
   opacity: 0.8;
-  cursor: pointer; }
+  cursor: pointer;
+  outline: none; }
   .langBoxPopup .langBoxItem {
     padding: 2px 15px 2px 15px;
     transition: background 0.15s ease-in-out;
@@ -356,7 +367,7 @@ body {
   top: 0px;
   left: 0px;
   bottom: 0px;
-  width: 260px;
+  width: 240px;
   background-color: #555555; }
 
 .repoSearchBox {
@@ -365,7 +376,7 @@ body {
   padding: 0;
   top: 0px;
   height: 30px;
-  width: 260px;
+  width: 240px;
   background-color: #404040; }
   .repoSearchBox input[type='text'] {
     position: absolute;
@@ -375,7 +386,7 @@ body {
     bottom: 0px;
     left: 0px;
     right: 0px;
-    width: 225px;
+    width: 205px;
     border: 0px;
     outline: none;
     font-family: 'Droid Sans', sans-serif;
@@ -394,24 +405,12 @@ body {
   top: 0px;
   bottom: 0px;
   right: 0px;
-  left: 260px;
+  left: 240px;
   font-family: 'Inconsolata', monospace;
   font-size: 10.5pt;
   visibility: hidden; }
 
-#editorFooter {
-  position: absolute;
-  height: 15px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
-  padding: 5px;
-  /*background-color: #555555;*/
-  background-color: #313131;
-  /*border-top: 1px solid #999999;*/
-  color: #ffffff; }
-
-.guest1, .guest2 {
+.guest1, .guest2, .guest3, .guest4, .guest5, .guest6, .guest7, .guest8, .guest9, .guest10 {
   color: #fff; }
 
 .guest1 {
@@ -450,37 +449,52 @@ body {
 #mainVideo {
   margin: 0;
   position: absolute;
-  bottom: 0px;
+  bottom: 60px;
   left: 0px;
-  width: 260px;
-  color: #dddddd;
-  /*border-top: 1px solid #999999;*/
+  width: 240px;
+  height: 180.45113px;
   font-size: 10pt;
   text-align: center;
   font-weight: normal;
-  cursor: pointer; }
+  background: #333; }
 
-.notInSession {
-  background-color: #60a060;
-  /*rgb(153,204,153);*/
-  height: 75px;
+#videoButton {
+  margin: 0;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 240px;
+  font-size: 10pt;
+  text-align: center;
+  font-weight: normal;
+  color: #dddddd;
+  height: 60px;
   line-height: 25px;
   transition: background 0.15s ease-in-out;
   -moz-transition: background 0.15s ease-in-out;
   -webkit-transition: background 0.15s ease-in-out; }
+  #videoButton .disabled {
+    background-color: #666666; }
+  #videoButton .disabled:hover {
+    background-color: #666666; }
 
-.notInSession:hover {
-  /*background-color: #38b368;*/
-  background-color: #38b358;
-  content: 'Enable video'; }
-
-.notInSession img {
+#videoButton img {
   position: absolute;
   top: 50%;
   left: 50%;
   height: 16px;
   margin: -9px 0 0 -18px; }
 
+.notInSession {
+  background-color: #60a060; }
+
+.notInSession:hover {
+  background-color: #38b368;
+  cursor: pointer; }
+
 .inSession {
-  height: 195px;
-  background-color: #CCCCDD; }
+  background-color: #996666; }
+
+.inSession:hover {
+  background-color: #aa5555;
+  cursor: pointer; }

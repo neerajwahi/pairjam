@@ -1,6 +1,3 @@
-// Function for exponential back-off in case of disconnect
-var retryNext = function(retryPrev) { return retryPrev * 2; };
-
 function Transport(url, sessionId, userName) {
 	this.url = url;
 	this.sessionId = sessionId;
@@ -9,6 +6,7 @@ function Transport(url, sessionId, userName) {
 	//Connection retry parameters
 	this.retryTimeInitial = 2;
 	this.retryTime = this.retryTimeInitial;
+	this.retryNext = function(retryPrev) { return retryPrev * 2; };
 	this.retryWaited = 0;
 }
 
@@ -19,9 +17,9 @@ Transport.prototype = {
 
 		this.sockjs.onopen = function() {
 			_this.retryTime = _this.retryTimeInitial;
-			_this.send('join', {	'sessionId' : _this.sessionId,
-									'name' : _this.userName} );
-			if( _this.handlers.opened ) _this.handlers.opened();
+			_this.send('join', {'sessionId' : _this.sessionId,
+								'name' : _this.userName});
+			if (_this.handlers.opened) _this.handlers.opened();
 		};
 
 		this.sockjs.onmessage = function(e) {
@@ -37,7 +35,7 @@ Transport.prototype = {
 			var fn = msg.fn;
 			var args = msg.args;
 
-			if(fn && args && _this.handlers[fn]) {
+			if (fn && args && _this.handlers[fn]) {
 				_this.preProcess(args);
 				_this.handlers[fn](args);
 				_this.postProcess(args);
@@ -47,23 +45,27 @@ Transport.prototype = {
 		this.sockjs.onclose = function() {
 			console.log('Connection closed.');
 			_this.retry();
-			if( _this.handlers.closed ) _this.handlers.closed();
+			if (_this.handlers.closed) _this.handlers.closed();
 		};
 	},
 
 	send : function(fn, args, requireResponse) {
-		this.sockjs.send( JSON.stringify( { 'fn': fn, 'args' : args } ) );
+		this.sockjs.send(JSON.stringify({'fn': fn, 'args' : args}));
 	},
 
 	retry : function() {
 		var retryFn = (function() {
 			if(this.retryWaited < this.retryTime) {
-				if(this.handlers.reconnecting) this.handlers.reconnecting(this.retryTime - this.retryWaited);
+				if(this.handlers.reconnecting) {
+					this.handlers.reconnecting(this.retryTime - this.retryWaited);
+				}
 				this.retryWaited++;
 				setTimeout(retryFn, 1000);
 			} else {
-				if(this.handlers.reconnecting) this.handlers.reconnecting(0);
-				this.retryTime = retryNext( this.retryTime );
+				if(this.handlers.reconnecting) {
+					this.handlers.reconnecting(0);
+				}
+				this.retryTime = this.retryNext(this.retryTime);
 				this.retryWaited = 0;
 				this.connect();
 			}

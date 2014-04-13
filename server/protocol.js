@@ -3,6 +3,22 @@ var util = require('./util.js');
 
 // TODO: add validation!
 module.exports = {
+	// WebRTC signaling
+	enableVideo: function(session, clientId, data) {
+		console.log('Enable video');
+		session.enableVideo(clientId);
+	},
+
+	disableVideo: function(session, clientId, data) {
+		console.log('Disable video');
+		session.disableVideo(clientId);
+	},
+
+	rtcMessage: function(session, clientId, data) {
+		console.log('Video signaling message');
+		session.forwardRTCMessage(clientId, data);
+	},
+
 	// Text operation
 	opText: function(session, clientId, data) {
 		session.applyOp(clientId, data.op, data.rev);
@@ -25,7 +41,7 @@ module.exports = {
 			},
 			function(err) {
 				//console.log(err);
-				error( err );
+				error(err);
 			});
 		});
 	},

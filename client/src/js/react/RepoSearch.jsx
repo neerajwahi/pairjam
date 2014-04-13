@@ -4,7 +4,6 @@ var React = require('react');
 
 // TODO: refactor this code
 var RepoSearch = React.createClass({
-
     getInitialState: function() {
         return {
             'user': undefined,
@@ -39,7 +38,6 @@ var RepoSearch = React.createClass({
             </form>
         );
     }
-
 });
 
 module.exports = RepoSearch;
