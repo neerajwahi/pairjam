@@ -7,6 +7,7 @@ var shell = require('gulp-shell');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
+var preprocess = require('gulp-preprocess');
 var ghpages = require('gulp-gh-pages');
 
 // Basic usage
@@ -32,14 +33,18 @@ gulp.task('prod_scripts', function() {
 
 	// Single entry point to browserify
 	gulp.src('src/js/main.jsx')
-	    .pipe( browserify({
+	    .pipe(browserify({
 			transform: ['reactify'],
 			insertGlobals : false,
 			debug : false
-	     }) )
-	    .pipe( rename('main.js') )
-	    .pipe( uglify() )
-	    .pipe( gulp.dest('./public/js') );
+	     }))
+	    .pipe(rename('main.js'))
+	    .pipe(preprocess())
+	    .pipe(uglify({
+	    	mangle: true,
+	    	compress: {}
+	    }))
+	    .pipe(gulp.dest('./public/js'));
 });
 
 // SASS
@@ -82,7 +87,8 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['sass', 'scripts'] );
 gulp.task('dev', ['sass', 'jshint', 'scripts', 'unitTests'] );
-gulp.task('prod', ['prod_sass', 'prod_scripts', 'gh_pages']);
+gulp.task('prod', ['prod_sass', 'prod_scripts']);
+gulp.task('deploy', ['prod_sass', 'prod_scripts', 'gh_pages']);
 
 // Runs full testing suite (including stochastic integration)
 gulp.task('test', ['unitTests', 'integration'] );

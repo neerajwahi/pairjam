@@ -7,19 +7,11 @@ var Video = React.createClass({
         return {};
     },
 
-    enable: function() {
-        this.props.enableVideo();
-    },
-
-    disable: function() {
-        this.props.disableVideo();
-    },
-
     handleClick: function() {
         if(this.props.videoStatus === 'off') {
-            this.enable();
+            this.props.shareVideo();
         } else {
-            this.disable();
+            this.props.unshareVideo();
         }
     },
 

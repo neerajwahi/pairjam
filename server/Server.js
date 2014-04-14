@@ -25,8 +25,9 @@ Server.prototype = {
 		        if (!isValidSession(args.sessionId)) {
 		            console.error('Join message does not contain a valid sessionId');
 		        } else {
-		            if( !_this.sessions[args.sessionId] ) {
+		            if(!_this.sessions[args.sessionId]) {
 		                // Session does not exist, create it
+		                logger.log('debug', 'Creating new session, id = ' + args.sessionId);
 		                _this.sessions[args.sessionId] = new Session(args.sessionId);
 		            }
 
@@ -40,7 +41,7 @@ Server.prototype = {
 		        }
 		    }
 
-		    socket.on('data', function(msg) {
+		    socket.on('message', function(msg) {
 		        logger.log('debug', msg );
 
 		        try {
@@ -74,7 +75,8 @@ Server.prototype = {
 		            _this.sessions[sessionId].removeClient(clientId);
 
 		        	logger.debug(clientId + ' left');
-		            logger.log('debug', 'Current clients: ' + _this.sessions[sessionId].clients);
+		            logger.log('debug', 'Current clients:')
+		            logger.log('debug', _this.sessions[sessionId].clients);
 
 		            if( !Object.keys(_this.sessions[sessionId].clients).length ) {
 		                delete _this.sessions[sessionId];

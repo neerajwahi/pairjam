@@ -130,10 +130,16 @@ body {
     visibility: hidden;
 }
 
-.guest1, .guest2, .guest3, .guest4, .guest5, .guest6, .guest7, .guest8, .guest9, .guest10 {
-    color: #fff;
+$userColors: #56b, #933, #771;
+
+@for $i from 1 through length($userColors) {
+    .guest#{$i} {
+        background-color: nth($userColors, $i);
+        border-color: nth($userColors, $i) !important;
+    }
 }
 
+/*
 .guest1 {
     background-color: #56b;
     border-color: #56b !important;
@@ -148,6 +154,7 @@ body {
     background-color: #757510;
     border-color: #757510 !important;
 }
+*/
 
 .lineHighlight {
     position: absolute;
@@ -164,17 +171,9 @@ body {
     padding: 1px 3px 1px 3px;
 }
 
-#localVideo {
-    margin: 0;
-    position: absolute;
-    bottom: 200px;
-    right: 0;
-    height: 100px;
-    background-color: #4455ff;
-}
-
 #mainVideo {
     margin: 0;
+    display: none;
     position: absolute;
     bottom: 60px;
     left: 0px;
@@ -184,6 +183,16 @@ body {
     text-align: center;
     font-weight: normal;
     background: #333;
+}
+
+.videoStreaming {
+    #mainVideo {
+        display: block;
+    }
+
+    .treePane {
+        bottom: 60px + $sidePaneWidth / 1.33;
+    }
 }
 
 #videoButton {

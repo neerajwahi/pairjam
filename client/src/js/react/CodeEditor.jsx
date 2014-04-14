@@ -12,7 +12,8 @@ var CodeEditor = React.createClass({
 	getInitialState: function() {
 		return {
 			lang: 'Text',
-			langs: []
+			langs: [],
+			cursors: []
 		}
 	},
 	
@@ -36,8 +37,8 @@ var CodeEditor = React.createClass({
 
 	onRender: function(firstRow, lastRow) {
 		var clientPos = {};
-		for(var key in this.props.cursors) {
-			var cursor = this.props.cursors[key];
+		for(var key in this.state.cursors) {
+			var cursor = this.state.cursors[key];
 
 			if(cursor[0] < firstRow && cursor[1] < firstRow) clientPos[key] = -1;
 			else if(cursor[0] > lastRow && cursor[1] > lastRow) clientPos[key] = 1;
@@ -55,7 +56,7 @@ var CodeEditor = React.createClass({
 	},
 
 	updateCursors: function() {
-		adapter.updateMarkers(this.props.peers, this.props.peerColors, this.props.cursors);
+		adapter.updateMarkers(this.props.peers, this.props.peerColors, this.state.cursors);
 	},
 
 	updateDoc: function(doc, filename) {

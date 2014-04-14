@@ -82,7 +82,8 @@
   line-height: 21px;
   min-width: 15px;
   text-align: center;
-  font-weight: normal; }
+  font-weight: normal;
+  color: #fff; }
   .userTag img {
     height: 8px;
     padding-left: 4px; }
@@ -411,9 +412,6 @@ body {
   font-size: 10.5pt;
   visibility: hidden; }
 
-.guest1, .guest2, .guest3, .guest4, .guest5, .guest6, .guest7, .guest8, .guest9, .guest10 {
-  color: #fff; }
-
 .guest1 {
   background-color: #56b;
   border-color: #56b !important; }
@@ -423,9 +421,25 @@ body {
   border-color: #933 !important; }
 
 .guest3 {
-  background-color: #757510;
-  border-color: #757510 !important; }
+  background-color: #771;
+  border-color: #771 !important; }
 
+/*
+.guest1 {
+    background-color: #56b;
+    border-color: #56b !important;
+}
+
+.guest2 {
+    background-color: #933;
+    border-color: #933 !important;
+}
+
+.guest3 {
+    background-color: #757510;
+    border-color: #757510 !important;
+}
+*/
 .lineHighlight {
   position: absolute;
   z-index: 6;
@@ -439,16 +453,9 @@ body {
   color: #fff;
   padding: 1px 3px 1px 3px; }
 
-#localVideo {
-  margin: 0;
-  position: absolute;
-  bottom: 200px;
-  right: 0;
-  height: 100px;
-  background-color: #4455ff; }
-
 #mainVideo {
   margin: 0;
+  display: none;
   position: absolute;
   bottom: 60px;
   left: 0px;
@@ -458,6 +465,11 @@ body {
   text-align: center;
   font-weight: normal;
   background: #333; }
+
+.videoStreaming #mainVideo {
+  display: block; }
+.videoStreaming .treePane {
+  bottom: 240.45113px; }
 
 #videoButton {
   margin: 0;

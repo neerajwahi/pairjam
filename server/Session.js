@@ -19,13 +19,21 @@ function Session(sessionId) {
 Session.prototype = {
 	send: function(client, fn, args) {
 		var payload = JSON.stringify({'fn': fn, 'args': args});
-		this.sockets[client.id].write(payload);
+		this.sockets[client.id].send(payload, function(err) {
+			if(err) {
+				logger.log('debug', err);
+			}
+		});
 	},
 
 	sendAll: function(fn, args) {
 		var payload = JSON.stringify({'fn': fn, 'args': args});
 		Object.keys(this.clients).forEach((function(i) {
-			this.sockets[i].write(payload);
+			this.sockets[i].send(payload, function(err) {
+				if(err) {
+					logger.log('debug', err);
+				}
+			});
 		}).bind(this));
 	},
 
@@ -98,7 +106,7 @@ Session.prototype = {
 								'filepath': filepath,
 								'sels': this.doc.cursors,
 								'rev': this.doc.history.length});
-		console.log(this.doc.text.length);
+		logger.log('debug', this.doc.text.length);
 	},
 
 	setWorkspaceAsync: function(user, repo, fn) {
@@ -149,13 +157,13 @@ Session.prototype = {
 
 	forwardRTCMessage: function(clientId, data) {
 		if(!data.to) {
-			console.log('SENDING TO NOBODY');
+			logger.log('debug', 'forwardRTCMessage: no destination');
 			return;
 		}
 
 		var client = this.clients[data.to];
 		if(!client) {
-			console.log('NO CLIENT');
+			logger.log('debug', 'forwardRTCMessage: destination not an active client');
 			return;
 		}
 		data.from = clientId;

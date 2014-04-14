@@ -11,7 +11,7 @@ var protocol = require('./protocol.js');
 
 // Constructor
 function App(sessionId, url) {
-	if(!sessionId) this.sessionId = this.genSessionId();
+	if(!sessionId) this.sessionId = this.createSessionId();
 	else this.sessionId = sessionId;
 
 	this.client = new Client();
@@ -26,7 +26,7 @@ function App(sessionId, url) {
 }
 
 App.prototype = {
-	genSessionId: function() {
+	createSessionId: function() {
 		var randomStr = "";
 		var len = 6;
 	    var tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -70,15 +70,6 @@ App.prototype = {
 			onReady: function(state) {
 				transport.userName = state.userName;
 				transport.connect();
-			},
-
-			// Audio/video
-			onEnableVideo: function() {
-				//transport.send('enableVideo', {'id': client.clientId});
-			},
-
-			onDisableVideo: function() {
-				//transport.send('disableVideo', {'id': client.clientId});
 			},
 
 			// GitHub integration

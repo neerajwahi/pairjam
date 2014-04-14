@@ -3,7 +3,6 @@
 var React = require('react');
 
 var Node = React.createClass({
-
     getInitialState: function() {
         return {
             opened: this.props.opened
@@ -39,7 +38,6 @@ var Node = React.createClass({
 });
 
 var Tree = React.createClass({
-
     getInitialState: function() {
         return {};
     },
@@ -57,15 +55,17 @@ var Tree = React.createClass({
     },
 
     //TODO: make sure this is bulletproof
+/*
     shouldComponentUpdate: function(nextProps, nextState) {
-/*        var shouldUpdate = false;
+        var shouldUpdate = false;
         for(key in nextProps) {
             if(nextProps[key] !== this.props[key]) shouldUpdate = true;
         }
         return shouldUpdate;
-*/
+
         return true;
     },
+*/
 
     renderNode : function(node) {
         if(!node) return;
@@ -92,6 +92,7 @@ var Tree = React.createClass({
     },
 
     render: function() {
+        //debugger;
         return (
             <div className="treePane">{this.renderNode(this.props.data)}</div>
         );

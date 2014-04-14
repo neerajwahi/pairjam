@@ -1,3 +1,10 @@
+// WebSocket Ready State constants
+// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket#Ready_state_constants
+var TRANSPORT_CONNECTING = 0;
+var TRANSPORT_OPEN = 1;
+var TRANSPORT_CLOSING = 2;
+var TRANSPORT_CLOSED = 3;
+
 function Transport(url, sessionId, userName) {
 	this.url = url;
 	this.sessionId = sessionId;
@@ -12,17 +19,17 @@ function Transport(url, sessionId, userName) {
 
 Transport.prototype = {
 	connect : function() {
-		this.sockjs = new SockJS(this.url);
+		this.socket = new WebSocket(this.url);
 		var _this = this;
 
-		this.sockjs.onopen = function() {
+		this.socket.onopen = function() {
 			_this.retryTime = _this.retryTimeInitial;
 			_this.send('join', {'sessionId' : _this.sessionId,
 								'name' : _this.userName});
 			if (_this.handlers.opened) _this.handlers.opened();
 		};
 
-		this.sockjs.onmessage = function(e) {
+		this.socket.onmessage = function(e) {
 			var msg;
 
 			try {
@@ -42,7 +49,7 @@ Transport.prototype = {
 			}
 		};
 
-		this.sockjs.onclose = function() {
+		this.socket.onclose = function() {
 			console.log('Connection closed.');
 			_this.retry();
 			if (_this.handlers.closed) _this.handlers.closed();
@@ -50,7 +57,11 @@ Transport.prototype = {
 	},
 
 	send : function(fn, args, requireResponse) {
-		this.sockjs.send(JSON.stringify({'fn': fn, 'args' : args}));
+		if(this.socket.readyState !== TRANSPORT_OPEN) {
+			console.log('Socket not open, readyState = ' + this.socket.readyState);
+			return;
+		}
+		this.socket.send(JSON.stringify({'fn': fn, 'args' : args}));
 	},
 
 	retry : function() {

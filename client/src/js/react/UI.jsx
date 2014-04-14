@@ -40,6 +40,7 @@ var UI = React.createClass({
         // Generate color classes
         var clientColors = this.state.clientColors;
         var colorPool = this.state.colorPool;
+        var changed = false;
 
         var keys = Object.keys(nextProps.clients);
         for(var i = 0; i < keys.length; i++) {
@@ -47,6 +48,7 @@ var UI = React.createClass({
                 // Add client
                 clientColors[ keys[i] ] = colorPool[0];
                 colorPool = colorPool.slice(1);
+                changed = true;
             }
         }
         keys = Object.keys(clientColors);
@@ -54,12 +56,15 @@ var UI = React.createClass({
             if( !nextProps.clients[ keys[i] ] ) {
                 colorPool.push( clientColors[ keys[i] ] );
                 delete clientColors[ keys[i] ];
+                changed = true;
             }
         }
-        colorPool.sort(function(a, b) {
-            return parseInt( a.slice( 'guest'.length ) ) - parseInt( b.slice( 'guest'.length ) ) 
-        });
-        this.setState( {clientColors: clientColors, colorPool: colorPool} );
+        if(changed) {
+            colorPool.sort(function(a, b) {
+                return parseInt( a.slice( 'guest'.length ) ) - parseInt( b.slice( 'guest'.length ) ) 
+            });
+            this.setState( {clientColors: clientColors, colorPool: colorPool} );
+        }
     },
 
     applyOp: function(op) {
@@ -68,7 +73,7 @@ var UI = React.createClass({
 
     updateCursors: function(cursors) {
         // TODO: probably don't have to pass in 1st arg here
-        this.setProps( {cursors: cursors} );
+        this.refs.editor.setState( {cursors: cursors} );
         this.refs.editor.updateCursors();
     },
 
@@ -187,7 +192,7 @@ var UI = React.createClass({
                     </div>
 
                     <div id="container">
-                        <div id="sidePane">
+                        <div id="sidePane" className={this.state.videoClientId? 'videoStreaming' : ''}>
                             <RepoSearch ref={'repoBox'}
                                         onSubmit={this.props.handlers.onLoadRepo} />
                             <Tree ref={'tree'}
@@ -198,8 +203,8 @@ var UI = React.createClass({
                                   onToggleOpen={this.props.handlers.onOpenFolder} />
                             <Video videoStatus={this.state.videoStatus}
                                    videoClientId={this.state.videoClientId}
-                                   enableVideo={this.shareVideo}
-                                   disableVideo={this.unshareVideo} />
+                                   shareVideo={this.shareVideo}
+                                   unshareVideo={this.unshareVideo} />
                         </div>
 
                         <CodeEditor ref={'editor'}

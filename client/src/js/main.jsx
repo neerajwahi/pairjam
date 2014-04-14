@@ -1,12 +1,18 @@
 /** @jsx React.DOM */
 
 var App = require('./App.jsx');
+var React = require('react');
+window.React = React;
 
 var main = (function() {
 	'use strict';
 
 	var session = location.hash.replace('#', '');
-	var url = 'http://localhost:3001/jam'; //'http://rt.pairjam.com/jam';
+	var url = 'ws://rt.pairjam.com';
+
+	// @if NODE_ENV !== 'production'
+	url = 'ws://10.0.3.102:3001';
+	// @endif
 
 	var app = new App(session, url);
 	app.run();
