@@ -30,7 +30,7 @@ body {
     padding: 0 12px 0 12px;
     bottom: 0px;
     right: 0px;
-    z-index: 100;
+    z-index: 5;
     width: auto;
     height: 25px;
     text-align: right;
@@ -199,14 +199,6 @@ body {
     height: 60px;
     line-height: 25px;
     @include buttonFade;
-
-    .disabled {
-        background-color: $disabledColor;
-    }
-
-    .disabled:hover {
-        background-color: $disabledColorHover;
-    }
 }
 
 #videoButton img {
@@ -215,6 +207,14 @@ body {
     left: 50%;
     height: 16px;
     margin: -9px 0 0 -18px;
+}
+
+.disabled {
+    background-color: $disabledColor;
+}
+
+.disabled:hover {
+    background-color: $disabledColorHover;
 }
 
 .notInSession {

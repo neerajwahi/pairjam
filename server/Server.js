@@ -32,11 +32,11 @@ Server.prototype = {
 
 		            sessionId = args.sessionId;
 		           	var session = _this.sessions[sessionId];
-		            clientId = session.clients.length? Math.max.apply(null, session.clients) + 1 : 0;
-		            session.addClient(clientId, socket, args.name);
+		            clientId = session.addClient(socket, args.name);
 
 		            logger.log('debug', clientId + ' joined');
-		            logger.log('debug', 'Current clients: ' + session.clients);
+		            logger.log('debug', 'Current clients:');
+		            logger.log('debug', session.clients);
 		        }
 		    }
 
@@ -71,12 +71,12 @@ Server.prototype = {
 		            // TODO: should we delete sessions right away? Or GC later?
 		            if(rpc.close) rpc.close(_this.sessions[sessionId], clientId);
 
-		            _this.sessions[sessionId].removeClient( clientId );
+		            _this.sessions[sessionId].removeClient(clientId);
 
 		        	logger.debug(clientId + ' left');
 		            logger.log('debug', 'Current clients: ' + _this.sessions[sessionId].clients);
 
-		            if( !_this.sessions[sessionId].clients.length ) {
+		            if( !Object.keys(_this.sessions[sessionId].clients).length ) {
 		                delete _this.sessions[sessionId];
 		            }
 		        }

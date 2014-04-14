@@ -10,6 +10,16 @@ var PeerInfoBox = React.createClass({
         };
     },
 
+    handleClick: function(clientId) {
+        if(!this.props.peers[clientId].videoStream) return;
+
+        if(this.props.videoClientId && this.props.videoClientId === clientId) {
+            this.props.unsubscribeVideo(clientId);
+        } else {
+            this.props.subscribeVideo(clientId);
+        }
+    },
+
     render: function() {
         var classList = [], users = '';
         classList.push('userTag');
@@ -21,17 +31,17 @@ var PeerInfoBox = React.createClass({
                 var guestPos = this.state.peerPos[id];
                 if(guestPos && guestPos != 0) classList.push(guestPos < 0? 'userBehind' : 'userAhead');
 
-                console.log(id);
-                var peerStream = this.props.peerStreams[id], icons = '';
-                if(!peerStream) {
+                var peerStream = this.props.peers[id].videoStream, icons = '';
+                if(peerStream) {
+                    classList.push('streamable');
                     icons = (
-                        <img src='img/video-camera.svg' />
+                        <img src={'img/video-camera' + (this.props.videoClientId === id? '_active' : '') + '.svg'} />
                     );
                 }
 
                 return (
-                    <div className={classList.concat([guestClass]).join(' ')}>
-                    {this.props.peers[id]}
+                    <div className={classList.concat([guestClass]).join(' ')} onClick={this.handleClick.bind(null, id)}>
+                    {this.props.peers[id].name}
                     {icons}
                     </div>
                 );

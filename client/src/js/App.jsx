@@ -74,11 +74,11 @@ App.prototype = {
 
 			// Audio/video
 			onEnableVideo: function() {
-				transport.send('enableVideo', {'id': client.clientId});
+				//transport.send('enableVideo', {'id': client.clientId});
 			},
 
 			onDisableVideo: function() {
-				transport.send('disableVideo', {'id': client.clientId});
+				//transport.send('disableVideo', {'id': client.clientId});
 			},
 
 			// GitHub integration

@@ -1,17 +1,18 @@
 var github = require('./github.js');
 var util = require('./util.js');
+var logger = require('winston');
 
 // TODO: add validation!
 module.exports = {
 	// WebRTC signaling
-	enableVideo: function(session, clientId, data) {
-		console.log('Enable video');
-		session.enableVideo(clientId);
+	shareVideo: function(session, clientId, data) {
+		logger.log('debug', clientId + ' is sharing video');
+		session.shareVideo(clientId);
 	},
 
-	disableVideo: function(session, clientId, data) {
-		console.log('Disable video');
-		session.disableVideo(clientId);
+	unshareVideo: function(session, clientId, data) {
+		logger.log('debug', clientId + ' is unsharing video');
+		session.unshareVideo(clientId);
 	},
 
 	rtcMessage: function(session, clientId, data) {

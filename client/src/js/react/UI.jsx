@@ -28,9 +28,8 @@ var UI = React.createClass({
             repo: '',
             tree: {},
             clientColors: {},
-            clientStreams: {},
-            videoStatus: 'off',
             colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10'],
+            videoStatus: 'off',
             av: null
         };
     },
@@ -113,29 +112,26 @@ var UI = React.createClass({
     },
 
     // Audio/video
-    enableVideo: function() {
+    shareVideo: function() {
         this.setState( {videoStatus: 'awaitingPermission'} );
 
         var msg = '\u25b2 Allow pair/jam access to your camera and microphone';
         this.notify({type: 'joinMsg', itemId: 'video', content: msg, keepAlive: true});
 
-        this.props.handlers.onEnableVideo();
-        this.state.av.enable(
-            (function(err) {
-                this.disableVideo();
+        this.state.av.share((function(err) {
+            if(err) {
                 this.setState( {videoStatus: 'off'} );
+                this.unshareVideo();
                 this.notify({type: 'errorMsg', itemId: 'video', content: err});
-            }).bind(this),
-            (function() {
+            } else {
                 this.setState( {videoStatus: 'connecting'} );
-
-                var msg = 'You are now sharing video.';
+                var msg = 'You are now sharing audio + video.';
                 this.notify({type: 'stateMsg', itemId: 'video', content: msg});
-            }).bind(this)
-        );
+            }
+        }).bind(this));
     },
 
-    disableVideo: function() {
+    unshareVideo: function() {
         if(this.state.videoStatus === 'awaitingPermission') {
             var msg = '\u25b2 Your browser is already asking you for access to your camera and microphone.';
             this.notify({type: 'errorMsg', content: msg});
@@ -145,11 +141,26 @@ var UI = React.createClass({
 
         this.setState( {videoStatus: 'off'} );
 
-        var msg = 'You are no longer sharing video.';
+        var msg = 'You are no longer sharing audio + video.';
         this.notify({type: 'errorMsg', itemId: 'video', content: msg});
 
-        this.props.handlers.onDisableVideo();
-        this.state.av.disable();
+        this.state.av.unshare();
+    },
+
+    subscribeVideo: function(clientId) {
+        this.state.av.subscribe(clientId, (function(err) {
+            if(!err) {
+                this.setState( {videoClientId: clientId} );
+            }
+        }).bind(this));
+    },
+
+    unsubscribeVideo: function(clientId) {
+        this.state.av.unsubscribe(clientId, (function(err) {
+            if(!err) {
+                this.setState( {videoClientId: undefined} );
+            }
+        }).bind(this));
     },
 
     render: function() {
@@ -165,8 +176,10 @@ var UI = React.createClass({
                                 <li>
                                     <PeerInfoBox ref={'peerBox'}
                                                  peers={this.props.clients}
-                                                 peerStreams={this.state.clientStreams}
-                                                 peerColors={this.state.clientColors} />
+                                                 peerColors={this.state.clientColors}
+                                                 videoClientId={this.state.videoClientId}
+                                                 subscribeVideo={this.subscribeVideo}
+                                                 unsubscribeVideo={this.unsubscribeVideo} />
                                     <Notification ref={'notifications'} />
                                 </li>
                             </ul>
@@ -184,8 +197,9 @@ var UI = React.createClass({
                                   onSelect={this.props.handlers.onLoadFile}
                                   onToggleOpen={this.props.handlers.onOpenFolder} />
                             <Video videoStatus={this.state.videoStatus}
-                                   enableVideo={this.enableVideo}
-                                   disableVideo={this.disableVideo} />
+                                   videoClientId={this.state.videoClientId}
+                                   enableVideo={this.shareVideo}
+                                   disableVideo={this.unshareVideo} />
                         </div>
 
                         <CodeEditor ref={'editor'}

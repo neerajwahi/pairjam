@@ -1,10 +1,5 @@
 var Document = require('../lib/ot/CodeDocument.js');
-
-function removeFromArray(arr, val) {
-	for (var i=0; i<arr.length; i++) {
-		if(arr[i] == val) arr.splice(i, 1);
-	}
-}
+var logger = require('winston');
 
 function Session(sessionId) {
 	this.sessionId = sessionId;
@@ -17,57 +12,66 @@ function Session(sessionId) {
 	this.doc = new Document(defDoc);
 	this.workspace = {};
 
-	this.clients = [];				// List of clients' ids
-	this.sockets = [];				// List of client sockets
-	this.clientNames = {};			// Dict of clients' names
-
-	this.videoStreams = {};
+	this.clients = {};
+	this.sockets = {};
 }
 
 Session.prototype = {
-	send: function(socket, fn, args) {
+	send: function(client, fn, args) {
 		var payload = JSON.stringify({'fn': fn, 'args': args});
-		socket.write(payload);
+		this.sockets[client.id].write(payload);
 	},
 
 	sendAll: function(fn, args) {
 		var payload = JSON.stringify({'fn': fn, 'args': args});
-		for (var i = 0; i < this.sockets.length; i++) {
+		Object.keys(this.clients).forEach((function(i) {
 			this.sockets[i].write(payload);
-		}
+		}).bind(this));
 	},
 
-	addClient: function(client, socket, name) {
+	generateClientId: function() {
+		var clientId = 1;
+		Object.keys(this.clients).forEach(function(i) {
+			if(parseInt(i) >= clientId) clientId = parseInt(i)+1;
+		});
+		return clientId;
+	},
+
+	addClient: function(socket, name) {
 		name = name || 'Guest';
-		this.clients.push( client );
-		this.sockets.push( socket );
-		this.clientNames[ client ] = name;
+		clientId = this.generateClientId();
 
-		this.send(socket, 'welcome', {'id' : client,
-									  'clients': this.clientNames});
+		var client = {
+			id: clientId,
+			name: name,
+			videoStream: false
+		};
 
-		this.send(socket, 'setWorkspace', this.workspace);
+		this.clients[clientId] = client;
+		this.sockets[clientId] = socket;
 
-		this.send(socket, 'setDoc', {'doc': this.doc.text,
+		this.send(client, 'welcome', {'id' : client.id,
+									  'clients': this.clients});
+
+		this.send(client, 'setWorkspace', this.workspace);
+
+		this.send(client, 'setDoc', {'doc': this.doc.text,
 									 'filename': this.doc.filename,
 									 'filepath': this.doc.filepath,
 									 'sels': this.doc.cursors,
 									 'rev': this.doc.history.length});
 										
+		this.sendAll('joined', {'client': client});
 
-		this.sendAll('joined', { 'id' : client,
-								 'name' : name });
+		return clientId;
 	},
 
-	removeClient: function(client, socket) {
-		this.sendAll('left', {'id' : client,
-							  'name' : this.clientNames[client]});
+	removeClient: function(clientId, socket) {
+		this.sendAll('left', {'client': this.clients[clientId]});
 
-		removeFromArray(this.clients, client);
-		removeFromArray(this.sockets, socket);
-		delete this.clientNames[ client ];
-
-		this.doc.removeCursor(client);
+		delete this.clients[clientId];
+		delete this.sockets[clientId];
+		this.doc.removeCursor(clientId);
 	},
 
 	reqDoc: function(filename, filepath) {
@@ -120,38 +124,42 @@ Session.prototype = {
 	},
 
 	setWorkTreeState: function(path, isopen) {
-		this.sendAll('setWorkTreeState', {'path' : path, 'isopen' : isopen});
+		this.sendAll('setWorkTreeState', {'path': path, 'isopen': isopen});
 	},
 
-	applyOp: function(client, op, rev) {
+	applyOp: function(clientId, op, rev) {
 		op = this.doc.apply(op, rev);
-		this.sendAll('opText', {'id': client, 'op': op});
+		this.sendAll('opText', {'id': clientId, 'op': op});
 	},
 
-	applyCursor: function(client, cursor) {
-		this.doc.setCursor(client, cursor);
-		this.sendAll('opCursor', {'id': client, 'sel': cursor});
+	applyCursor: function(clientId, cursor) {
+		this.doc.setCursor(clientId, cursor);
+		this.sendAll('opCursor', {'id': clientId, 'sel': cursor});
 	},
 
-	shareVideo: function(client) {
-		this.video = {leader: client};
-		this.sendAll('enableVideo', {'leader': client});
+	shareVideo: function(clientId) {
+		this.clients[clientId].videoStream = true;
+		this.sendAll('shareVideo', {'client': this.clients[clientId]} );
 	},
 
-	unshareVideo: function(client) {
-		this.video = {};
-		this.sendAll('disableVideo', {'leader': client});
+	unshareVideo: function(clientId) {
+		this.clients[clientId].videoStream = false;
+		this.sendAll('unshareVideo', {'client': this.clients[clientId]} );
 	},
 
-	forwardRTCMessage: function(client, data) {
+	forwardRTCMessage: function(clientId, data) {
 		if(!data.to) {
-			this.sendAll('rtcMessage', data);
-		};
+			console.log('SENDING TO NOBODY');
+			return;
+		}
 
-		var idx = this.clients.indexOf(data.to);
-		if(idx === -1) return;
-
-		this.send(socket, 'rtcMessage', data);
+		var client = this.clients[data.to];
+		if(!client) {
+			console.log('NO CLIENT');
+			return;
+		}
+		data.from = clientId;
+		this.send(client, 'rtcMessage', data);
 	}
 };
 

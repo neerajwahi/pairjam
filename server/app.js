@@ -18,10 +18,10 @@ sockServer.installHandlers(httpServer, {prefix: '/jam'});
 httpServer.listen(port);
 
 // Logging
-/*
-logger.remove(logger.transports.Console);
-logger.add(logger.transports.Console, {'level': 'debug'});
-*/
+if(!process.env.PROD) {
+	logger.remove(logger.transports.Console);
+	logger.add(logger.transports.Console, {'level': 'debug'});
+}
 
 // Start up the server
 var server = new Server();

@@ -28,7 +28,7 @@ var Video = React.createClass({
 
     render: function() {
         var videoBoxDisplay = 'none', buttonClass = 'notInSession';
-        if(this.props.videoStatus !== 'off') {
+        if(this.props.videoClientId) {
             videoBoxDisplay = 'block';
         }
         if(this.props.videoStatus !== 'off') {
@@ -37,7 +37,7 @@ var Video = React.createClass({
                 buttonClass = 'disabled';
             }
         }
-        
+
         return (
             <div>
                 <div id='videoButton' className={buttonClass} onClick={this.handleClick}>

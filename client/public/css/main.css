@@ -86,8 +86,9 @@
   .userTag img {
     height: 8px;
     padding-left: 4px; }
-  .userTag:hover {
-    cursor: pointer; }
+
+.streamable:hover {
+  cursor: pointer; }
 
 .inactiveSession {
   /*background-color: #d55;*/
@@ -320,7 +321,7 @@ body {
   padding: 0 12px 0 12px;
   bottom: 0px;
   right: 0px;
-  z-index: 100;
+  z-index: 5;
   width: auto;
   height: 25px;
   text-align: right;
@@ -473,10 +474,6 @@ body {
   transition: background 0.15s ease-in-out;
   -moz-transition: background 0.15s ease-in-out;
   -webkit-transition: background 0.15s ease-in-out; }
-  #videoButton .disabled {
-    background-color: #666666; }
-  #videoButton .disabled:hover {
-    background-color: #666666; }
 
 #videoButton img {
   position: absolute;
@@ -484,6 +481,12 @@ body {
   left: 50%;
   height: 16px;
   margin: -9px 0 0 -18px; }
+
+.disabled {
+  background-color: #444; }
+
+.disabled:hover {
+  background-color: #444; }
 
 .notInSession {
   background-color: #60a060; }
