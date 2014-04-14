@@ -1,9 +1,10 @@
 FOR DEPLOYMENT
 - Minify ace
 - Validate all inputs to node server
-- Set up STUN server
 - Google Analytics
 - Limit max number of people in room
+- Set up iptables
+- GitHub API caching
 
 DONE
 - Clean up css and use scss

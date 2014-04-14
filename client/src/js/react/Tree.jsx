@@ -54,7 +54,7 @@ var Tree = React.createClass({
         }
     },
 
-    //TODO: make sure this is bulletproof
+    //TODO: make sure this is bulletproof before enabling
 /*
     shouldComponentUpdate: function(nextProps, nextState) {
         var shouldUpdate = false;

@@ -11,7 +11,7 @@ var main = (function() {
 	var url = 'ws://rt.pairjam.com';
 
 	// @if NODE_ENV !== 'production'
-	url = 'ws://10.0.3.102:3001';
+	url = 'ws://localhost:3001';
 	// @endif
 
 	var app = new App(session, url);
