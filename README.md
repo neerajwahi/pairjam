@@ -13,7 +13,7 @@ Note: early stage project
 
 ## Design overview
 
-Pairjam is designed with strong separation between the client and server.
+Pairjam has two separate components: the client and server.
 
 The client consists solely of static files, which means it can be served quickly
 and cheaply on a CDN (pairjam.com assets are hosted on GitHub pages).
@@ -32,10 +32,10 @@ The stack:
 ### Server
 
 The stack:
-- Node.js with the following modules
--- ws (for WebSocket)
--- winston (for logging)
--- node-github (for GitHub integration)
+- Node.js with following modules:
+- ws (for WebSocket)
+- winston (for logging)
+- node-github (for GitHub integration)
 
 #### GitHub integration
 
