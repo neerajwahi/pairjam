@@ -6,7 +6,7 @@ var ModalWindow = React.createClass({
     getInitialState: function() {
         return {
         	visible: true,
-        	userName: 'Guest'
+        	userName: ''
         };
     },
 
@@ -30,7 +30,7 @@ var ModalWindow = React.createClass({
                         <div style={ {float: 'right'} }>
                             <div>
                                 <label>Your name:</label>
-                                <input type='text' onChange={this.onChange} value={this.state.userName} />
+                                <input type='text' onChange={this.onChange} value={this.state.userName} placeholder={'Guest'} />
                             </div>
     						<div className='btn btn-success' onClick={this.handleSuccess}>Join</div>
                         </div>
