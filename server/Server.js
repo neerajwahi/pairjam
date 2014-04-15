@@ -42,7 +42,7 @@ Server.prototype = {
 		    }
 
 		    socket.on('message', function(msg) {
-		        logger.log('debug', msg );
+		        //logger.log('debug', msg );
 
 		        try {
 		            msg = JSON.parse(msg);
