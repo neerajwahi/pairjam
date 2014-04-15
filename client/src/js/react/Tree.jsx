@@ -78,15 +78,15 @@ var Tree = React.createClass({
         }
 
         return (
-            <Node   key={node.path + node.opened + node.selected}
-                    name={node.name}
-                    path={node.path}
-                    sha={node.sha}
-                    opened={node.opened}
-                    selected={node.selected}
-                    leaf={node.children? false : true}
-                    onClick={this.handleClick}>
-                {childNodes}
+            <Node key={node.path + node.opened + node.selected}
+                  name={node.name}
+                  path={node.path}
+                  sha={node.sha}
+                  opened={node.opened}
+                  selected={node.selected}
+                  leaf={node.children? false : true}
+                  onClick={this.handleClick}>
+                  {childNodes}
             </Node>
         );
     },

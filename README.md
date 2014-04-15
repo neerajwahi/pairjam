@@ -1,4 +1,7 @@
 Real-time web-based collaborative coding
+pairjam.com
+
+** Actual documentation and instructions coming soon! **
 
 ## Features
 - Syntax highlighting code editor (using Ace)
@@ -8,7 +11,12 @@ Real-time web-based collaborative coding
 
 ## Design overview
 
-Pairjam consists of two isolated components: the client and server.
+Pairjam is designed with strong separation between the client and server.
+
+The client consists solely of static files, which means it can be served quickly
+and cheaply on a CDN (pairjam.com assets are hosted on GitHub pages).
+
+The server is a Node.js WebSocket server that can run on one or more separate machines.
 
 ### Client
 

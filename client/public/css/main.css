@@ -424,22 +424,6 @@ body {
   background-color: #771;
   border-color: #771 !important; }
 
-/*
-.guest1 {
-    background-color: #56b;
-    border-color: #56b !important;
-}
-
-.guest2 {
-    background-color: #933;
-    border-color: #933 !important;
-}
-
-.guest3 {
-    background-color: #757510;
-    border-color: #757510 !important;
-}
-*/
 .lineHighlight {
   position: absolute;
   z-index: 6;

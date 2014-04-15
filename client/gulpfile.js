@@ -19,8 +19,8 @@ gulp.task('scripts', function() {
 			insertGlobals : false,
 			debug : !util.env.production
 	     }) )
-	    .pipe( rename('main.js') )
-	    .pipe( gulp.dest('./public/js') );
+	    .pipe(rename('main.js'))
+	    .pipe(gulp.dest('./public/js'));
 });
 
 gulp.task('gh_pages', ['prod_sass', 'prod_scripts'], function () {
