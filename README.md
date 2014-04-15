@@ -1,6 +1,7 @@
-Real-time web-based collaborative coding
+Real-time web-based collaborative coding<br/>
+http://pairjam.com
 
-pairjam.com
+Note: early stage project
 
 ** Actual documentation and instructions coming soon! **
 
@@ -21,7 +22,20 @@ The server is a Node.js WebSocket server that can run on one or more separate ma
 
 ### Client
 
+The stack:
+- WebSocket (for communication)
+- WebRTC (for peer-to-peer audio/video)
+- Browserify (for node-style requires)
+- React (UI framework)
+- Gulp (task runner)
+
 ### Server
+
+The stack:
+- Node.js with the following modules
+-- ws (for WebSocket)
+-- winston (for logging)
+-- node-github (for GitHub integration)
 
 #### GitHub integration
 

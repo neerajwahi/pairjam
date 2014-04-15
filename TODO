@@ -1,34 +1,17 @@
 FOR DEPLOYMENT
-- Minify ace
 - Validate all inputs to node server
 - Google Analytics
 - Limit max number of people in room
-- Set up iptables
 - GitHub API caching
 
-DONE
-- Clean up css and use scss
-- Serve fonts locally (as opposed to from Google Fonts)
-- Remove Express
-- Clean up code + protocol
-- Switch to sockJS
-- Show how many users are online / alert when users join and leave
-- Auto-reconnect
-- Sync GitHub tree exploration and be graceful about document changes
-- Show other users' cursors (markers for where users are)
-- Show 'loading' while loading repos and documents (add a spinner)
-- Box-sizing: border box
+BUGS
+- Can't insert after another person on last line
+- Binary data crashes client
+- Can code folding be turned on?
+- Cursor sync is not robust
 
-WORKING ON
-- Custom scrollbars
-
-TODO NOW
-- Set up STUN server for WebRTC
-- Speed up code and in particular loops
-- Get a CSS audit, code audit, and server setup audit
-- Set up production gulp tasks (minify etc...)
-- Set up HTTPS
-- Set up logging in both client and server (in case of errors, etc...)
+POSSIBLE ATTACK VECTORS TO PROTECT AGAINST
+- Create a large number of sessions and exhaust server memory
 
 TODO (LATER)
 - Allow user to choose themes and remember the theme in a cookie
@@ -39,12 +22,3 @@ TODO (LATER)
 - Tabs?
 - Terminal?
 - Whiteboard?
-
-BUGS
-- Can't insert after another person on last line
-- Binary data crashes client
-- Can code folding be turned on?
-- Cursor sync is not robust
-
-POSSIBLE ATTACK VECTORS TO PROTECT AGAINST
-- Create a large number of sessions and exhaust server memory
