@@ -23,7 +23,7 @@ gulp.task('scripts', function() {
 	    .pipe(gulp.dest('./public/js'));
 });
 
-gulp.task('gh_pages', ['prod_sass', 'prod_scripts'], function () {
+gulp.task('gh_pages', function () {
 	gulp.src('public/**/*')
 		.pipe(ghpages('https://github.com/neerajwahi/pairjam.git', 'origin'));
 });

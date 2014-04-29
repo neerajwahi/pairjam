@@ -154,7 +154,7 @@ $userColors: #56b, #933, #771;
     padding: 1px 3px 1px 3px;
 }
 
-#mainVideo {
+#mainVideo, #localVideo {
     margin: 0;
     display: none;
     position: absolute;
@@ -166,6 +166,18 @@ $userColors: #56b, #933, #771;
     text-align: center;
     font-weight: normal;
     background: #333;
+}
+
+#mainVideo.showing,
+#localVideo.showing {
+    display: block;
+}
+
+#mainVideo.showing + #localVideo.showing {
+    width: $sidePaneWidth / 3;
+    height: $sidePaneWidth / 1.33 / 3;
+    right: 0px;
+    left: inherit;
 }
 
 .videoStreaming {

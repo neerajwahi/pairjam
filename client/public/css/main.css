@@ -437,7 +437,7 @@ body {
   color: #fff;
   padding: 1px 3px 1px 3px; }
 
-#mainVideo {
+#mainVideo, #localVideo {
   margin: 0;
   display: none;
   position: absolute;
@@ -449,6 +449,15 @@ body {
   text-align: center;
   font-weight: normal;
   background: #333; }
+
+#mainVideo.showing, #localVideo.showing {
+  display: block; }
+
+#mainVideo.showing + #localVideo.showing {
+  width: 80px;
+  height: 60.15038px;
+  right: 0px;
+  left: inherit; }
 
 .videoStreaming #mainVideo {
   display: block; }

@@ -22,7 +22,7 @@ function App(sessionId, url) {
 				<UI handlers={this.createCallbacks(this.client, this.transport)}
 					clients={{}} />,
 					document.getElementById('appContainer'));
-	this.UI.setState( {av: new AV(this.transport, 'mainVideo')} );
+	this.UI.setState( {av: new AV(this.transport, 'mainVideo', 'localVideo')} );
 }
 
 App.prototype = {

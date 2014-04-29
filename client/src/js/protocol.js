@@ -136,7 +136,21 @@ module.exports = function(model, view) {
 		rtcMessage: function(data) {
 			console.log('rtcMessage');
 			console.log(data);
-			view.state.av.onRTCMessage(data);
+			if(!data.type || !data.from) return;
+			if(!model.clients[data.from]) return;
+			var guestName = model.clients[data.from].name;
+
+			if(data.type === 'subscribe') {
+				var msg = guestName + ' is now watching your video stream.';
+				view.notify({type: 'joinMsg', content: msg});
+				view.state.av.serve(data.from);
+			} else if(data.type === 'unsubscribe') {
+				var msg = guestName + ' has stopped watching your video stream.';
+				view.notify({type: 'leaveMsg', content: msg});
+				view.state.av.unserve(data.from);
+			} else {
+				view.state.av.onRTCMessage(data);
+			}
 		},
 	};
 };

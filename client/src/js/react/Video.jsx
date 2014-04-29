@@ -19,10 +19,9 @@ var Video = React.createClass({
     },
 
     render: function() {
-        var videoBoxDisplay = 'none', buttonClass = 'notInSession';
-        if(this.props.videoClientId) {
-            videoBoxDisplay = 'block';
-        }
+
+        var buttonClass = 'notInSession';
+
         if(this.props.videoStatus !== 'off') {
             buttonClass = 'inSession';
             if(this.props.videoStatus === 'awaitingPermission') {
@@ -35,8 +34,8 @@ var Video = React.createClass({
                 <div id='videoButton' className={buttonClass} onClick={this.handleClick}>
                     <img src='img/video-camera.svg' />
                 </div>
-                <video id='mainVideo' style={{display: videoBoxDisplay}}>
-                </video>
+                <video id='mainVideo' className={this.props.videoClientId ? 'showing' : ''}></video>
+                <video id='localVideo' className={this.props.videoStatus === 'connecting' ? 'showing' : ''}></video>
             </div>
         );
     }

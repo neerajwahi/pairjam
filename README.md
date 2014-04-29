@@ -1,9 +1,7 @@
 Real-time web-based collaborative coding<br/>
 http://pairjam.com
 
-Note: early stage project
-
-** Actual documentation and instructions coming soon! **
+** Detailed documentation and instructions coming soon! **
 
 ## Features
 - Syntax highlighting code editor (using Ace)

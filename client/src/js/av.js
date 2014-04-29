@@ -4,7 +4,7 @@ var attachMediaStream = require('attachmediastream');
 var webrtcSupport = require('webrtcsupport');
 var PeerConnection = require('rtcpeerconnection');
 
-function AV(transport, remoteVideo) {
+function AV(transport, remoteVideo, localVideo) {
 	this.stream = null;
 	this.transport = transport;
 	this.peerConfig = {
@@ -12,6 +12,7 @@ function AV(transport, remoteVideo) {
 	};
 	this.peerConstraints = {};
 	this.remoteVideo = remoteVideo;
+	this.localVideo = localVideo;
 
 	this.pcIn = null;
 	this.pcOut = {};
@@ -20,8 +21,6 @@ function AV(transport, remoteVideo) {
 AV.prototype = {
 	onRTCMessage: function(data) {
 		var self = this;
-		if(!data.type || !data.from) return;
-		console.log(data.type);
 
 		if(data.type === 'offer') {
 			if(!self.pcIn) return;
@@ -53,10 +52,6 @@ AV.prototype = {
 				if(!this.pcOut[data.from]) return;
 				this.pcOut[data.from].processIce(data.candidate);
 			}
-		} else if(data.type === 'subscribe') {
-			self.serve(data.from);
-		} else if(data.type === 'unsubscribe') {
-			self.unserve(data.from);
 		}
 	},
 
@@ -71,6 +66,7 @@ AV.prototype = {
 				cb(errStr);
 			} else {
 				self.stream = stream;
+				attachMediaStream(self.stream, document.getElementById(self.localVideo));
 				self.transport.send('shareVideo', {});
 				cb(null);
 			}
@@ -81,6 +77,7 @@ AV.prototype = {
 		if(this.stream) {
 			this.stream.stop();
 			this.transport.send('unshareVideo', {});
+			self.stream = null;
 		}
 	},
 
@@ -122,7 +119,10 @@ AV.prototype = {
 	},
 
 	unsubscribe: function(clientId, cb) {
-		self.pcIn = null;
+		if(self.pcIn) {
+			self.pcIn.close();
+			self.pcIn = null;
+		}
 		var msg = {
 			to: clientId,
 			type: 'unsubscribe'
@@ -159,7 +159,10 @@ AV.prototype = {
 	},
 
 	unserve: function(clientId) {
-		delete this.pcOut[clientId];
+		if(this.pcOut[clientId]) {
+			this.pcOut[clientId].close();
+			delete this.pcOut[clientId];
+		}
 	}
 };
 
