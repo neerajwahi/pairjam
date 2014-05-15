@@ -3,7 +3,7 @@ var React = require('react');
 
 // React UI components
 var Notification = require('./Notification.jsx');
-var Tree = require('./Tree.jsx');
+var Workspace = require('./Workspace.jsx');
 var RepoSearch = require('./RepoSearch.jsx');
 var PeerInfoBox = require('./PeerInfoBox.jsx');
 var ModalWindow = require('./ModalWindow.jsx');
@@ -27,6 +27,7 @@ var UI = React.createClass({
             user: '',
             repo: '',
             tree: {},
+            branches: [],
             clientColors: {},
             colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10'],
             videoStatus: 'off',
@@ -61,7 +62,7 @@ var UI = React.createClass({
         }
         if(changed) {
             colorPool.sort(function(a, b) {
-                return parseInt( a.slice( 'guest'.length ) ) - parseInt( b.slice( 'guest'.length ) ) 
+                return parseInt( a.slice( 'guest'.length ) ) - parseInt( b.slice( 'guest'.length ) )
             });
             this.setState( {clientColors: clientColors, colorPool: colorPool} );
         }
@@ -98,8 +99,19 @@ var UI = React.createClass({
     },
 
     setWorkspace: function(workspace) {
-        this.refs.repoBox.setState( {'user': workspace.user, 'repo': workspace.repo} );
-        this.setState( {'user': workspace.user, 'repo': workspace.repo, 'tree': workspace.tree} );
+        this.refs.repoBox.setState({
+          user: workspace.user,
+          repo: workspace.repo
+        });
+
+        this.setState({
+          user: workspace.user,
+          repo: workspace.repo,
+          tree: workspace.tree,
+          sha: workspace.sha,
+          branches: workspace.branches
+        });
+
         if(workspace.user && workspace.repo && workspace.tree) {
             this.notify(notice.loaded(workspace.user + '/' + workspace.repo, ' from GitHub'));
         }
@@ -179,13 +191,13 @@ var UI = React.createClass({
                         <div id="rightMenu">
                             <ul>
                                 <li>
-                                    <PeerInfoBox ref={'peerBox'}
+                                    <PeerInfoBox ref='peerBox'
                                                  peers={this.props.clients}
                                                  peerColors={this.state.clientColors}
                                                  videoClientId={this.state.videoClientId}
                                                  subscribeVideo={this.subscribeVideo}
                                                  unsubscribeVideo={this.unsubscribeVideo} />
-                                    <Notification ref={'notifications'} />
+                                    <Notification ref='notifications' />
                                 </li>
                             </ul>
                         </div>
@@ -193,14 +205,20 @@ var UI = React.createClass({
 
                     <div id="container">
                         <div id="sidePane" className={this.state.videoClientId? 'videoStreaming' : ''}>
-                            <RepoSearch ref={'repoBox'}
-                                        onSubmit={this.props.handlers.onLoadRepo} />
-                            <Tree ref={'tree'}
+                            <RepoSearch
+                              ref='repoBox'
+                              onSubmit={this.props.handlers.onLoadRepo} />
+
+                            <Workspace ref='workspace'
                                   user={this.state.user}
                                   repo={this.state.repo}
                                   data={this.state.tree}
-                                  onSelect={this.props.handlers.onLoadFile}
-                                  onToggleOpen={this.props.handlers.onOpenFolder} />
+                                  branches={this.state.branches}
+                                  sha={this.state.sha}
+                                  onSelectFile={this.props.handlers.onLoadFile}
+                                  onToggleOpen={this.props.handlers.onOpenFolder}
+                                  onSelectBranch={this.props.handlers.onLoadRepo} />
+
                             <Video videoStatus={this.state.videoStatus}
                                    videoClientId={this.state.videoClientId}
                                    shareVideo={this.shareVideo}

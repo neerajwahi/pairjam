@@ -83,15 +83,19 @@ App.prototype = {
 			},
 
 			onOpenFolder: function(user, repo, path, isOpen) {
-				transport.send('setWorkTreeState', {'path': path,
-													'isopen': isOpen});
+				transport.send('setWorkTreeState', {
+					'path': path,
+					'isopen': isOpen
+				});
 			},
 
-			onLoadRepo: function(user, repo) {
-				transport.send('reqWorkspace', {'id': client.clientId,
-												'user': user,
-												'repo': repo,
-												'sha': 'master'});
+			onLoadRepo: function(user, repo, sha) {
+				transport.send('reqWorkspace', {
+					'id': client.clientId,
+					'user': user,
+					'repo': repo,
+					'sha': sha
+				});
 			},
 
 			// Code editing

@@ -45,7 +45,7 @@ var Tree = React.createClass({
     handleClick : function(node) {
         if( this.props.user && this.props.repo ) {
             if( node.props.leaf ) {
-                this.props.onSelect( this.props.user, this.props.repo, node.props.sha, node.props.name, node.props.path );
+                this.props.onSelectFile( this.props.user, this.props.repo, node.props.sha, node.props.name, node.props.path );
             } else {
                 this.props.onToggleOpen( this.props.user, this.props.repo, node.props.path, !node.props.opened );
                 //TODO: Make this optimistic
@@ -79,7 +79,7 @@ var Tree = React.createClass({
 
         return (
             <Node key={node.path + node.opened + node.selected}
-                  name={node.name}
+                  name={node.name !== 'master' ? node.name : '/'}
                   path={node.path}
                   sha={node.sha}
                   opened={node.opened}
@@ -92,12 +92,14 @@ var Tree = React.createClass({
     },
 
     render: function() {
-        //debugger;
+
+
         return (
-            <div className="treePane">{this.renderNode(this.props.data)}</div>
+            <div className="treePane">
+              {this.renderNode(this.props.data)}
+            </div>
         );
     }
 });
 
 module.exports = Tree;
-
