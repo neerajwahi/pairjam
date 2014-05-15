@@ -7,7 +7,8 @@ var RepoSearch = React.createClass({
     getInitialState: function() {
         return {
             'user': undefined,
-            'repo': undefined
+            'repo': undefined,
+            'sha': 'master'
         };
     },
 
@@ -21,7 +22,7 @@ var RepoSearch = React.createClass({
     handleSubmit : function(e) {
     	e.preventDefault();
     	if(this.state.user && this.state.repo) {
-    		this.props.onSubmit( this.state.user, this.state.repo );
+    		this.props.onSubmit( this.state.user, this.state.repo, this.state.sha );
     	}
     	return false;
     },
@@ -29,11 +30,11 @@ var RepoSearch = React.createClass({
     render: function() {
         return (
             <form className='repoSearchBox' onSubmit={this.handleSubmit}>
-                <input type='text' onChange={this.onChange} 
+                <input type='text' onChange={this.onChange}
                     placeholder="user/repo"
                     value={
-                        (typeof this.state.user !== 'undefined'? this.state.user : '') + 
-                        (typeof this.state.repo !== 'undefined'? '/' + this.state.repo : '') 
+                        (typeof this.state.user !== 'undefined'? this.state.user : '') +
+                        (typeof this.state.repo !== 'undefined'? '/' + this.state.repo : '')
                     } ref='userrepo' />
             </form>
         );

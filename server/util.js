@@ -16,7 +16,8 @@ module.exports = function() {
 				return obj.name === splitPath[j];
 			};
 
-			var node = { name: 'master', sha: 0 }, temp = node;
+			var node = {},
+				temp = node;
 
 			for(var i = 0; i < flat.length; i++) {
 				var flatNode = flat[i];

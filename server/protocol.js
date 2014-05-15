@@ -37,11 +37,20 @@ module.exports = {
 		var sha = data.sha;
 
 		session.setWorkspaceAsync( user, repo, function(success, error) {
-			github.getTree(user, repo, sha, function(tree) {
-				success( {'user' : data.user, 'repo' : data.repo, 'tree' : tree } );	
+			github.getBranches(user,repo, function(branches) {
+				github.getTree(user, repo, sha, function(tree) {
+					success( {
+						'user' : data.user,
+						'repo' : data.repo,
+						'tree' : tree,
+						'branches': branches
+					});
+				},
+				function(err) {
+					error(err);
+				});
 			},
-			function(err) {
-				//console.log(err);
+			function(err){
 				error(err);
 			});
 		});
@@ -57,7 +66,7 @@ module.exports = {
 			github.getFile(user, repo, sha, function(file) {
 				util.clearKeyOnTree( session.workspace.tree, 'selected' );
 				util.setKeyOnTreePath( session.workspace.tree, data.filepath, 'selected', true );
-				success( file, data.filename, data.filepath );	
+				success( file, data.filename, data.filepath );
 			},
 			function(err) {
 				error( err );

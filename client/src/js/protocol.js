@@ -81,8 +81,16 @@ module.exports = function(model, view) {
 		},
 
 		setWorkspace: function(data) {
-			var tree = data.tree;
-			view.setWorkspace( {'user': data.user, 'repo': data.repo, 'tree': tree} );
+			var tree = data.tree || {};
+			var branches = data.branches || [];
+
+			view.setWorkspace({
+				user: data.user,
+				repo: data.repo,
+				tree: tree,
+				sha: tree.sha,
+				branches: branches
+			});
 		},
 
 		setWorkTreeState: function(data) {

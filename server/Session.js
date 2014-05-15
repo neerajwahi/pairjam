@@ -68,7 +68,7 @@ Session.prototype = {
 									 'filepath': this.doc.filepath,
 									 'sels': this.doc.cursors,
 									 'rev': this.doc.history.length});
-										
+
 		this.sendAll('joined', {'client': client});
 
 		return clientId;
@@ -110,8 +110,10 @@ Session.prototype = {
 	},
 
 	setWorkspaceAsync: function(user, repo, fn) {
-		this.sendAll('reqWorkspace', {'user': user,
-									  'repo': repo});
+		this.sendAll('reqWorkspace', {
+			'user': user,
+		  'repo': repo
+		});
 
 		fn( (function(workspace) {
 			this.setWorkspace(workspace);
