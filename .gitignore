@@ -1,6 +1,8 @@
 .DS_Store
 .sass-cache
 node_modules
+client/public/js/main.js
+client/public/css/main.css
 build
 *~
 github_api_secret
