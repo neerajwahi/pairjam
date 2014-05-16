@@ -67,19 +67,26 @@ var Tree = React.createClass({
     },
 */
 
-    renderNode : function(node) {
+    renderNode : function(node, isRoot) {
         if(!node) return;
 
         var childNodes;
         if(node.children && node.opened) {
             childNodes = node.children.map( (function(node) {
-                return this.renderNode(node);
+                return this.renderNode(node, false);
             }).bind(this) );
         }
 
+        if(isRoot) {
+            return (
+                <div id="treeRoot">
+                    {childNodes}
+                </div>
+            );
+        }
         return (
             <Node key={node.path + node.opened + node.selected}
-                  name={node.name !== 'master' ? node.name : '/'}
+                  name={node.sha !== 'master' ? node.name : '/'}
                   path={node.path}
                   sha={node.sha}
                   opened={node.opened}
@@ -92,11 +99,9 @@ var Tree = React.createClass({
     },
 
     render: function() {
-
-
         return (
             <div className="treePane">
-              {this.renderNode(this.props.data)}
+              {this.renderNode(this.props.data, true)}
             </div>
         );
     }

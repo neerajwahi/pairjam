@@ -2,12 +2,12 @@
 
 .treePane {
     box-sizing: border-box;
-    padding: 0px 0px 0px 8px;
+    position: absolute;
+    top: 50px;
+    padding: 0px 0px 0px 20px;
     bottom: 60px;
     width: $sidePaneWidth;
     overflow: auto;
-    font-family: 'Droid Sans', sans-serif;
-    font-size: 10pt;
 
     ul {
         list-style-type: none;

@@ -3,37 +3,39 @@
 var React = require('react');
 
 module.exports = React.createClass({
-    getInitialState: function() {
-      return {};
-    },
+	getInitialState: function() {
+	  return {};
+	},
 
-    handleClick: function(e) {
-      var sha = e.currentTarget.dataset.sha;
-      var branch = e.currentTarget.innerText;
-      this.props.onSelectBranch(sha);
+	handleClick: function(e) {
+	  var sha = e.currentTarget.dataset.sha;
+	  var branch = e.currentTarget.innerText;
+	  this.props.onSelectBranch(sha);
 
-      return false;
-    },
+	  return false;
+	},
 
-    _renderList: function(branches) {
-      return branches.map(this._renderBranch.bind(this));
-    },
+	_renderList: function(branches) {
+	  return branches.map(this._renderBranch.bind(this));
+	},
 
-    _renderBranch: function(branch) {
-      return <li>
-        <a
-          onClick={this.handleClick}
-          data-sha={branch.commit.sha}>
-          {branch.name}
-        </a>
-      </li>;
-    },
+	_renderBranch: function(branch) {
+	  return <li>
+		<label
+		  onClick={this.handleClick}
+		  data-sha={branch.commit.sha}>
+		  {branch.name}
+		</label>
+	  </li>;
+	},
 
-    render: function() {
-      return (
-        <ul class="branches-list">
-          {this._renderList(this.props.branches)}
-        </ul>
-      )
-    }
+	render: function() {
+	  return (
+	  	<div className="treePane">
+			<ul>
+			  {this._renderList(this.props.branches)}
+			</ul>
+		</div>
+	  )
+	}
 });

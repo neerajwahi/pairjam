@@ -9,16 +9,35 @@
     bottom: 0px;
     width: $sidePaneWidth;
     background-color: #555555;
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 10pt;
+    color: #eee;
 
     .current-branch {
-      height: 25px;
-      background: #464646;
-      color: #eee;
-      padding-left: 20px;
-      line-height: 25px;
-      display:block;
+        position: absolute;
+        left: 0;
+        top: 30px;
+        right: 0;
+        height: 20px;
+        background: #666;
+        padding-left: 28px;
+        line-height: 20px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #999;
+        }
     }
 
+    .branches-list {
+        box-sizing: border-box;
+        position: absolute;
+        top: 50px;
+        padding: 0px 0px 0px 20px;
+        bottom: 60px;
+        width: $sidePaneWidth;
+        overflow: auto;
+    }
 
     .repoSearchBox {
         margin: 0;
@@ -29,19 +48,21 @@
         background-color: #404040;
 
         input[type='text'] {
-            margin: 4px;
+            margin: 0;
             padding: 0;
             width: $sidePaneWidth - 35;
             border: 0px;
             outline: none;
             font-family: 'Droid Sans', sans-serif;
-            font-size: 10pt;
             color: #cccccc;
             background-color: #404040;
             background-image: url('../img/github.svg');
             background-size: 20px 20px;
             background-repeat: no-repeat;
-            padding-left: 25px;
+            background-position: 4px 4px;
+            padding-left: 28px;
+            height: inherit;
+            font-size: inherit;
         }
     }
 }
