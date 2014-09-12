@@ -14,7 +14,11 @@ var TabBar = React.createClass({
     newTab: function() {
         var tabs = this.state.tabs.concat(['*']);
         var tabWidth = 100 / tabs.length;
-        this.setState({tabs: tabs, activeTab: tabs.length-1, tabWidth: tabWidth});
+        this.setState({
+            tabs: tabs,
+            activeTab: tabs.length-1,
+            tabWidth: tabWidth
+        });
     },
 
     closeTab: function(i, e) {
@@ -29,26 +33,33 @@ var TabBar = React.createClass({
             tabs = ['New tab'];
             activeTab = 0;
         }
-        this.setState({tabs: tabs, activeTab: activeTab});
+        this.setState({
+            tabs: tabs,
+            activeTab: activeTab
+        });
         e.stopPropagation();
     },
 
     selectTab: function(i, e) {
-        this.setState({activeTab: i});
+        this.setState({
+            activeTab: i
+        });
         e.stopPropagation();
     },
 
     resizeTabs: function() {
         var tabWidth = 100 / this.state.tabs.length;
         if(this.state.tabWidth !== tabWidth) {
-            this.setState({tabWidth: tabWidth});
+            this.setState({
+                tabWidth: tabWidth
+            });
         }
     },
 
     render: function() {
         var tabs = this.state.tabs.map((function(s, i) {
             var isActive = false;
-            if(this.state.activeTab === i) isActive = true;
+            if (this.state.activeTab === i) isActive = true;
 
             return (
                 <li className={isActive? 'active' : ''}

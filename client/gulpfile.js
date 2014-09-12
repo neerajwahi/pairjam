@@ -14,11 +14,11 @@ var ghpages = require('gulp-gh-pages');
 gulp.task('scripts', function() {
 	// Single entry point to browserify
 	gulp.src('src/js/main.jsx')
-	    .pipe( browserify({
+	    .pipe(browserify({
 			transform: ['reactify'],
 			insertGlobals : false,
 			debug : !util.env.production
-	     }) )
+	     }))
 	    .pipe(rename('main.js'))
 	    .pipe(gulp.dest('./public/js'));
 });
@@ -50,33 +50,33 @@ gulp.task('prod_scripts', function() {
 // SASS
 gulp.task('sass', function () {
     gulp.src('src/scss/main.scss')
-        .pipe( sass() )
-        .pipe( gulp.dest('./public/css') );
+        .pipe(sass())
+        .pipe(gulp.dest('./public/css'));
 });
 
 gulp.task('prod_sass', function () {
     gulp.src('src/scss/main.scss')
-        .pipe( sass({style: 'compressed'}) )
-        .pipe( gulp.dest('./public/css') );
+        .pipe(sass({style: 'compressed'}))
+        .pipe(gulp.dest('./public/css'));
 });
-
+ 
 // JS hint task
 gulp.task('jshint', function() {
 	gulp.src(['src/js/*.js','../lib/ot/*.js'])
-		.pipe( jshint() )
-		.pipe( jshint.reporter('default') );
+		.pipe(jshint())
+		.pipe(jshint.reporter('default'));
 });
 
 // Unit tests (mocha)
 gulp.task('unitTests', function() {
-	gulp.src( ['test/unit/*.js'] )
-    	.pipe( mocha({ reporter: 'spec' }) );
+	gulp.src(['test/unit/*.js'])
+    	.pipe(mocha({reporter: 'spec'}));
 });
 
 // Integration tests (run using node)
 gulp.task('integration', function() {
-	gulp.src( ['test/system/*.js'] )
-    	.pipe( shell(['node  <%= file.path %>']) );
+	gulp.src(['test/system/*.js'])
+    	.pipe(shell(['node  <%= file.path %>']));
 });
 
 // Watch folders for changes

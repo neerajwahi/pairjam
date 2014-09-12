@@ -19,35 +19,41 @@ module.exports = function(model, view) {
 		welcome: function(data) {
 			console.log('welcome');
 			model.reset(data);
-			view.setProps( {clients: model.clients} );
+			view.setProps({
+				clients: model.clients
+			});
 		},
 
 		joined: function(data) {
-			if(!data.client || !data.client.id) return;
+			if (!data.client || !data.client.id) return;
 
 			model.addPeer(data.client);
-			view.setProps( {clients: model.clients} );
+			view.setProps({
+				clients: model.clients
+			});
 
 			// Someone else joined
-			if(data.client.id !== model.clientId) {
-				view.notify( notice.joined(data.client.name) );
+			if (data.client.id !== model.clientId) {
+				view.notify(notice.joined(data.client.name));
 			}
 
 			view.updateCursors(model.clientCursors);
 		},
 
 		left: function(data) {
-			if(!data.client || !data.client.id) return;
+			if (!data.client || !data.client.id) return;
 
 			model.removePeer(data.client);
 
-			view.setProps( {clients: model.clients} );
-			view.notify( notice.left(data.client.name) );
-			view.updateCursors( model.clientCursors );
+			view.setProps({
+				clients: model.clients
+			});
+			view.notify(notice.left(data.client.name));
+			view.updateCursors(model.clientCursors);
 
-			if(view.state.videoClientId == data.client.id) {
+			if (view.state.videoClientId == data.client.id) {
 				view.state.av.unsubscribe(data.client.id, function(err) {
-					if(!err) {
+					if (!err) {
 						view.setState( {videoClientId: undefined} );
 					}
 				});
@@ -56,7 +62,7 @@ module.exports = function(model, view) {
 
 		// Workspace change functions
 		reqDoc: function(data) {
-			if(data.error) {
+			if (data.error) {
 				view.notify(notice.error(data.error));
 			} else {
 				view.notify(notice.loading(data.filename));
@@ -64,7 +70,7 @@ module.exports = function(model, view) {
 		},
 
 		reqWorkspace: function(data) {
-			if(data.error) {
+			if (data.error) {
 				view.notify(notice.loadError(data.user + '/' + data.repo, data.error));
 			} else {
 				view.notify(notice.loading(data.user + '/' + data.repo, ' from GitHub'));
@@ -96,7 +102,9 @@ module.exports = function(model, view) {
 		setWorkTreeState: function(data) {
 			var tree = view.state.tree;
 			util.setKeyOnTreePath(tree, data.path, 'opened', data.isopen);
-			view.setState( {'tree': tree} );
+			view.setState({
+				'tree': tree
+			});
 		},
 
 		// Operations
@@ -113,46 +121,63 @@ module.exports = function(model, view) {
 
 		// Audio/video
 		shareVideo: function(data) {
-			if(!data.client || !data.client.id) return;
-			if(data.client.id === model.clientId) return;
+			if (!data.client || !data.client.id) return;
+			if (data.client.id === model.clientId) return;
 
 			model.setPeer(data.client);
-			view.setProps( {clients: model.clients} );
-			var msg = data.client.name + ' is now sharing audio + video. Click on ' + data.client.name + '\'s icon to watch the stream.';
-			view.notify( {type: 'joinMsg', content: msg} );
+			view.setProps({
+				clients: model.clients
+			});
+			var msg = 	data.client.name +
+						' is now sharing audio + video. Click on ' +
+						data.client.name +
+						'\'s icon to watch the stream.';
+
+			view.notify({
+				type: 'joinMsg',
+				content: msg
+			});
 		},
 
 		unshareVideo: function(data) {
-			if(!data.client || !data.client.id) return;
-			if(data.client.id === model.clientId) return;
+			if (!data.client || !data.client.id) return;
+			if (data.client.id === model.clientId) return;
 
 			model.setPeer(data.client);
-			view.setProps( {clients: model.clients} );
-						console.log(data.client.id);
+			view.setProps({
+				clients: model.clients
+			});
+			console.log(data.client.id);
 
-			if(view.state.videoClientId == data.client.id) {
+			if (view.state.videoClientId == data.client.id) {
 				view.state.av.unsubscribe(data.client.id, function(err) {
-					if(!err) {
-						view.setState( {videoClientId: undefined} );
+					if (!err) {
+						view.setState({
+							videoClientId: undefined
+						});
 					}
 				});
 			}
 			var msg = data.client.name + ' has stopped sharing audio + video.';
-			view.notify( {type: 'leaveMsg', content: msg} );
+			view.notify({
+				type: 'leaveMsg',
+				content: msg
+			});
 		},
 
 		rtcMessage: function(data) {
 			console.log('rtcMessage');
 			console.log(data);
-			if(!data.type || !data.from) return;
-			if(!model.clients[data.from]) return;
+
+			if (!data.type || !data.from) return;
+			if (!model.clients[data.from]) return;
 			var guestName = model.clients[data.from].name;
 
-			if(data.type === 'subscribe') {
+			if (data.type === 'subscribe') {
 				var msg = guestName + ' is now watching your video stream.';
 				view.notify({type: 'joinMsg', content: msg});
 				view.state.av.serve(data.from);
-			} else if(data.type === 'unsubscribe') {
+			} else if (data.type === 'unsubscribe') {
 				var msg = guestName + ' has stopped watching your video stream.';
 				view.notify({type: 'leaveMsg', content: msg});
 				view.state.av.unserve(data.from);

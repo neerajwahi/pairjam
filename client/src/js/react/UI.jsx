@@ -44,27 +44,29 @@ var UI = React.createClass({
         var changed = false;
 
         var keys = Object.keys(nextProps.clients);
-        for(var i = 0; i < keys.length; i++) {
-            if( !clientColors[ keys[i] ] ) {
+        for (var i = 0; i < keys.length; i++) {
+            if (!clientColors[keys[i]]) {
                 // Add client
-                clientColors[ keys[i] ] = colorPool[0];
+                clientColors[keys[i]] = colorPool[0];
                 colorPool = colorPool.slice(1);
                 changed = true;
             }
         }
         keys = Object.keys(clientColors);
-        for(i = 0; i< keys.length; i++) {
-            if( !nextProps.clients[ keys[i] ] ) {
-                colorPool.push( clientColors[ keys[i] ] );
-                delete clientColors[ keys[i] ];
+        for (i = 0; i < keys.length; i++) {
+            if (!nextProps.clients[keys[i]]) {
+                colorPool.push(clientColors[keys[i]]);
+                delete clientColors[keys[i]];
                 changed = true;
             }
         }
-        if(changed) {
+        if (changed) {
             colorPool.sort(function(a, b) {
-                return parseInt( a.slice( 'guest'.length ) ) - parseInt( b.slice( 'guest'.length ) )
+                return parseInt( a.slice('guest'.length) ) - parseInt( b.slice('guest'.length) )
             });
-            this.setState( {clientColors: clientColors, colorPool: colorPool} );
+            this.setState({
+                clientColors: clientColors, colorPool: colorPool
+            });
         }
     },
 
@@ -74,45 +76,51 @@ var UI = React.createClass({
 
     updateCursors: function(cursors) {
         // TODO: probably don't have to pass in 1st arg here
-        this.refs.editor.setState( {cursors: cursors} );
+        this.refs.editor.setState({
+            cursors: cursors
+        });
         this.refs.editor.updateCursors();
     },
 
     updateDoc: function(doc, filename, path) {
         var lang = this.refs.editor.updateDoc(doc, filename);
-        if(filename) {
+        if (filename) {
             //TODO: how?
-            this.notify( notice.loaded(filename) );
+            this.notify(notice.loaded(filename));
 
-            if(path) {
+            if (path) {
                 //TODO: fix this (not very reactive)
                 var tree = this.state.tree;
                 util.clearKeyOnTree(tree, 'selected');
                 util.setKeyOnTreePath(tree, path, 'selected', true);
-                this.setState( {'tree': tree} );
+                this.setState({
+                    'tree': tree
+                });
             }
         }
     },
 
     updateClientPos: function(clientPos) {
-        this.refs.peerBox.setState( {peerPos: clientPos} );
+        this.refs.peerBox.setState({
+            peerPos: clientPos
+        });
     },
 
     setWorkspace: function(workspace) {
         this.refs.repoBox.setState({
-          user: workspace.user,
-          repo: workspace.repo
+            user: workspace.user,
+            repo: workspace.repo
         });
 
         this.setState({
-          user: workspace.user,
-          repo: workspace.repo,
-          tree: workspace.tree,
-          sha: workspace.sha,
-          branches: workspace.branches
+            user: workspace.user,
+            repo: workspace.repo,
+            tree: workspace.tree,
+            sha: workspace.sha,
+            branches: workspace.branches
         });
 
-        if(workspace.user && workspace.repo && workspace.tree) {
+        if (workspace.user && workspace.repo && workspace.tree) {
             this.notify(notice.loaded(workspace.user + '/' + workspace.repo, ' from GitHub'));
         }
     },
@@ -130,52 +138,84 @@ var UI = React.createClass({
 
     // Audio/video
     shareVideo: function() {
-        this.setState( {videoStatus: 'awaitingPermission'} );
+        this.setState({
+            videoStatus: 'awaitingPermission'
+        });
 
         var msg = '\u25b2 Allow pair/jam access to your camera and microphone';
-        this.notify({type: 'joinMsg', itemId: 'video', content: msg, keepAlive: true});
+        this.notify({
+            type: 'joinMsg',
+            itemId: 'video',
+            content: msg,
+            keepAlive: true
+        });
 
         this.state.av.share((function(err) {
-            if(err) {
-                this.setState( {videoStatus: 'off'} );
+            if (err) {
+                this.setState({
+                    videoStatus: 'off'
+                });
                 this.unshareVideo();
-                this.notify({type: 'errorMsg', itemId: 'video', content: err});
+                this.notify({
+                    type: 'errorMsg',
+                    itemId: 'video',
+                    content: err
+                });
             } else {
-                this.setState( {videoStatus: 'connecting'} );
+                this.setState({
+                    videoStatus: 'connecting'
+                });
                 var msg = 'You are now sharing audio + video.';
-                this.notify({type: 'stateMsg', itemId: 'video', content: msg});
+                this.notify({
+                    type: 'stateMsg', 
+                    itemId: 'video', 
+                    content: msg
+                });
             }
         }).bind(this));
     },
 
     unshareVideo: function() {
-        if(this.state.videoStatus === 'awaitingPermission') {
+        if (this.state.videoStatus === 'awaitingPermission') {
             var msg = '\u25b2 Your browser is already asking you for access to your camera and microphone.';
-            this.notify({type: 'errorMsg', content: msg});
+            this.notify({
+                type: 'errorMsg',
+                content: msg
+            });
             return;
         }
-        if(this.state.videoStatus === 'off') return;
+        if (this.state.videoStatus === 'off') return;
 
-        this.setState( {videoStatus: 'off'} );
+        this.setState({
+            videoStatus: 'off'
+        });
 
         var msg = 'You are no longer sharing audio + video.';
-        this.notify({type: 'errorMsg', itemId: 'video', content: msg});
+        this.notify({
+            type: 'errorMsg',
+            itemId: 'video',
+            content: msg
+        });
 
         this.state.av.unshare();
     },
 
     subscribeVideo: function(clientId) {
         this.state.av.subscribe(clientId, (function(err) {
-            if(!err) {
-                this.setState( {videoClientId: clientId} );
+            if (!err) {
+                this.setState({
+                    videoClientId: clientId
+                });
             }
         }).bind(this));
     },
 
     unsubscribeVideo: function(clientId) {
         this.state.av.unsubscribe(clientId, (function(err) {
-            if(!err) {
-                this.setState( {videoClientId: undefined} );
+            if (!err) {
+                this.setState({
+                    videoClientId: undefined
+                });
             }
         }).bind(this));
     },

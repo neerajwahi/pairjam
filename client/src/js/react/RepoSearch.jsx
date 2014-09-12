@@ -12,16 +12,16 @@ var RepoSearch = React.createClass({
         };
     },
 
-    onChange : function(e) {
+    onChange: function(e) {
     	var str = e.target.value.split('/');
     	var u = str[0];
     	var r = str[1];
     	this.setState( {'user' : u, 'repo' : r} );
     },
 
-    handleSubmit : function(e) {
+    handleSubmit: function(e) {
     	e.preventDefault();
-    	if(this.state.user && this.state.repo) {
+    	if (this.state.user && this.state.repo) {
     		this.props.onSubmit( this.state.user, this.state.repo, this.state.sha );
     	}
     	return false;

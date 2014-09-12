@@ -30,19 +30,25 @@ var CodeEditor = React.createClass({
 			this.props.onCursorChg(cursor);
 		}).bind(this);
 
-		adapter.onRender( this.onRender );
+		adapter.onRender(this.onRender);
 
-		this.setState({langs: adapter.getAllLangs()});
+		this.setState({
+			langs: adapter.getAllLangs()
+		});
 	},
 
 	onRender: function(firstRow, lastRow) {
 		var clientPos = {};
-		for(var key in this.state.cursors) {
+		for (var key in this.state.cursors) {
 			var cursor = this.state.cursors[key];
 
-			if(cursor[0] < firstRow && cursor[1] < firstRow) clientPos[key] = -1;
-			else if(cursor[0] > lastRow && cursor[1] > lastRow) clientPos[key] = 1;
-			else clientPos[key] = 0;
+			if (cursor[0] < firstRow && cursor[1] < firstRow) {
+				clientPos[key] = -1;
+			} else if (cursor[0] > lastRow && cursor[1] > lastRow) {
+				clientPos[key] = 1;
+			} else {
+				clientPos[key] = 0;
+			}
 		}
 		this.props.onCursorPos(clientPos);
 	},
@@ -61,13 +67,17 @@ var CodeEditor = React.createClass({
 
 	updateDoc: function(doc, filename) {
 		var lang = adapter.setDoc(doc, filename);
-		this.setState( {lang: lang} );
+		this.setState({
+			lang: lang
+		});
 		return lang;
 	},
 
 	updateLang: function(lang) {
 		adapter.setLang(lang);
-		this.setState( {lang: lang} );
+		this.setState({
+			lang: lang
+		});
 	},
 
     render: function() {

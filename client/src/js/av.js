@@ -8,7 +8,9 @@ function AV(transport, remoteVideo, localVideo) {
 	this.stream = null;
 	this.transport = transport;
 	this.peerConfig = {
-		iceServers: [{"url": "stun:stun.l.google.com:19302"}]
+		iceServers: [{
+			"url": "stun:stun.l.google.com:19302"
+		}]
 	};
 	this.peerConstraints = {};
 	this.remoteVideo = remoteVideo;
@@ -22,34 +24,36 @@ AV.prototype = {
 	onRTCMessage: function(data) {
 		var self = this;
 
-		if(data.type === 'offer') {
-			if(!self.pcIn) return;
+		if (data.type === 'offer') {
+			if (!self.pcIn) return;
 
 			self.pcIn.handleOffer(data.offer, function(err) {
 				console.log('Handle offer');
-				if(err) return;
+				if (err) return;
 
 				self.pcIn.answer(function(err, answer) {
-					if(!err) {
-						var msg = {
+					if (!err) {
+						self.transport.send('rtcMessage', {
 							to: data.from,
 							type: 'answer',
 							videoIn: true,
 							answer: answer
-						};
-						self.transport.send('rtcMessage', msg);
+						});
 					}
 				});
 			});
-		} else if(data.type === 'answer') {
-			if(!this.pcOut[data.from]) return;
+		} else if (data.type === 'answer') {
+			if (!this.pcOut[data.from]) return;
+
 			this.pcOut[data.from].handleAnswer(data.answer);
-		} else if(data.type === 'ice') {
-			if(!data.videoIn) {
-				if(!self.pcIn) return;
+		} else if (data.type === 'ice') {
+			if (!data.videoIn) {
+				if (!self.pcIn) return;
+
 				self.pcIn.processIce(data.candidate);
 			} else {
-				if(!this.pcOut[data.from]) return;
+				if (!this.pcOut[data.from]) return;
+
 				this.pcOut[data.from].processIce(data.candidate);
 			}
 		}
@@ -61,12 +65,16 @@ AV.prototype = {
 			if (err) {
 				var errStr = 'Your browser does not support video chat (get Chrome)';
 				if(err.name === 'PermissionDeniedError') {
-					errStr = 'You browser is blocking access to the camera and microphone (did you deny access earlier?)';
+					errStr = 'You browser is blocking access to the camera and ' +
+							 'microphone (did you deny access earlier?)';
 				}
 				cb(errStr);
 			} else {
 				self.stream = stream;
-				attachMediaStream(self.stream, document.getElementById(self.localVideo));
+				attachMediaStream(self.stream, document.getElementById(self.localVideo), {
+					muted: true,
+					mirror: true
+				});
 				self.transport.send('shareVideo', {});
 				cb(null);
 			}
@@ -74,7 +82,7 @@ AV.prototype = {
 	},
 
 	unshare: function() {
-		if(this.stream) {
+		if (this.stream) {
 			this.stream.stop();
 			this.transport.send('unshareVideo', {});
 			self.stream = null;
@@ -159,7 +167,7 @@ AV.prototype = {
 	},
 
 	unserve: function(clientId) {
-		if(this.pcOut[clientId]) {
+		if (this.pcOut[clientId]) {
 			this.pcOut[clientId].close();
 			delete this.pcOut[clientId];
 		}

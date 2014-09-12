@@ -11,24 +11,30 @@ var LangBox = React.createClass({
     },
 
     handleClick: function(e) {
-    	this.setState( {opened: !this.state.opened} );
+    	this.setState({
+            opened: !this.state.opened
+        });
     },
 
     itemClick: function(e) {
     	var lang = e.target.dataset.lang;
     	this.props.onChoseLang(lang);
-    	this.setState( {opened: false} );
+    	this.setState({
+            opened: false
+        });
     },
 
     hideMenu: function() {
-    	if(this.state.opened) {
-    		this.setState( {opened: false} );
+    	if (this.state.opened) {
+    		this.setState({
+                opened: false
+            });
     	}
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-    	if(this.state.opened) {
-    		if(this.refs.langPopup) {
+    	if (this.state.opened) {
+    		if (this.refs.langPopup) {
     			this.refs.langPopup.getDOMNode().focus();
     		}
     	}
@@ -38,10 +44,10 @@ var LangBox = React.createClass({
     render: function() {
     	var popupMenu = '';
 
-    	if(this.state.opened) {
-    		var nodes = this.props.langs.map( (function(e) {
+    	if (this.state.opened) {
+    		var nodes = this.props.langs.map((function(e) {
     			return <div className='langBoxItem' key={e} onClick={this.itemClick} data-lang={e}>{e}</div>
-    		}).bind(this) );
+    		}).bind(this));
     		popupMenu = (
     			<div className='langBoxPopup' tabIndex="0" onBlur={this.hideMenu} ref='langPopup'>
     			{nodes}

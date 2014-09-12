@@ -15,10 +15,12 @@ var Notification = React.createClass({
             return item.itemId? (elem.itemId !== item.itemId) : true;
         });
 
-        this.setState( {items: [item].concat(items)} );
+        this.setState({
+            items: [item].concat(items)
+        });
 
-        if(!item.keepAlive) {
-            setTimeout( (function() {
+        if (!item.keepAlive) {
+            setTimeout((function() {
                 this.clearItem(item);
             }).bind(this), this.state.displayTime);
         }
@@ -29,11 +31,13 @@ var Notification = React.createClass({
         var items = this.state.items.filter(function(elem) {
             return (elem !== item);
         });
-        this.setState( {items: items} );
+        this.setState({
+            items: items
+        });
     },
 
     render: function() {
-        items = this.state.items.map( function(item) {
+        items = this.state.items.map(function(item) {
             return (
                 <div className={item.type}>
                     {item.content}

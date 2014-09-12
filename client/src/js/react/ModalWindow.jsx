@@ -12,25 +12,29 @@ var ModalWindow = React.createClass({
 
     handleSuccess: function(e) {
         e.preventDefault();
-    	this.setState( {visible: false} );
+    	this.setState({
+            visible: false
+        });
     	this.props.onSuccess(this.state);
         return false;
     },
 
     onChange : function(e) {
-    	this.setState( {userName: e.target.value} );
+    	this.setState({
+            userName: e.target.value
+        });
     },
 
     render: function() {
-    	if(this.state.visible) {
+    	if (this.state.visible) {
 	        return (
                 <form className='modalContainer' onSubmit={this.handleSuccess}>
 					<div className='modalWindow'>
                         <div>Welcome!</div>
-                        <div style={ {float: 'right'} }>
+                        <div style={{float: 'right'}}>
                             <div>
                                 <label>Your name:</label>
-                                <input type='text' onChange={this.onChange} value={this.state.userName} placeholder={'Guest'} />
+                                <input type='text' onChange={this.onChange} value={this.state.userName} placeholder={'Guest'}/>
                             </div>
     						<div className='btn btn-success' onClick={this.handleSuccess}>Join</div>
                         </div>

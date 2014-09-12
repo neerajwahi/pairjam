@@ -8,7 +8,7 @@ var Video = React.createClass({
     },
 
     handleClick: function() {
-        if(this.props.videoStatus === 'off') {
+        if (this.props.videoStatus === 'off') {
             this.props.shareVideo();
         } else {
             this.props.unshareVideo();
@@ -22,9 +22,9 @@ var Video = React.createClass({
 
         var buttonClass = 'notInSession';
 
-        if(this.props.videoStatus !== 'off') {
+        if (this.props.videoStatus !== 'off') {
             buttonClass = 'inSession';
-            if(this.props.videoStatus === 'awaitingPermission') {
+            if (this.props.videoStatus === 'awaitingPermission') {
                 buttonClass = 'disabled';
             }
         }
@@ -34,7 +34,7 @@ var Video = React.createClass({
                 <div id='videoButton' className={buttonClass} onClick={this.handleClick}>
                     <img src='img/video-camera.svg' />
                 </div>
-                <video id='mainVideo' className={this.props.videoClientId ? 'showing' : ''}></video>
+                <video id='mainVideo' className={this.props.videoClientId? 'showing' : ''}></video>
                 <video id='localVideo' className={this.props.videoStatus === 'connecting' ? 'showing' : ''}></video>
             </div>
         );

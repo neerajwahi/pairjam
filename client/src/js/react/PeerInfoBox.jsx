@@ -11,9 +11,9 @@ var PeerInfoBox = React.createClass({
     },
 
     handleClick: function(clientId) {
-        if(!this.props.peers[clientId].videoStream) return;
+        if (!this.props.peers[clientId].videoStream) return;
 
-        if(this.props.videoClientId && this.props.videoClientId === clientId) {
+        if (this.props.videoClientId && this.props.videoClientId === clientId) {
             this.props.unsubscribeVideo(clientId);
         } else {
             this.props.subscribeVideo(clientId);
@@ -24,28 +24,30 @@ var PeerInfoBox = React.createClass({
         var classList = [], users = '';
         classList.push('userTag');
 
-        if(Object.keys(this.props.peers).length) {
+        if (Object.keys(this.props.peers).length) {
             var i = 1;
-            users = Object.keys(this.props.peers).map( (function(id) {
+            users = Object.keys(this.props.peers).map((function(id) {
                 var guestClass = this.props.peerColors[id];
                 var guestPos = this.state.peerPos[id];
-                if(guestPos && guestPos != 0) classList.push(guestPos < 0? 'userBehind' : 'userAhead');
+                if (guestPos && guestPos != 0) {
+                    classList.push(guestPos < 0? 'userBehind' : 'userAhead');
+                }
 
                 var peerStream = this.props.peers[id].videoStream, icons = '';
-                if(peerStream) {
+                if (peerStream) {
                     classList.push('streamable');
                     icons = (
-                        <img src={'img/video-camera' + (this.props.videoClientId === id? '_active' : '') + '.svg'} />
+                        <img src={'img/video-camera' + (this.props.videoClientId === id? '_active' : '') + '.svg'}/>
                     );
                 }
 
                 return (
                     <div className={classList.concat([guestClass]).join(' ')} onClick={this.handleClick.bind(null, id)}>
-                    {this.props.peers[id].name}
-                    {icons}
+                        {this.props.peers[id].name}
+                        {icons}
                     </div>
                 );
-            }).bind(this) );
+            }).bind(this));
         } else {
             classList.push('inactiveSession');
             users = (<div className={classList.join(' ')}>nobody :[</div>);

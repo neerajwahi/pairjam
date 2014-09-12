@@ -11,8 +11,7 @@ var MarkdownEditor = React.createClass({
 	
     render: function() {
         return (
-    		<div className='markdown'
-    			 dangerouslySetInnerHTML={{
+    		<div className='markdown' dangerouslySetInnerHTML={{
     			 	__html: markdown.toHTML(this.state.doc)
     			 }}>
     		</div>

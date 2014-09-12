@@ -11,8 +11,11 @@ var protocol = require('./protocol.js');
 
 // Constructor
 function App(sessionId, url) {
-	if(!sessionId) this.sessionId = this.createSessionId();
-	else this.sessionId = sessionId;
+	if (!sessionId) {
+		this.sessionId = this.createSessionId();
+	} else {
+		this.sessionId = sessionId;
+	}
 
 	this.client = new Client();
 	this.transport = new Transport(url, this.sessionId, 'Guest');
@@ -22,7 +25,10 @@ function App(sessionId, url) {
 				<UI handlers={this.createCallbacks(this.client, this.transport)}
 					clients={{}} />,
 					document.getElementById('appContainer'));
-	this.UI.setState( {av: new AV(this.transport, 'mainVideo', 'localVideo')} );
+
+	this.UI.setState({
+		av: new AV(this.transport, 'mainVideo', 'localVideo')
+	});
 }
 
 App.prototype = {
@@ -47,15 +53,19 @@ App.prototype = {
 		var _this = this;
 
 		this.client.sendOp = function(op) {
-			_this.transport.send('opText',	{'id' : this.clientId,
-											 'rev' : this.rev,
-											 'op' : op});
+			_this.transport.send('opText', {
+				'id' : this.clientId,
+				'rev' : this.rev,
+				'op' : op
+			});
 		};
 
 		this.client.sendCursor = function(cursor) {
-			_this.transport.send('opCursor', {'id' : this.clientId,
-											  'rev' : this.rev,
-											  'sel' : cursor });
+			_this.transport.send('opCursor', {
+				'id' : this.clientId,
+				'rev' : this.rev,
+				'sel' : cursor
+			});
 		};
 	},
 
@@ -74,12 +84,14 @@ App.prototype = {
 
 			// GitHub integration
 			onLoadFile: function(user, repo, sha, name, path) {
-				transport.send('reqDoc', {'id': client.clientId,
-										  'user': user,
-										  'repo': repo,
-										  'sha': sha,
-										  'filename': name,
-										  'filepath': path});
+				transport.send('reqDoc', {
+					'id': client.clientId,
+					'user': user,
+					'repo': repo,
+					'sha': sha,
+					'filename': name,
+					'filepath': path
+				});
 			},
 
 			onOpenFolder: function(user, repo, path, isOpen) {

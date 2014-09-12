@@ -42,12 +42,12 @@ var Tree = React.createClass({
         return {};
     },
 
-    handleClick : function(node) {
-        if( this.props.user && this.props.repo ) {
-            if( node.props.leaf ) {
-                this.props.onSelectFile( this.props.user, this.props.repo, node.props.sha, node.props.name, node.props.path );
+    handleClick: function(node) {
+        if (this.props.user && this.props.repo) {
+            if (node.props.leaf) {
+                this.props.onSelectFile(this.props.user, this.props.repo, node.props.sha, node.props.name, node.props.path);
             } else {
-                this.props.onToggleOpen( this.props.user, this.props.repo, node.props.path, !node.props.opened );
+                this.props.onToggleOpen(this.props.user, this.props.repo, node.props.path, !node.props.opened);
                 //TODO: Make this optimistic
                 //node.setState( {'opened' : !node.props.opened} );
             }
@@ -67,17 +67,17 @@ var Tree = React.createClass({
     },
 */
 
-    renderNode : function(node, isRoot) {
-        if(!node) return;
+    renderNode: function(node, isRoot) {
+        if (!node) return;
 
         var childNodes;
-        if(node.children && node.opened) {
-            childNodes = node.children.map( (function(node) {
+        if (node.children && node.opened) {
+            childNodes = node.children.map((function(node) {
                 return this.renderNode(node, false);
-            }).bind(this) );
+            }).bind(this));
         }
 
-        if(isRoot) {
+        if (isRoot) {
             return (
                 <div id="treeRoot">
                     {childNodes}

@@ -13,20 +13,24 @@ function Transport(url, sessionId, userName) {
 	//Connection retry parameters
 	this.retryTimeInitial = 2;
 	this.retryTime = this.retryTimeInitial;
-	this.retryNext = function(retryPrev) { return retryPrev * 2; };
+	this.retryNext = function(retryPrev) {
+		return retryPrev * 2;
+	};
 	this.retryWaited = 0;
 }
 
 Transport.prototype = {
-	connect : function() {
-		this.socket = new WebSocket(this.url);
+	connect: function() {
+		this.socket = new WebSocket(this.url + "/?join&" +
+									"sessionId=" + this.sessionId + "&" +
+									"name=" + this.userName);
 		var _this = this;
 
 		this.socket.onopen = function() {
 			_this.retryTime = _this.retryTimeInitial;
-			_this.send('join', {'sessionId' : _this.sessionId,
-								'name' : _this.userName});
-			if (_this.handlers.opened) _this.handlers.opened();
+			if (_this.handlers.opened) {
+				_this.handlers.opened();
+			}
 		};
 
 		this.socket.onmessage = function(e) {
@@ -56,24 +60,24 @@ Transport.prototype = {
 		};
 	},
 
-	send : function(fn, args, requireResponse) {
-		if(this.socket.readyState !== TRANSPORT_OPEN) {
+	send: function(fn, args, requireResponse) {
+		if (this.socket.readyState !== TRANSPORT_OPEN) {
 			console.log('Socket not open, readyState = ' + this.socket.readyState);
 			return;
 		}
 		this.socket.send(JSON.stringify({'fn': fn, 'args' : args}));
 	},
 
-	retry : function() {
+	retry: function() {
 		var retryFn = (function() {
-			if(this.retryWaited < this.retryTime) {
-				if(this.handlers.reconnecting) {
+			if (this.retryWaited < this.retryTime) {
+				if (this.handlers.reconnecting) {
 					this.handlers.reconnecting(this.retryTime - this.retryWaited);
 				}
 				this.retryWaited++;
 				setTimeout(retryFn, 1000);
 			} else {
-				if(this.handlers.reconnecting) {
+				if (this.handlers.reconnecting) {
 					this.handlers.reconnecting(0);
 				}
 				this.retryTime = this.retryNext(this.retryTime);
@@ -85,15 +89,15 @@ Transport.prototype = {
 		retryFn();
 	},
 
-	preProcess : function(data) {
+	preProcess: function(data) {
 		// Empty implementation
 	},
 
-	postProcess : function(data) {
+	postProcess: function(data) {
 		// Empty implementation
 	},
 
-	handlers : {
+	handlers: {
 		// Handlers for RPCs should be provided by the application
 	}
 };
