@@ -1,7 +1,13 @@
 @import 'header';
 @import 'menu';
 @import 'sidePane';
+@import 'react/tree';
+@import 'react/dockbar';
 @import 'react/modalWindow';
+
+* {
+    box-sizing: border-box;
+}
 
 body {
     overflow: hidden;
@@ -13,15 +19,28 @@ body {
 }
 
 /* General layout */
-#container {
+.container {
     position: absolute;
     margin: 0;
+    margin-left: 6px;
     padding: 0;
-    top: 35px;
-    left: 0px;
-    right: 0px;
+    top: 30px;
+    left: $sidePaneWidth;
+    right: 35%;
     bottom: 0px;
     background-color: $headerColor;
+}
+
+.rightContainer {
+    position: absolute;
+    margin: 0;
+    margin-left: 6px;
+    padding: 0;
+    top: 30px;
+    left: 65%;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgb(45,45,45);
 }
 
 .langBox {
@@ -75,17 +94,100 @@ body {
     }
 }
 
+/* tab bar */
+/* TODO: move to separate file */
+.tabBar {
+    padding: 0;
+    margin : 0;
+    position: absolute;
+    top: 0px;
+    height: 30px;
+    right: 0px;
+    left: 0;
+    background: $headerColor;
+    list-style-type: none;
+    display: block;
+    overflow: hidden;
+}
+
+.tabBar li {
+    float: left;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    max-width: 150px;
+    min-width: 20px;
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 10pt;
+
+    &:hover {
+        background: #555;
+        color: #ccc;
+    }
+
+    margin-top: 6px;
+    line-height: 24px;
+    background: #333;
+    color: #aaa;
+}
+
+.tabBar .active {
+    margin: 0;
+    line-height: 30px;
+    background: #555;
+    color: #ccc;
+}
+
+.tabBar .add {
+    float: right;
+    width: 35px;
+    text-align: center;
+    font-weight: bold;
+    margin: 0 2px;
+}
+
+.tabBar .tabTitle {
+    padding: 0 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.tabBar .tabClose {
+    float: right;
+    width: 16px;
+    text-align: center;
+    font-size: 8pt;
+
+    &:hover {
+        background: $failureColorHover;
+    }
+}
+
 /* code editor */
 #editor {
     margin : 0px;
+    padding: 5px;
     position: absolute;
-    top: 60px;
+    top: 30px;
     bottom: 0px;
     right: 0px;
-    left: $sidePaneWidth;
+    left: 0;
     font-family: 'Inconsolata', monospace;
     font-size: 10.5pt;
     visibility: hidden;
+}
+
+.markdown {
+    margin : 0px;
+    padding: 5px;
+    position: absolute;
+    top: 30px;
+    bottom: 0px;
+    right: 0px;
+    left: 0;
+    font-size: 10.5pt;
+    background: #fff;
+    overflow: auto;
 }
 
 $userColors: #56b, #933, #771;

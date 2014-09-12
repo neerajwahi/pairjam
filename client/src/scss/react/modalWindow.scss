@@ -20,6 +20,7 @@
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.5);
+    font-size: 14pt;
     z-index: 800;
 }
 
@@ -29,22 +30,27 @@
     top: 50%;
     left: 50%;
     margin-top: -100px;
-    margin-left: -200px;
+    margin-left: -150px;
     height: 100px;
     width: 300px;
-    background: #557;
+    background: none; /*#557;*/
     padding: 20px;
     border-radius: 5px;
     color: #eee;
     z-index: 1001;
 
     label {
-        margin-right: 10px;
+        float: left;
+        line-height: 30px;
+        padding: 10px 0;
+        margin-right: 20px;
     }
 
     .btn-success {
-        float: right;
+        margin: 0;
+        float: left;
         padding: 10px;
+        line-height: 30px;
         width: 80px;
         text-align: center;
         background-color: $successColor;
@@ -55,13 +61,44 @@
         }
     }
 
+    .signin {
+        width: 260px;
+        padding: 10px;
+        text-align: center;
+        background-color: $successColor;
+        &:hover {
+            cursor: pointer;
+            background-color: $successColorHover;
+        }
+    }
+
+    .signup {
+        width: 260px;
+        padding: 10px;
+        text-align: center;
+        background-color: $successColor;
+        &:hover {
+            cursor: pointer;
+            background-color: $successColorHover;
+        }
+    }
+
+    p {
+        display: block;
+        clear: both;
+        margin-top: 40px;
+    }
+
     input[type='text'] {
+        float: left;
+        margin: 0;
+        padding: 10px;
         width: 180px;
-        padding: 5px;
+        line-height: 30px;
         border: 0px;
         outline: none;
         font-family: 'Droid Sans', sans-serif;
-        font-size: 11pt;
+        font-size: 14pt;
         color: #333333;
     }
 }

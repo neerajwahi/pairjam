@@ -28,3 +28,10 @@ TODO (LATER)
 - Tabs?
 - Terminal?
 - Whiteboard?
+
+Feedback:
+keep it simple, I love it the way it is
+"patch" it'd be great to easily get the patch into a local branch. honestly, a curl/patch apply would be sufficient.
+jasonLaster • 2 hours ago  8
+
+Server crash: kernel panic - no killable processes

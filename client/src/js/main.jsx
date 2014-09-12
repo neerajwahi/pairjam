@@ -8,8 +8,14 @@ var main = (function() {
 	'use strict';
 
 	var session = location.hash.replace('#', '');
-	var url = 'ws://rt.pairjam.com';
+	if(session) {
+		window.addEventListener('hashchange', function() {
+			window.location.reload();
+		});
+	}
 
+	var url = 'ws://rt.pairjam.com';
+	
 	// @if NODE_ENV !== 'production'
 	url = 'ws://localhost:3001';
 	// @endif

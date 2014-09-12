@@ -9,9 +9,19 @@ var PeerInfoBox = require('./PeerInfoBox.jsx');
 var ModalWindow = require('./ModalWindow.jsx');
 var Logo = require('./Logo.jsx');
 var Video = require('./Video.jsx');
+var TabBar = require('./TabBar.jsx');
+var DockBar = require('./DockBar.jsx');
+
 var CodeEditor = require('./CodeEditor.jsx');
+var MarkdownEditor = require('./MarkdownEditor.jsx');
 
 //var AV = require('../AV.js');
+
+
+                            /*<Video videoStatus={this.state.videoStatus}
+                                   videoClientId={this.state.videoClientId}
+                                   shareVideo={this.shareVideo}
+                                   unshareVideo={this.unshareVideo} />*/
 
 var util = require('../util.js');
 var notice = require('../notifications.jsx');
@@ -98,6 +108,7 @@ var UI = React.createClass({
                 });
             }
         }
+        this.refs.markdown.setState({doc: doc});
     },
 
     updateClientPos: function(clientPos) {
@@ -220,10 +231,14 @@ var UI = React.createClass({
         }).bind(this));
     },
 
+    onDocChange: function(op) {
+        this.props.handlers.onDocChg(op);
+    },
+
     render: function() {
         return (
             <div>
-                <ModalWindow onSuccess={this.onEntrySuccess}/>
+                <ModalWindow onSuccess={this.onEntrySuccess} />
 
                 <div id="mainContainer" className={this.state.allowInteraction? '' : 'popupScreen'}>
                     <div id="menuContainer">
@@ -243,35 +258,45 @@ var UI = React.createClass({
                         </div>
                     </div>
 
-                    <div id="container">
-                        <div id="sidePane" className={this.state.videoClientId? 'videoStreaming' : ''}>
-                            <RepoSearch
-                              ref='repoBox'
-                              onSubmit={this.props.handlers.onLoadRepo} />
+                    <div id="sidePane" className={this.state.videoClientId? 'videoStreaming' : ''}>
+                        <RepoSearch
+                          ref='repoBox'
+                          onSubmit={this.props.handlers.onLoadRepo} />
 
-                            <Workspace ref='workspace'
-                                  user={this.state.user}
-                                  repo={this.state.repo}
-                                  data={this.state.tree}
-                                  branches={this.state.branches}
-                                  sha={this.state.sha}
-                                  onSelectFile={this.props.handlers.onLoadFile}
-                                  onToggleOpen={this.props.handlers.onOpenFolder}
-                                  onSelectBranch={this.props.handlers.onLoadRepo} />
+                        <Workspace ref='workspace'
+                              user={this.state.user}
+                              repo={this.state.repo}
+                              data={this.state.tree}
+                              branches={this.state.branches}
+                              sha={this.state.sha}
+                              onSelectFile={this.props.handlers.onLoadFile}
+                              onToggleOpen={this.props.handlers.onOpenFolder}
+                              onSelectBranch={this.props.handlers.onLoadRepo} />
 
-                            <Video videoStatus={this.state.videoStatus}
-                                   videoClientId={this.state.videoClientId}
-                                   shareVideo={this.shareVideo}
-                                   unshareVideo={this.unshareVideo} />
-                        </div>
+                        <Video videoStatus={this.state.videoStatus}
+                               videoClientId={this.state.videoClientId}
+                               shareVideo={this.shareVideo}
+                               unshareVideo={this.unshareVideo} />
+                    </div>
+                        
+                    <div className="container">
+                        <TabBar initialTabs={['Scratchpad', 'main.c', 'Solution.java', 'fml.hs']} />
 
                         <CodeEditor ref={'editor'}
                                     peers={this.props.clients}
                                     cursors={this.props.cursors}
                                     peerColors={this.state.clientColors}
-                                    onDocChg={this.props.handlers.onDocChg}
+                                    onDocChg={this.onDocChange}
                                     onCursorChg={this.props.handlers.onCursorChg}
                                     onCursorPos={this.updateClientPos} />
+                    </div>
+
+                    <div className="rightContainer">
+
+                        <TabBar initialTabs={['Terminal', 'Live Preview']} />
+
+                        <MarkdownEditor ref={'markdown'} />
+
                     </div>
                 </div>
             </div>
