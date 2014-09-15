@@ -1,5 +1,4 @@
 var github = require('./github.js');
-var util = require('./util.js');
 var logger = require('winston');
 
 // TODO: add validation!
@@ -36,10 +35,10 @@ module.exports = {
 		var repo = data.repo;
 		var sha = data.sha;
 
-		session.setWorkspaceAsync( user, repo, function(success, error) {
+		session.setWorkspaceAsync(user, repo, function(success, error) {
 			github.getBranches(user,repo, function(branches) {
 				github.getTree(user, repo, sha, function(tree) {
-					success( {
+					success({
 						'user' : data.user,
 						'repo' : data.repo,
 						'tree' : tree,
@@ -62,21 +61,23 @@ module.exports = {
 		var repo = data.repo;
 		var sha = data.sha;
 
-		session.setDocAsync( data.filename, data.filepath, function(success, error) {
+		session.setDocAsync(data.filename, data.filepath, function(success, error) {
 			github.getFile(user, repo, sha, function(file) {
-				util.clearKeyOnTree( session.workspace.tree, 'selected' );
-				util.setKeyOnTreePath( session.workspace.tree, data.filepath, 'selected', true );
-				success( file, data.filename, data.filepath );
+				success(file, data.filename, data.filepath);
 			},
 			function(err) {
-				error( err );
+				error(err);
 			});
 		});
 	},
 
-	// Set a folder open or closed
+	// Set a folder to open or closed
 	setWorkTreeState: function(session, clientId, data) {
-		util.setKeyOnTreePath( session.workspace.tree, data.path, 'opened', data.isopen );
 		session.setWorkTreeState(data.path, data.isopen);
+	},
+
+	// Create a patch file of project changes
+	createPatch: function(session, clientId, data) {
+		session.createPatch(clientId);
 	}
 };

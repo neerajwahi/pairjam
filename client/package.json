@@ -17,6 +17,7 @@
     "rtcpeerconnection": "~2.1.1",
     "webrtcsupport": "~0.7.3",
     "gulp-preprocess": "~1.0.1",
+    "markdown": "latest",
     "gulp-gh-pages": "latest"
   }
 }

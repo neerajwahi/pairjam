@@ -5,10 +5,10 @@
   "main": "app.js",
   "dependencies": {
     "github": "~0.1.14",
-    "sockjs": "~0.3.8",
-    "node-uuid": "~1.4.1",
     "winston": "~0.7.2",
-    "ws": "~0.4.31"
+    "ws": "~0.4.31",
+    "googlediff": "latest",
+    "diff": "~1.0.8"
   },
   "author": "Neeraj Wahi",
   "license": "MIT"

@@ -227,6 +227,10 @@
   position: relative;
   color: #bcf; }
 
+.modified {
+  position: relative;
+  background-color: #eee; }
+
 /* Side pane */
 #sidePane {
   margin: 0;
@@ -336,6 +340,10 @@
 .selected {
   position: relative;
   color: #bcf; }
+
+.modified {
+  position: relative;
+  background-color: #eee; }
 
 #dockBar {
   margin: 0;

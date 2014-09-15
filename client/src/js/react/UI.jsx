@@ -103,6 +103,7 @@ var UI = React.createClass({
                 var tree = this.state.tree;
                 util.clearKeyOnTree(tree, 'selected');
                 util.setKeyOnTreePath(tree, path, 'selected', true);
+                util.setKeyOnTreePath(tree, path, 'modified', true);
                 this.setState({
                     'tree': tree
                 });
@@ -235,9 +236,18 @@ var UI = React.createClass({
         this.props.handlers.onDocChg(op);
     },
 
+    createPatch: function() {
+        this.props.handlers.onRequestPatch();
+    },
+
     render: function() {
         return (
             <div>
+                <div style={{position: 'absolute', bottom: 0, right: 0, width: 100, height: 20, background: '#ffffff'}}
+                        onClick={this.createPatch} >
+                    Patch
+                </div>
+
                 <ModalWindow onSuccess={this.onEntrySuccess} />
 
                 <div id="mainContainer" className={this.state.allowInteraction? '' : 'popupScreen'}>
@@ -280,8 +290,6 @@ var UI = React.createClass({
                     </div>
                         
                     <div className="container">
-                        <TabBar initialTabs={['Scratchpad', 'main.c', 'Solution.java', 'fml.hs']} />
-
                         <CodeEditor ref={'editor'}
                                     peers={this.props.clients}
                                     cursors={this.props.cursors}
@@ -289,14 +297,6 @@ var UI = React.createClass({
                                     onDocChg={this.onDocChange}
                                     onCursorChg={this.props.handlers.onCursorChg}
                                     onCursorPos={this.updateClientPos} />
-                    </div>
-
-                    <div className="rightContainer">
-
-                        <TabBar initialTabs={['Terminal', 'Live Preview']} />
-
-                        <MarkdownEditor ref={'markdown'} />
-
                     </div>
                 </div>
             </div>
