@@ -2,22 +2,19 @@
 var React = require('react');
 
 // React UI components
-var Notification = require('./Notification.jsx');
 var Workspace = require('./Workspace.jsx');
 var RepoSearch = require('./RepoSearch.jsx');
-var PeerInfoBox = require('./PeerInfoBox.jsx');
 var ModalWindow = require('./ModalWindow.jsx');
-var Logo = require('./Logo.jsx');
 var Video = require('./Video.jsx');
 var TabBar = require('./TabBar.jsx');
-var DockBar = require('./DockBar.jsx');
+var DockContainer = require('./DockContainer.jsx');
+
+var IndicatorContainer = require('./IndicatorContainer.jsx');
 
 var CodeEditor = require('./CodeEditor.jsx');
 var MarkdownEditor = require('./MarkdownEditor.jsx');
 
 //var AV = require('../AV.js');
-
-
                             /*<Video videoStatus={this.state.videoStatus}
                                    videoClientId={this.state.videoClientId}
                                    shareVideo={this.shareVideo}
@@ -31,37 +28,39 @@ var notice = require('../notifications.jsx');
 // BUG: with 2+ ppl random dropped connections (is this a Chrome limit?)
 
 var UI = React.createClass({
-    getInitialState: function() {
-        return {
-            allowInteraction: false,
-            user: '',
-            repo: '',
-            tree: {},
-            branches: [],
-            clientColors: {},
-            colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10'],
-            videoStatus: 'off',
-            av: null
-        };
-    },
+	getInitialState: function() {
+		return {
+			allowInteraction: false,
+			user: '',
+			repo: '',
+			tree: {},
+			branches: [],
+			clientColors: {},
+			colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10'],
+			videoStatus: 'off',
+			av: null,
+			lightTheme: false,
+			notifications: []
+		};
+	},
 
-    componentWillReceiveProps: function(nextProps) {
-        // TODO: add all of the CSS color classes
-        // TODO: this is so ugly, find a better way
-        // Generate color classes
-        var clientColors = this.state.clientColors;
-        var colorPool = this.state.colorPool;
-        var changed = false;
+	componentWillReceiveProps: function(nextProps) {
+		// TODO: add all of the CSS color classes
+		// TODO: this is so ugly, find a better way
+		// Generate color classes
+		var clientColors = this.state.clientColors;
+		var colorPool = this.state.colorPool;
+		var changed = false;
 
-        var keys = Object.keys(nextProps.clients);
-        for (var i = 0; i < keys.length; i++) {
-            if (!clientColors[keys[i]]) {
-                // Add client
-                clientColors[keys[i]] = colorPool[0];
-                colorPool = colorPool.slice(1);
-                changed = true;
-            }
-        }
+		var keys = Object.keys(nextProps.clients);
+		for (var i = 0; i < keys.length; i++) {
+			if (!clientColors[keys[i]]) {
+				// Add client
+				clientColors[keys[i]] = colorPool[0];
+				colorPool = colorPool.slice(1);
+				changed = true;
+			}
+		}
         keys = Object.keys(clientColors);
         for (i = 0; i < keys.length; i++) {
             if (!nextProps.clients[keys[i]]) {
@@ -112,7 +111,7 @@ var UI = React.createClass({
     },
 
     updateClientPos: function(clientPos) {
-        this.refs.peerBox.setState({
+        this.refs.indicatorContainer.setState({
             peerPos: clientPos
         });
     },
@@ -137,7 +136,7 @@ var UI = React.createClass({
     },
 
     notify: function(notice) {
-        this.refs.notifications.addItem(notice);
+        this.refs.dockContainer.pushNotification(notice);
     },
 
     // Welcome modal window handler
@@ -178,8 +177,8 @@ var UI = React.createClass({
                 });
                 var msg = 'You are now sharing audio + video.';
                 this.notify({
-                    type: 'stateMsg', 
-                    itemId: 'video', 
+                    type: 'stateMsg',
+                    itemId: 'video',
                     content: msg
                 });
             }
@@ -235,60 +234,74 @@ var UI = React.createClass({
         this.props.handlers.onDocChg(op);
     },
 
+    changeTheme: function (checkboxValue) {
+    	this.setState({
+    		lightTheme: checkboxValue
+    	});
+    },
+
+    savePatch: function () {
+    	// do shit
+    },
+
     render: function() {
+        console.log(this.props.clients);
         return (
             <div>
                 <ModalWindow onSuccess={this.onEntrySuccess} />
 
-                <div id="mainContainer" className={this.state.allowInteraction? '' : 'popupScreen'}>
-                    <div id="menuContainer">
-                        <Logo />
-                        <div id="rightMenu">
-                            <ul>
-                                <li>
-                                    <PeerInfoBox ref='peerBox'
-                                                 peers={this.props.clients}
-                                                 peerColors={this.state.clientColors}
-                                                 videoClientId={this.state.videoClientId}
-                                                 subscribeVideo={this.subscribeVideo}
-                                                 unsubscribeVideo={this.unsubscribeVideo} />
-                                    <Notification ref='notifications' />
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
+                <div id="mainContainer" className={
+                	(this.state.allowInteraction ? '' : 'popupScreen') +
+                	(this.state.lightTheme ? ' lightTheme' : '')
+                }>
                     <div id="sidePane" className={this.state.videoClientId? 'videoStreaming' : ''}>
                         <RepoSearch
                           ref='repoBox'
                           onSubmit={this.props.handlers.onLoadRepo} />
 
                         <Workspace ref='workspace'
-                              user={this.state.user}
-                              repo={this.state.repo}
-                              data={this.state.tree}
-                              branches={this.state.branches}
-                              sha={this.state.sha}
-                              onSelectFile={this.props.handlers.onLoadFile}
-                              onToggleOpen={this.props.handlers.onOpenFolder}
-                              onSelectBranch={this.props.handlers.onLoadRepo} />
+							user={this.state.user}
+							repo={this.state.repo}
+							data={this.state.tree}
+							branches={this.state.branches}
+							sha={this.state.sha}
+							onSelectFile={this.props.handlers.onLoadFile}
+							onToggleOpen={this.props.handlers.onOpenFolder}
+							onSelectBranch={this.props.handlers.onLoadRepo} />
 
-                        <Video videoStatus={this.state.videoStatus}
-                               videoClientId={this.state.videoClientId}
-                               shareVideo={this.shareVideo}
-                               unshareVideo={this.unshareVideo} />
-                    </div>
-                        
-                    <div className="container">
-                        <TabBar initialTabs={['Scratchpad', 'main.c', 'Solution.java', 'fml.hs']} />
+                        <DockContainer ref='dockContainer'
+                        	lightTheme={this.state.lightTheme}
+                            changeTheme={this.changeTheme}
+                            savePatch={this.savePatch}
+							videoStatus={this.state.videoStatus}
+							audioStatus='TODO'
+							peers={this.props.clients}
+							peerColors={this.state.clientColors}
+							videoClientId={this.state.videoClientId}
+							shareVideo={this.shareVideo}
+							unshareVideo={this.unshareVideo}
+							subscribeVideo={this.subscribeVideo}
+							unsubscribeVideo={this.unsubscribeVideo}
+							peerColors={this.state.clientColors}
+    						notifications={this.state.notifications} />
+
+					</div>
+
+					<div className="editorContainer">
+						<TabBar initialTabs={['Scratchpad', 'main.c', 'Solution.java', 'fml.hs']} />
 
                         <CodeEditor ref={'editor'}
+                        			lightTheme={this.props.lightTheme}
                                     peers={this.props.clients}
                                     cursors={this.props.cursors}
                                     peerColors={this.state.clientColors}
                                     onDocChg={this.onDocChange}
                                     onCursorChg={this.props.handlers.onCursorChg}
                                     onCursorPos={this.updateClientPos} />
+
+						<IndicatorContainer ref='indicatorContainer'
+							peers={this.props.clients}
+						/>
                     </div>
 
                     <div className="rightContainer">

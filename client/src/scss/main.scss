@@ -1,5 +1,10 @@
+@import 'variables';
+@import 'custom_theme_light';
+@import 'custom_theme_dark';
 @import 'header';
 @import 'menu';
+@import 'dock';
+@import 'tabBar';
 @import 'sidePane';
 @import 'react/tree';
 @import 'react/dockbar';
@@ -9,34 +14,50 @@
     box-sizing: border-box;
 }
 
+html, body, #appContainer {
+    min-height: 100%;
+}
+
+html, body {
+    height: 100%;
+}
+
 body {
+    margin: 0;
     overflow: hidden;
-    font-family: 'Droid Sans', monospace;
-    font-size: 11pt;
+    font: 10pt 'Droid Sans', monospace;
     @include userSelect;
     @include borderBox;
-    background-color: $headerColor;
+}
+
+#appContainer {
+    background: $red;
+    position: relative;
+}
+
+#mainContainer {
+    margin-top: 2px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 /* General layout */
-.container {
+.editorContainer {
     position: absolute;
-    margin: 0;
-    margin-left: 6px;
-    padding: 0;
-    top: 30px;
+    top: 0;
     left: $sidePaneWidth;
-    right: 35%;
-    bottom: 0px;
-    background-color: $headerColor;
+    right: 0;
+    bottom: 0;
 }
 
 .rightContainer {
+    // TODO: Use this!
+    display: none;
     position: absolute;
-    margin: 0;
-    margin-left: 6px;
-    padding: 0;
-    top: 30px;
+    top: 0;
     left: 65%;
     right: 0px;
     bottom: 0px;
@@ -94,75 +115,6 @@ body {
     }
 }
 
-/* tab bar */
-/* TODO: move to separate file */
-.tabBar {
-    padding: 0;
-    margin : 0;
-    position: absolute;
-    top: 0px;
-    height: 30px;
-    right: 0px;
-    left: 0;
-    background: $headerColor;
-    list-style-type: none;
-    display: block;
-    overflow: hidden;
-}
-
-.tabBar li {
-    float: left;
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
-    max-width: 150px;
-    min-width: 20px;
-    font-family: 'Droid Sans', sans-serif;
-    font-size: 10pt;
-
-    &:hover {
-        background: #555;
-        color: #ccc;
-    }
-
-    margin-top: 6px;
-    line-height: 24px;
-    background: #333;
-    color: #aaa;
-}
-
-.tabBar .active {
-    margin: 0;
-    line-height: 30px;
-    background: #555;
-    color: #ccc;
-}
-
-.tabBar .add {
-    float: right;
-    width: 35px;
-    text-align: center;
-    font-weight: bold;
-    margin: 0 2px;
-}
-
-.tabBar .tabTitle {
-    padding: 0 4px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.tabBar .tabClose {
-    float: right;
-    width: 16px;
-    text-align: center;
-    font-size: 8pt;
-
-    &:hover {
-        background: $failureColorHover;
-    }
-}
-
 /* code editor */
 #editor {
     margin : 0px;
@@ -173,8 +125,12 @@ body {
     right: 0px;
     left: 0;
     font-family: 'Inconsolata', monospace;
-    font-size: 10.5pt;
+    font-size: 12pt;
     visibility: hidden;
+}
+
+.hidden + div #editor {
+    top: 0px;
 }
 
 .markdown {

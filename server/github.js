@@ -11,11 +11,13 @@ var github = new GitHubApi({
     timeout: 5000
 });
 
+/*
 github.authenticate({
     type: "oauth",
     key: gitCred.client_id,
     secret: gitCred.client_secret
 });
+*/
 
 module.exports = {
 	getTree: function(user, repo, sha, successCb, errorCb) {

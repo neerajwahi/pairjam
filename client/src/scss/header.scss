@@ -8,6 +8,44 @@
     src: url('../fonts/DroidSans.ttf');
 }
 
+@font-face {
+  font-family: 'icomoon';
+  src:url('../fonts/icomoon.eot?ow7zz4');
+  src:url('../fonts/icomoon.eot?#iefixow7zz4') format('embedded-opentype'),
+    url('../fonts/icomoon.woff?ow7zz4') format('woff'),
+    url('../fonts/icomoon.ttf?ow7zz4') format('truetype'),
+    url('../fonts/icomoon.svg?ow7zz4#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bell:before {
+  content: "\e600";
+}
+.icon-settings:before {
+  content: "\e603";
+}
+.icon-cam:before {
+  content: "\e604";
+}
+.icon-mic:before {
+  content: "\e605";
+}
+
 @mixin userSelect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -39,18 +77,6 @@
 
 /* Widths */
 $sidePaneWidth: 240px;
-
-/* Colors */
-$headerColor: rgb(39, 39, 39);
-
-$successColor: #60a060;
-$successColorHover: #38b368;
-
-$failureColor: #996666;
-$failureColorHover: #aa5555;
-
-$disabledColor: #444;
-$disabledColorHover: #444;
 
 /* Scroll bar */
 ::-webkit-scrollbar {

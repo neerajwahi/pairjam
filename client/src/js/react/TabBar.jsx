@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
+var Tab = require('./Tab.jsx')
 
 var TabBar = React.createClass({
     getInitialState: function() {
@@ -57,33 +58,28 @@ var TabBar = React.createClass({
     },
 
     render: function() {
-        var tabs = this.state.tabs.map((function(s, i) {
-            var isActive = false;
-            if (this.state.activeTab === i) isActive = true;
-
+        var stateTabs = this.state.tabs;
+        var hidden = stateTabs.length < 10;
+        var tabs = hidden ? [] : stateTabs.map((function(s, i) {
             return (
-                <li className={isActive? 'active' : ''}
-                    style={{width: this.state.tabWidth + '%'}}>
-                    <div className="tabClose"
-                         onClick={this.closeTab.bind(null, i)}
-                         onDoubleClick={this.closeTab.bind(null, i)}>
-                         {'\u2715'}
-                    </div>
-                    <div className="tabTitle"
-                         onClick={this.selectTab.bind(null, i)}
-                         onDoubleClick={this.selectTab.bind(null, i)}>
-                         {s}
-                    </div>
-                </li>
+                <Tab
+                    className={this.state.activeTab === i ? 'active' : ''}
+                    key={i}
+                    tabState={s}
+                    width={this.state.tabWidth}
+                    closeTab={this.closeTab}
+                    selectTab={this.selectTab}>
+                </Tab>
             );
         }).bind(this));
 
         return (
-            <div>
-                <ul className="tabBar" onMouseLeave={this.resizeTabs} onDoubleClick={this.newTab}>
-                    {tabs}
-                </ul>
-            </div>
+            <ul
+                className={(hidden ? 'hidden ' : '') + 'tabBar'}
+                onMouseLeave={this.resizeTabs}
+                onDoubleClick={this.newTab}>
+                {tabs}
+            </ul>
         );
     }
 });

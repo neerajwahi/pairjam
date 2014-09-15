@@ -1,61 +1,24 @@
 /* Menu bar */
 #menuContainer {
-    position:absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    background-color: $headerColor;
+    z-index: 10000;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    height: 60px;
+    width: 60px;
     margin: 0;
-    padding: 0;
-    font-size: 12pt;
-    font-weight: normal;
+    border-radius: 30px;
+    background-color: $green;
 
-    #logo {
+    li {
         float: left;
-        padding: 6px;
-        padding-left: 4px;
-        font-family: 'Inconsolata';
-        color: #ffffff;
-        text-decoration: none;
-
-        .slash {
-            color: #667796;
-        }
-    }
-
-    #rightMenu {
-        float: right;
+        display: none;
         margin: 0;
         padding: 0;
-        text-align: right;
-        color: #eeeeee;
-    }
-
-    ul {
-        margin: 0;
-        padding: 0;
+        font-family: 'Droid Sans', sans-serif;
+        font-size: 9.5pt;
         height: 100%;
-
-        li {
-            float: left;
-            display: block;
-            margin: 0;
-            padding: 0;
-            font-family: 'Droid Sans', sans-serif;
-            font-size: 9.5pt;
-            height: 100%;
-        }
     }
-}
-
-.menuButton {
-    float: left;
-    margin: 0;
-    padding: 0;
-    margin-right: 2px;
-    height: 30px;
-    line-height: 35px;
-    text-align: center;
 }
 
 .userTag {

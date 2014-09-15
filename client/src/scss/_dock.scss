@@ -1,0 +1,222 @@
+.dockContainer {
+	position: absolute;
+	bottom: 12px;
+	left: 0;
+	right: 0;
+	height: 60px;
+}
+
+.notification {
+	position: absolute;
+	z-index: 5;
+	top: 12px;
+	left: -100px;
+	height: 36px;
+	line-height: 36px;
+	padding-left: 1em;
+	padding-right: 2em;
+	text-align: center;
+	color: #aaa;
+	background: #606060;
+	white-space: nowrap;
+	overflow: hidden;
+	transition: left 0.6s, opacity 0.4s;
+	user-select: none;
+	opacity: 0;
+	border-top-right-radius: 18px;
+	border-bottom-right-radius: 18px;
+}
+
+.notification.active {
+	left: 241px;
+	opacity: 1;
+}
+
+.dock {
+	position: relative;
+	display: inline-block;
+	height: 100%;
+	width: 60px;
+	box-sizing: content-box;
+	vertical-align: middle;
+	background: #272727;
+	z-index: 7;
+
+	&.optionDock {
+		padding-left: 15px;
+		padding-right: 7px;
+		ul {
+			left: -3px;
+		}
+		button::before {
+			font-size: 24px;
+		}
+	}
+
+	&.videoDock {
+		padding: 0 8px;
+		button::before {
+			font-size: 18px;
+		}
+		ul {
+			left: -78px;
+		}
+	}
+
+	&.notificationDock {
+		padding-left: 7px;
+		padding-right: 15px;
+		button::before {
+			font-size: 24px;
+		}
+		&.unread button::after {
+			content: '';
+			position: absolute;
+			bottom: 14px;
+			right: 14px;
+			height: 8px;
+			width: 8px;
+			background: $red;
+			border-radius: 4px;
+		}
+		ul {
+			left: -153px;
+		}
+	}
+
+	button, .members {
+		position: absolute;
+	}
+
+	button {
+		position: relative;
+		height: 100%;
+		width: 100%;
+		border: 0;
+		outline: 0;
+		font-size: 12px;
+		background: transparent;
+		cursor: pointer;
+
+		&:active {
+			padding: 0
+		}
+
+		&::before {
+			color: #606060;
+		}
+	}
+
+	.members {
+		display: none;
+		bottom: 84px;
+		width: 216px;
+		color: #59606b;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: -18px;
+			left: 18px;
+			width: 0;
+			height: 0;
+			border-left: 12px solid transparent;
+			border-right: 12px solid transparent;
+			border-top: 18px solid #fafafa;
+		}
+	}
+
+	.open + .members {
+		display: block;
+	}
+
+	ul {
+		position: relative;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-radius: 12px;
+		overflow: hidden;
+	}
+
+	li {
+		height: 60px;
+		line-height: 60px;
+		padding-left: 1em;
+		border-top: 1px solid #fff;
+		border-bottom: 1px solid #ededed;
+		color: #59606b;
+		background: $offWhite;
+		box-sizing: border-box;
+		box-shadow: inset 0 0 96px white;
+
+		&:first-child {
+			border-top: 0;
+		}
+
+		&:last-child {
+			border-bottom: 0;
+		}
+
+		&:nth-child(n+3)::before {
+			content: '';
+			position: relative;
+			top: 2px;
+			height: 18px;
+			width: 18px;
+			margin-right: 1em;
+			border-radius: 12px;
+			display: inline-block;
+		}
+
+		@for $i from 3 through 5 {
+			&:nth-child(#{$i})::before {
+				background: nth($colors, $i - 1);
+			}
+		}
+	}
+
+	input[type="checkbox"] {
+		float: right;
+		appearance: none;
+		background-color: darken($offWhite, 2%);
+		margin: 14px 16px 0 0;
+		border: 1px solid $grey;
+		border-radius: 26px;
+		box-shadow: inset 0 0 0 1px $grey;
+		cursor: pointer;
+		height: 28px;
+		position: relative;
+		transition: border .25s .15s, box-shadow .25s .3s, padding .25s;
+		width: 44px;
+
+		&:after {
+			background-color: $offWhite;
+			border: 1px solid $grey;
+			border-radius: 24px;
+			box-shadow: inset 0 -3px 3px hsla(0,0%,0%,.025), 0 1px 4px hsla(0,0%,0%,.15), 0 4px 4px hsla(0,0%,0%,.1);
+			content: '';
+			display: block;
+			height: 24px;
+			left: 0;
+			position: absolute;
+			right: 16px;
+			top: 0;
+			transition: border .25s .15s, left .25s .1s, right .15s .175s;
+		}
+
+		&:checked {
+			border-color: $green;
+			box-shadow: inset 0 0 0 14px $green;
+			padding-left: 18px;
+			transition: border .25s, box-shadow .25s, padding .25s .15s;
+
+			&:after {
+				border-color: $green;
+				left: 16px;
+				right: 0;
+				transition: border .25s, left .15s .25s, right .25s .175s;
+			}
+		}
+	}
+}

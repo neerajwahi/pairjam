@@ -16,7 +16,7 @@ var CodeEditor = React.createClass({
 			cursors: []
 		}
 	},
-	
+
 	componentDidMount: function() {
 		adapter = new Adapter(ace, 'editor');
 
@@ -84,10 +84,10 @@ var CodeEditor = React.createClass({
         return (
         	<div>
         		<pre id='editor'></pre>
-                <LangBox ref={'lang'}
-             			 lang={this.state.lang}
-                    	 langs={this.state.langs} 
-                      	 onChoseLang={this.updateLang} />
+            <LangBox ref={'lang'}
+         			  lang={this.state.lang}
+                langs={this.state.langs}
+                onChoseLang={this.updateLang} />
 
         	</div>
         );
