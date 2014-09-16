@@ -30,10 +30,7 @@ var Video = React.createClass({
         }
 
         return (
-            <div>
-                <div id='videoButton' className={buttonClass} onClick={this.handleClick}>
-                    <img src='img/video-camera.svg' />
-                </div>
+            <div className='videoContainer'>
                 <video id='mainVideo' className={this.props.videoClientId? 'showing' : ''}></video>
                 <video id='localVideo' className={this.props.videoStatus === 'connecting' ? 'showing' : ''}></video>
             </div>

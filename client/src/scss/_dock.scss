@@ -48,28 +48,42 @@
 		ul {
 			left: -3px;
 		}
-		button::before {
+		& > button::before {
 			font-size: 24px;
 		}
 	}
 
 	&.videoDock {
 		padding: 0 8px;
-		button::before {
+		& > button::before {
 			font-size: 18px;
 		}
 		ul {
 			left: -78px;
 		}
+		li
+			&:nth-child(n + 3)::before {
+				content: '';
+				position: relative;
+				top: 2px;
+				height: 18px;
+				width: 18px;
+				margin-right: 1em;
+				border-radius: 12px;
+				display: inline-block;
+			}
+			.icon-cam {
+				font-size: 16px;
+			}
 	}
 
 	&.notificationDock {
 		padding-left: 7px;
 		padding-right: 15px;
-		button::before {
+		& > button::before {
 			font-size: 24px;
 		}
-		&.unread button::after {
+		&.unread > button::after {
 			content: '';
 			position: absolute;
 			bottom: 14px;
@@ -84,14 +98,9 @@
 		}
 	}
 
-	button, .members {
-		position: absolute;
-	}
-
 	button {
 		position: relative;
-		height: 100%;
-		width: 100%;
+		padding: 0;
 		border: 0;
 		outline: 0;
 		font-size: 12px;
@@ -107,9 +116,23 @@
 		}
 	}
 
+	& > button {
+		height: 100%;
+		width: 100%;
+	}
+
+	li button {
+		top: -8px;
+		line-height: 26px;
+		float: right;
+		padding-left: 18px;
+		font-size: 24px;
+	}
+
 	.members {
-		display: none;
+		position: absolute;
 		bottom: 84px;
+		display: none;
 		width: 216px;
 		color: #59606b;
 
@@ -132,22 +155,42 @@
 
 	ul {
 		position: relative;
+		max-height: 220px;
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		border-radius: 12px;
-		overflow: hidden;
+		overflow-y: auto;
+		overflow-x: hidden;
+		border-radius: 18px;
+
+		&::-webkit-scrollbar {
+		  width: 0;
+		  height: 0;
+		}
+
+		&::-webkit-scrollbar-track {
+		  background: rgba(0, 0, 0, 0);
+		}
+
+		&::-webkit-scrollbar-thumb {
+		  background: rgba(0, 0, 0, 0);
+		}
+
+		&::-webkit-scrollbar-resizer {
+		  background: rgba(0, 0, 0, 0);
+		}
+
+		&::-webkit-scrollbar-corner {
+		  background: rgba(0, 0, 0, 0);
+		}
 	}
 
 	li {
-		height: 60px;
-		line-height: 60px;
-		padding-left: 1em;
+		padding: 22px 1.4em;
 		border-top: 1px solid #fff;
 		border-bottom: 1px solid #ededed;
 		color: #59606b;
 		background: $offWhite;
-		box-sizing: border-box;
 		box-shadow: inset 0 0 96px white;
 
 		&:first-child {
@@ -157,30 +200,13 @@
 		&:last-child {
 			border-bottom: 0;
 		}
-
-		&:nth-child(n+3)::before {
-			content: '';
-			position: relative;
-			top: 2px;
-			height: 18px;
-			width: 18px;
-			margin-right: 1em;
-			border-radius: 12px;
-			display: inline-block;
-		}
-
-		@for $i from 3 through 5 {
-			&:nth-child(#{$i})::before {
-				background: nth($colors, $i - 1);
-			}
-		}
 	}
 
 	input[type="checkbox"] {
 		float: right;
 		appearance: none;
 		background-color: darken($offWhite, 2%);
-		margin: 14px 16px 0 0;
+		margin-top: -7px;
 		border: 1px solid $grey;
 		border-radius: 26px;
 		box-shadow: inset 0 0 0 1px $grey;

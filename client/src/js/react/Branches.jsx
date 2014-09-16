@@ -22,9 +22,9 @@ module.exports = React.createClass({
 	_renderBranch: function(branch) {
 		return <li>
 		<label
-		  onClick={this.handleClick}
-		  data-sha={branch.commit.sha}>
-		  {branch.name}
+			onClick={this.handleClick}
+			data-sha={branch.commit.sha}>
+			{branch.name}
 		</label>
 		</li>;
 	},

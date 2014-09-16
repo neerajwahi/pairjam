@@ -1,0 +1,114 @@
+.indicatorContainer {
+	position: absolute;
+	z-index: 100;
+	top: 0;
+	bottom: 0;
+	left: 780px;
+	width: 0;
+
+	.topIndicators {
+		top: 8px;
+
+		&::after {
+			border-bottom: 5px solid $offWhite;
+		}
+
+		li:hover {
+			&::before {
+				bottom: -12px;
+				border-bottom: 8px solid $offWhite;
+			}
+
+			&::after {
+				bottom: -42px;
+			}
+		}
+	}
+
+	.bottomIndicators {
+		bottom: 8px;
+
+		&::after {
+			border-top: 8px solid $offWhite;
+		}
+
+		li:hover {
+			&::before {
+				top: -12px;
+				border-top: 5px solid $offWhite;
+			}
+
+			&::after {
+				top: -42px;
+			}
+		}
+	}
+
+	ul {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			margin-top: -5px;
+			right: -30px;
+			width: 0;
+			height: 0;
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+		}
+	}
+
+	li {
+		position: relative;
+		display: inline-block;
+		height: 24px;
+		width: 24px;
+		border-radius: 12px;
+		margin-right: -12px;
+		transition: margin-right .25s;
+		// TODO: make scroll on click work
+		//cursor: pointer;
+
+		@for $i from 1 through 4 {
+			&:nth-child(#{$i}) {
+			  background: nth($colors, $i);
+			}
+		}
+
+		&:hover {
+			&::before {
+				content: '';
+				position: absolute;
+				left: 6px;
+				width: 0;
+				height: 0;
+				border-left: 6px solid transparent;
+				border-right: 6px solid transparent;
+			}
+			&::after {
+				content: attr(data-user);
+				position: absolute;
+				left: -36px;
+				display: inline-block;
+				height: 30px;
+				line-height: 30px;
+				width: 96px;
+				text-align: center;
+				color: #59606b;
+				background: $offWhite;
+				border-radius: 2px;
+			}
+		}
+	}
+
+	ul.multi:hover {
+	  li {
+	    margin-right: 9px;
+	  }
+	}
+}

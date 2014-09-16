@@ -25,7 +25,6 @@ module.exports = function(model, view) {
 		},
 
 		joined: function(data) {
-			console.log(data);
 			if (!data.client || !data.client.id) return;
 
 			model.addPeer(data.client);

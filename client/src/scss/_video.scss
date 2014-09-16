@@ -1,0 +1,36 @@
+.videoContainer {
+    position: absolute;
+    bottom: 72px;
+    left: 12px;
+    right: 12px;
+    height: 162px;
+}
+
+#mainVideo, #localVideo {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+#mainVideo.showing,
+#localVideo.showing {
+    display: block;
+}
+
+#mainVideo.showing + #localVideo.showing {
+    width: 33.333%;
+    height: 33.333%;
+}
+
+.videoStreaming {
+    #mainVideo {
+        display: block;
+    }
+
+    .treePane {
+        bottom: 72px + 162px;
+    }
+}

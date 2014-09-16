@@ -20,12 +20,17 @@ var OptionDock = React.createClass({
             </li>,
             <li key='gitPatch'>
                 Download Git patch
-                <input type="checkbox" value={this.props.audioStatus !== 'off'} onChange={this.handleAudioShare} />
+                <button className='icon-download' onClick={this.props.savePatch} />
             </li>
         ];
 
         return (
-            <Dock classList='optionDock' icon='icon-settings'>
+            <Dock
+                classList='optionDock'
+                icon='icon-settings'
+                openDock={this.props.openDock}
+                visibleDock={this.props.visibleDock}
+                name='option' >
                 {listItems}
             </Dock>
         );

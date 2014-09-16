@@ -102,12 +102,13 @@ var UI = React.createClass({
                 var tree = this.state.tree;
                 util.clearKeyOnTree(tree, 'selected');
                 util.setKeyOnTreePath(tree, path, 'selected', true);
+                util.setKeyOnTreePath(tree, path, 'modified', true);
                 this.setState({
                     'tree': tree
                 });
             }
         }
-        this.refs.markdown.setState({doc: doc});
+        //this.refs.markdown.setState({doc: doc});
     },
 
     updateClientPos: function(clientPos) {
@@ -240,12 +241,11 @@ var UI = React.createClass({
     	});
     },
 
-    savePatch: function () {
-    	// do shit
+    savePatch: function() {
+        this.props.handlers.onRequestPatch();
     },
 
     render: function() {
-        console.log(this.props.clients);
         return (
             <div>
                 <ModalWindow onSuccess={this.onEntrySuccess} />
@@ -260,14 +260,14 @@ var UI = React.createClass({
                           onSubmit={this.props.handlers.onLoadRepo} />
 
                         <Workspace ref='workspace'
-							user={this.state.user}
-							repo={this.state.repo}
-							data={this.state.tree}
-							branches={this.state.branches}
-							sha={this.state.sha}
-							onSelectFile={this.props.handlers.onLoadFile}
-							onToggleOpen={this.props.handlers.onOpenFolder}
-							onSelectBranch={this.props.handlers.onLoadRepo} />
+                            user={this.state.user}
+                            repo={this.state.repo}
+                            data={this.state.tree}
+                            branches={this.state.branches}
+                            sha={this.state.sha}
+                            onSelectFile={this.props.handlers.onLoadFile}
+                            onToggleOpen={this.props.handlers.onOpenFolder}
+                            onSelectBranch={this.props.handlers.onLoadRepo} />
 
                         <DockContainer ref='dockContainer'
                         	lightTheme={this.state.lightTheme}
@@ -282,14 +282,18 @@ var UI = React.createClass({
 							unshareVideo={this.unshareVideo}
 							subscribeVideo={this.subscribeVideo}
 							unsubscribeVideo={this.unsubscribeVideo}
-							peerColors={this.state.clientColors}
-    						notifications={this.state.notifications} />
+                            notifications={this.state.notifications} />
 
+                        {this.state.videoStatus !== 'off' ?
+                            <Video videoStatus={this.state.videoStatus}
+                                   videoClientId={this.state.videoClientId}
+                                   shareVideo={this.shareVideo}
+                                   unshareVideo={this.unshareVideo} /> : ''
+                        }
 					</div>
 
 					<div className="editorContainer">
-						<TabBar initialTabs={['Scratchpad', 'main.c', 'Solution.java', 'fml.hs']} />
-
+						<TabBar initialTabs={[]} />
                         <CodeEditor ref={'editor'}
                         			lightTheme={this.props.lightTheme}
                                     peers={this.props.clients}
@@ -301,15 +305,7 @@ var UI = React.createClass({
 
 						<IndicatorContainer ref='indicatorContainer'
 							peers={this.props.clients}
-						/>
-                    </div>
-
-                    <div className="rightContainer">
-
-                        <TabBar initialTabs={['Terminal', 'Live Preview']} />
-
-                        <MarkdownEditor ref={'markdown'} />
-
+                            peerColors={this.state.clientColors} />
                     </div>
                 </div>
             </div>

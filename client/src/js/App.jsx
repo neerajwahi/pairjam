@@ -117,7 +117,13 @@ App.prototype = {
 
 			onCursorChg: function(sel) {
 				client.applyInternalSel(sel);
-			}
+			},
+
+			onRequestPatch: function() {
+				transport.send('createPatch', {
+					'id': client.clientId
+				});
+			},
 		};
 	}
 };

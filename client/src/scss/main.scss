@@ -3,8 +3,10 @@
 @import 'custom_theme_dark';
 @import 'header';
 @import 'menu';
+@import 'video';
 @import 'dock';
 @import 'tabBar';
+@import 'indicators';
 @import 'sidePane';
 @import 'react/tree';
 @import 'react/dockbar';
@@ -12,6 +14,8 @@
 
 * {
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 html, body, #appContainer {
@@ -129,6 +133,10 @@ body {
     visibility: hidden;
 }
 
+.ace_line {
+    padding-left: 0.3em;
+}
+
 .hidden + div #editor {
     top: 0px;
 }
@@ -168,65 +176,6 @@ $userColors: #56b, #933, #771;
     z-index: 900;
     color: #fff;
     padding: 1px 3px 1px 3px;
-}
-
-#mainVideo, #localVideo {
-    margin: 0;
-    display: none;
-    position: absolute;
-    bottom: 60px;
-    left: 0px;
-    width: $sidePaneWidth;
-    height: $sidePaneWidth / 1.33;
-    font-size: 10pt;
-    text-align: center;
-    font-weight: normal;
-    background: #333;
-}
-
-#mainVideo.showing,
-#localVideo.showing {
-    display: block;
-}
-
-#mainVideo.showing + #localVideo.showing {
-    width: $sidePaneWidth / 3;
-    height: $sidePaneWidth / 1.33 / 3;
-    right: 0px;
-    left: inherit;
-}
-
-.videoStreaming {
-    #mainVideo {
-        display: block;
-    }
-
-    .treePane {
-        bottom: 60px + $sidePaneWidth / 1.33;
-    }
-}
-
-#videoButton {
-    margin: 0;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: $sidePaneWidth;
-    font-size: 10pt;
-    text-align: center;
-    font-weight: normal;
-    color: #dddddd;
-    height: 60px;
-    line-height: 25px;
-    @include buttonFade;
-}
-
-#videoButton img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 16px;
-    margin: -9px 0 0 -18px;
 }
 
 .disabled {

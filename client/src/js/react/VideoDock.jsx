@@ -62,7 +62,7 @@ var VideoDock = React.createClass({
             </li>
         );
 
-        listItems.concat(Object.keys(peers).map((function (id) {
+        Object.keys(peers).forEach((function (id) {
             var videoStatus = 'videoDisabled', audioStatus = 'audioDisabled';
             var color = this.props.peerColors[id];
             var videoStream = peers[id].videoStream;
@@ -71,17 +71,22 @@ var VideoDock = React.createClass({
                 videoStatus = this.props.videoClientId === id ? 'videoActive' : 'videoEnabled';
             }
 
-            return (
+            listItems.push(
                 <li key={'user ' + peers[id].name} data-color={color}>
                     {peers[id].name}
-                    <button className={audioStatus} onClick={this.handleAudioSubscribe.bind(null, id)}>A</button>
-                    <button className={videoStatus} onClick={this.handleVideoSubscribe.bind(null, id)}>V</button>
+                    <button className={'icon-mic ' + audioStatus} onClick={this.handleAudioSubscribe.bind(null, id)}></button>
+                    <button className={'icon-cam ' + videoStatus} onClick={this.handleVideoSubscribe.bind(null, id)}></button>
                 </li>
             );
-        }).bind(this)));
+        }).bind(this));
 
         return (
-            <Dock classList='videoDock' icon='icon-cam'>
+            <Dock
+                classList='videoDock'
+                icon='icon-cam'
+                openDock={this.props.openDock}
+                visibleDock={this.props.visibleDock}
+                name='video' >
                 {listItems}
             </Dock>
         );

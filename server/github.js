@@ -1,10 +1,12 @@
 var GitHubApi = require("github");
 var gitCred = require('./github_api_secret');
 var util = require('./util.js');
+var logger = require('winston');
 
 var github = new GitHubApi({
     // required
     version: "3.0.0",
+
     // optional
     debug: true,
     protocol: "https",
@@ -21,7 +23,6 @@ github.authenticate({
 
 module.exports = {
 	getTree: function(user, repo, sha, successCb, errorCb) {
-    console.log('sha', sha)
 		github.gitdata.getTree({
 		    user: user,
 		    repo: repo,
@@ -29,9 +30,11 @@ module.exports = {
 		    recursive: 1
 		}, function(err, res) {
 		    if(err) {
-		        console.error(err);
+		        logger.error(err);
                 var msg = 'Error loading GitHub repo';
-                if(err.code = 404) msg = 'GitHub repo ' + user + '/' + repo + ' does not exist';
+                if(err.code = 404) {
+                    msg = 'GitHub repo ' + user + '/' + repo + ' does not exist';
+                }
                 errorCb(msg);
 		    } else {
                 var tree = util.buildTree(res.tree);
@@ -42,24 +45,23 @@ module.exports = {
 		});
 	},
 
-  getBranches: function(user, repo, successCb, errorCb) {
-         github.repos.getBranches(
-            {
-                user: user,
-                repo: repo,
-            },
-            function(err, res) {
-                if(err) {
-                    console.error(err);
-                    var msg = 'Error loading GitHub repo';
-                    if(err.code = 404) msg = 'GitHub repo ' + user + '/' + repo + ' does not exist';
-                      errorCb(msg);
-                  } else {
-                        successCb(res);
+    getBranches: function(user, repo, successCb, errorCb) {
+        github.repos.getBranches({
+            user: user,
+            repo: repo,
+        }, function(err, res) {
+            if (err) {
+                logger.error(err);
+                var msg = 'Error loading GitHub repo';
+                if (err.code = 404) {
+                    msg = 'GitHub repo ' + user + '/' + repo + ' does not exist';
                 }
+                errorCb(msg);
+              } else {
+                successCb(res);
             }
-        );
-  },
+        });
+    },
 
 	getFile: function(user, repo, sha, successCb, errorCb) {
 		github.gitdata.getBlob({
@@ -67,16 +69,18 @@ module.exports = {
             repo: repo,
             sha: sha
         }, function(err, res) {
-            console.log(JSON.stringify(res));
-            if(!err) {
+            logger.log('debug', JSON.stringify(res));
+            if (!err) {
                 var b64contents = res.content;
                 var buf = new Buffer(b64contents, 'base64');
-                successCb( buf.toString('ascii') );
+                successCb(buf.toString('ascii'));
             } else {
-                console.error(err);
+                logger.error(err);
 
                 var msg = 'Error loading GitHub file';
-                if(err.code = 404) msg = 'File does not exist';
+                if (err.code = 404) {
+                    msg = 'File does not exist';
+                }
                 errorCb(msg);
             }
         });

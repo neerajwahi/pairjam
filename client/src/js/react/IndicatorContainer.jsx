@@ -13,34 +13,43 @@ var indicatorContainer = React.createClass({
 
     render: function() {
 		var topIndicators = [], bottomIndicators = [];
-		var peers = this.props.peers;
+        var peers = this.props.peers;
+        var peerColors = this.props.peerColors;
+        var peerPos = this.state.peerPos;
 
-		Object.keys(peers).forEach(function (id) {
-			var pos = this.state.peerPos[id];
+		Object.keys(peers).forEach(function(id) {
+			var pos = peerPos[id];
             if (pos) {
             	(pos < 0 ? topIndicators : bottomIndicators).push(
             		<Indicator
             			name={peers[id].name}
-            			color={this.props.peerColors[id]} />
+            			color={peerColors[id]} />
 				);
             }
         });
 
+        var topLength = topIndicators.length;
+        var bottomLength = bottomIndicators.length;
+
         return (
             <div className="indicatorContainer">
-            	<ul className="topIndicators">
-            		{topIndicators}
-            	</ul>
-            	<ul className="bottomIndicators">
-            		{bottomIndicators}
-            	</ul>
+                {topLength ?
+                    <ul className={'topIndicators' + (topLength !== 1 ? ' multi' : '')}>
+                        {topIndicators}
+                    </ul> : ''
+                }
+                {bottomLength ?
+                    <ul className={'bottomIndicators' + (bottomLength !== 1 ? ' multi' : '')}>
+                        {bottomIndicators}
+                    </ul> : ''
+                }
             </div>
         );
     }
 });
 
 var Indicator = React.createClass({
-    handleClick: function () {
+    handleClick: function() {
     	// TODO: Scroll to user
     },
 

@@ -20,21 +20,26 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-  font-family: 'icomoon';
+  font-family: 'icomoon', 'Droid Sans';
   speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-bell:before {
   content: "\e600";
+}
+.icon-download:before {
+  content: "\e601";
+}
+.icon-arrow-down:before {
+  content: "\e602";
+}
+.icon-arrow-up:before {
+  content: "\e606";
 }
 .icon-settings:before {
   content: "\e603";
@@ -85,17 +90,17 @@ $sidePaneWidth: 240px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar-resizer {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar-corner {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.1);
 }

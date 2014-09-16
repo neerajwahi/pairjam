@@ -17,11 +17,12 @@ var Node = React.createClass({
         var classList = [];
         if(!this.props.leaf) {
             classList.push('togglable');
-            if(this.state.opened) classList.push('togglable-down');
-            else classList.push('togglable-up');
+            if(this.state.opened) classList.push('icon-arrow-up');
+            else classList.push('icon-arrow-down');
         }
 
-        if(this.props.selected) classList.push('selected');
+        if (this.props.selected) classList.push('selected');
+        if (this.props.modified) classList.push('modified');
 
         return (
             <ul>
@@ -91,6 +92,7 @@ var Tree = React.createClass({
                   sha={node.sha}
                   opened={node.opened}
                   selected={node.selected}
+                  modified={node.modified}
                   leaf={node.children? false : true}
                   onClick={this.handleClick}>
                   {childNodes}

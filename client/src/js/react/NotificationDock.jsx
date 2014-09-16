@@ -12,7 +12,7 @@ var NotificationDock = React.createClass({
 		var listItems = notifications.map(function(notification, index) {
 			var color = peerColors[notification.id];
 			return (
-				<li key={index} data-color={color}>
+				<li key={index}>
 					{notification.content}
 				</li>
 			);
@@ -22,7 +22,10 @@ var NotificationDock = React.createClass({
 			<Dock
 				classList={'notificationDock' + (this.props.unreadCount ? ' unread' : '')}
 				icon='icon-bell'
-				action={this.props.clearUnread} >
+				action={this.props.clearUnread}
+				openDock={this.props.openDock}
+				visibleDock={this.props.visibleDock}
+				name='notification' >
 				{listItems}
 			</Dock>
 		);

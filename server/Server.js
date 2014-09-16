@@ -12,6 +12,20 @@ function isValidSession(sesId) {
     return true;
 };
 
+function parseQueryString(queryString) {
+    var params = {};
+ 
+    // Split into key/value pairs
+    var queries = queryString.split("&");
+ 
+    // Convert the array of strings into an object
+    for (var i = 0; i < queries.length; i++) {
+        var temp = queries[i].split('=');
+        params[temp[0]] = temp[1];
+    }
+    return params;
+};
+
 Server.prototype = {
 	start: function(transport) {
 		var _this = this;
@@ -20,44 +34,48 @@ Server.prototype = {
 			var clientId = 0;
 			var sessionId = 0;
 
-		    // TODO: I don't like the way sessionIds are being passed (how does it scale?)
-		    function join(args) {
+		    (function join(queryString) {
+		    	var args = parseQueryString(queryString);
+		    	console.log(queryString);
+		    	console.log(args);
+
+		    	// Bail if not a valid session
 		        if (!isValidSession(args.sessionId)) {
-		            console.error('Join message does not contain a valid sessionId');
-		        } else {
-		            if(!_this.sessions[args.sessionId]) {
-		                // Session does not exist, create it
-		                logger.log('debug', 'Creating new session, id = ' + args.sessionId);
-		                _this.sessions[args.sessionId] = new Session(args.sessionId);
-		            }
-
-		            sessionId = args.sessionId;
-		           	var session = _this.sessions[sessionId];
-		            clientId = session.addClient(socket, args.name);
-
-		            logger.log('debug', clientId + ' joined');
-		            logger.log('debug', 'Current clients:');
-		            logger.log('debug', session.clients);
+		            logger.error('Join message does not contain a valid sessionId');
+		            // TODO: add an error code
+		            socket.close();
+		            return;
 		        }
-		    }
+
+	            if (!_this.sessions[args.sessionId]) {
+	                // Session does not exist, create it
+	                logger.log('debug', 'Creating new session, id = ' + args.sessionId);
+	                _this.sessions[args.sessionId] = new Session(args.sessionId);
+	            }
+
+	            sessionId = args.sessionId;
+	           	var session = _this.sessions[sessionId];
+	            clientId = session.addClient(socket, args.name);
+
+	            logger.log('debug', clientId + ' joined');
+	            logger.log('debug', 'Current clients:');
+	            logger.log('debug', session.clients);
+		    })(socket.upgradeReq.url);
 
 		    socket.on('message', function(msg) {
-		        //logger.log('debug', msg );
-
+		    	// Make sure the message is JSON
 		        try {
 		            msg = JSON.parse(msg);
 		        } catch(e) {
-		            console.error('Received non-JSON message. Ignoring.');
+		            logger.error('Received non-JSON message. Ignoring.');
 		            return;
 		        }
 
 		        if (!msg.fn || !msg.args) {
-		            console.error('Invalid message received (must contain fn and args keys).');
-		        } else if( msg.fn === 'join' ) {
-		            join(msg.args);
+		            logger.error('Invalid message received (must contain fn and args keys).');
 		        } else {
 		            if( !rpc[msg.fn] ) {
-		                console.log('Invalid message. fn does not exist.');
+		                logger.error('Invalid message. fn does not exist.');
 		            } else {
 		                // TODO: sanitize args here
 		                if(sessionId) {
@@ -68,25 +86,24 @@ Server.prototype = {
 		    });
 
 		    socket.on('close', function() {
-		        if (sessionId) {
-		            // TODO: should we delete sessions right away? Or GC later?
-		            if(rpc.close) rpc.close(_this.sessions[sessionId], clientId);
+		        if (!sessionId) return;
 
-		            _this.sessions[sessionId].removeClient(clientId);
+	            // TODO: should we delete sessions right away? Or GC later?
+	            if (rpc.close) rpc.close(_this.sessions[sessionId], clientId);
 
-		        	logger.debug(clientId + ' left');
-		            logger.log('debug', 'Current clients:')
-		            logger.log('debug', _this.sessions[sessionId].clients);
+	            _this.sessions[sessionId].removeClient(clientId);
 
-		            if( !Object.keys(_this.sessions[sessionId].clients).length ) {
-		                delete _this.sessions[sessionId];
-		            }
-		        }
+	        	logger.log('debug', clientId + ' left');
+	            logger.log('debug', 'Current clients:')
+	            logger.log('debug', _this.sessions[sessionId].clients);
+
+	            if (!Object.keys(_this.sessions[sessionId].clients).length) {
+	                delete _this.sessions[sessionId];
+	            }
 		    });
 
 		});
 	}
 };
-
 
 module.exports = Server;
