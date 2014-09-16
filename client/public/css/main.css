@@ -557,7 +557,8 @@
     position: absolute;
     margin: 0;
     padding: 0;
-    list-style: none; }
+    list-style: none;
+    white-space: nowrap; }
     .indicatorContainer ul::after {
       content: '';
       position: absolute;
