@@ -7,8 +7,9 @@ var indicatorContainer = React.createClass({
         };
     },
 
-    handleClick: function () {
+    handleClick: function (cursor) {
     	// TODO: Scroll to user
+        this.props.scrollToCursor(cursor);
     },
 
     render: function() {
@@ -16,17 +17,19 @@ var indicatorContainer = React.createClass({
         var peers = this.props.peers;
         var peerColors = this.props.peerColors;
         var peerPos = this.state.peerPos;
+        var peerCursors = this.props.peerCursors;
 
-		Object.keys(peers).forEach(function(id) {
+		Object.keys(peers).forEach((function(id) {
 			var pos = peerPos[id];
             if (pos) {
             	(pos < 0 ? topIndicators : bottomIndicators).push(
             		<Indicator
             			name={peers[id].name}
-            			color={peerColors[id]} />
+            			color={peerColors[id]}
+                        handleClick={this.handleClick.bind(null, peerCursors[id])} />
 				);
             }
-        });
+        }).bind(this));
 
         var topLength = topIndicators.length;
         var bottomLength = bottomIndicators.length;
@@ -49,13 +52,11 @@ var indicatorContainer = React.createClass({
 });
 
 var Indicator = React.createClass({
-    handleClick: function() {
-    	// TODO: Scroll to user
-    },
-
     render: function() {
         return (
-        	<li data-user={this.props.name} data-color={this.props.color}></li>
+        	<li data-user={this.props.name}
+                data-color={this.props.color}
+                onClick={this.props.handleClick} ></li>
         );
     }
 });

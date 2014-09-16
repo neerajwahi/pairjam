@@ -11,11 +11,7 @@ var protocol = require('./protocol.js');
 
 // Constructor
 function App(sessionId, url) {
-	if (!sessionId) {
-		this.sessionId = this.createSessionId();
-	} else {
-		this.sessionId = sessionId;
-	}
+	this.sessionId = sessionId;
 
 	this.client = new Client();
 	this.transport = new Transport(url, this.sessionId, 'Guest');
@@ -32,19 +28,6 @@ function App(sessionId, url) {
 }
 
 App.prototype = {
-	createSessionId: function() {
-		var randomStr = "";
-		var len = 6;
-	    var tokens = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-	    for (var i = 0; i < len; i++) {
-	        randomStr += tokens.charAt(Math.floor(Math.random() * tokens.length));
-	    }
-
-	    window.location.hash = randomStr;
-	    return randomStr;
-	},
-
 	initTransport: function() {
 		this.transport.handlers = protocol(this.client, this.UI);
 	},

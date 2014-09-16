@@ -9,8 +9,6 @@ var Video = require('./Video.jsx');
 var TabBar = require('./TabBar.jsx');
 var DockContainer = require('./DockContainer.jsx');
 
-var IndicatorContainer = require('./IndicatorContainer.jsx');
-
 var CodeEditor = require('./CodeEditor.jsx');
 var MarkdownEditor = require('./MarkdownEditor.jsx');
 
@@ -25,7 +23,6 @@ var notice = require('../notifications.jsx');
 
 // TODO: remove unnecessary DIVs
 // TODO: speed up UI using shouldComponentRender
-// BUG: with 2+ ppl random dropped connections (is this a Chrome limit?)
 
 var UI = React.createClass({
 	getInitialState: function() {
@@ -109,12 +106,6 @@ var UI = React.createClass({
             }
         }
         //this.refs.markdown.setState({doc: doc});
-    },
-
-    updateClientPos: function(clientPos) {
-        this.refs.indicatorContainer.setState({
-            peerPos: clientPos
-        });
     },
 
     setWorkspace: function(workspace) {
@@ -300,12 +291,7 @@ var UI = React.createClass({
                                     cursors={this.props.cursors}
                                     peerColors={this.state.clientColors}
                                     onDocChg={this.onDocChange}
-                                    onCursorChg={this.props.handlers.onCursorChg}
-                                    onCursorPos={this.updateClientPos} />
-
-						<IndicatorContainer ref='indicatorContainer'
-							peers={this.props.clients}
-                            peerColors={this.state.clientColors} />
+                                    onCursorChg={this.props.handlers.onCursorChg} />
                     </div>
                 </div>
             </div>
