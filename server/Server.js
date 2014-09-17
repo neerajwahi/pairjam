@@ -21,7 +21,7 @@ function parseQueryString(queryString) {
     // Convert the array of strings into an object
     for (var i = 0; i < queries.length; i++) {
         var temp = queries[i].split('=');
-        params[temp[0]] = temp[1];
+        params[temp[0]] = decodeURIComponent(temp[1]);
     }
     return params;
 };
@@ -33,35 +33,32 @@ Server.prototype = {
 		transport.on('connection', function(socket) {
 			var clientId = 0;
 			var sessionId = 0;
+			var queryString = socket.upgradeReq.url;
+		    var args = parseQueryString(queryString);
 
-		    (function join(queryString) {
-		    	var args = parseQueryString(queryString);
-		    	console.log(queryString);
-		    	console.log(args);
+	    	// Bail if not a valid session
+	        if (!isValidSession(args.sessionId)) {
+	            logger.error('Join message does not contain a valid sessionId');
+	            // TODO: add an error code
+	            socket.close();
+	            return;
+	        }
 
-		    	// Bail if not a valid session
-		        if (!isValidSession(args.sessionId)) {
-		            logger.error('Join message does not contain a valid sessionId');
-		            // TODO: add an error code
-		            socket.close();
-		            return;
-		        }
+            if (!_this.sessions[args.sessionId]) {
+                // Session does not exist, create it
+                logger.log('debug', 'Creating new session, id = ' + args.sessionId);
+                _this.sessions[args.sessionId] = new Session(args.sessionId);
+            }
 
-	            if (!_this.sessions[args.sessionId]) {
-	                // Session does not exist, create it
-	                logger.log('debug', 'Creating new session, id = ' + args.sessionId);
-	                _this.sessions[args.sessionId] = new Session(args.sessionId);
-	            }
+            sessionId = args.sessionId;
+           	var session = _this.sessions[sessionId];
+            clientId = session.addClient(socket, args.name);
 
-	            sessionId = args.sessionId;
-	           	var session = _this.sessions[sessionId];
-	            clientId = session.addClient(socket, args.name);
+            logger.log('debug', clientId + ' joined');
+            logger.log('debug', 'Current clients:');
+            logger.log('debug', session.clients);
 
-	            logger.log('debug', clientId + ' joined');
-	            logger.log('debug', 'Current clients:');
-	            logger.log('debug', session.clients);
-		    })(socket.upgradeReq.url);
-
+            // Received a message
 		    socket.on('message', function(msg) {
 		    	// Make sure the message is JSON
 		        try {
@@ -85,6 +82,7 @@ Server.prototype = {
 		        }
 		    });
 
+		    // Socket closed
 		    socket.on('close', function() {
 		        if (!sessionId) return;
 

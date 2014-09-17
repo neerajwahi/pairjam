@@ -86,6 +86,10 @@ module.exports = function(model, view) {
 			view.updateCursors(model.clientCursors);
 		},
 
+		setLang: function(data) {
+			view.setLang(data.client.name, data.lang);
+		},
+
 		setWorkspace: function(data) {
 			var tree = data.tree || {};
 			var branches = data.branches || [];
@@ -185,5 +189,14 @@ module.exports = function(model, view) {
 				view.state.av.onRTCMessage(data);
 			}
 		},
+
+		patchFile: function(data) {
+			var uri = "data:application/text," +
+						encodeURIComponent(data);
+			var link = document.createElement("a");
+			link.download = "patch";
+			link.href = uri;
+			link.click();
+		}
 	};
 };

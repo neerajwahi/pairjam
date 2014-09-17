@@ -78,8 +78,15 @@ module.exports = {
 		};
 	},
 
+	langChanged: function(clientName, lang) {
+		return {
+			type: 'stateMsg',
+			content: clientName + ' changed the language to ' + lang
+		};
+	},
+
 	begForFeedback: function() {
-		var msg = 'Do you have a second to provide your feedback on pair/jam?';
+		var msg = 'Do you have a second to provide your feedback on Pairjam?';
 		var content = (
 			<div>
 				{msg}<br/>

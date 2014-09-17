@@ -23,7 +23,7 @@ Transport.prototype = {
 	connect: function() {
 		this.socket = new WebSocket(this.url + "/?join&" +
 									"sessionId=" + this.sessionId + "&" +
-									"name=" + this.userName);
+									"name=" + encodeURIComponent(this.userName));
 		var _this = this;
 
 		this.socket.onopen = function() {

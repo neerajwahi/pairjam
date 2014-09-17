@@ -59,22 +59,30 @@ AV.prototype = {
 		}
 	},
 
-	share: function(cb) {
+	share: function(includeVideo, cb) {
 		var self = this;
-		getUserMedia(function (err, stream) {
+		getUserMedia({
+			video: includeVideo,
+			audio: true
+		}, function (err, stream) {
 			if (err) {
-				var errStr = 'Your browser does not support video chat (get Chrome)';
+				var errStr = 'Your browser does not support WebRTC (get Chrome)';
 				if(err.name === 'PermissionDeniedError') {
-					errStr = 'You browser is blocking access to the camera and ' +
+					errStr = 'You browser is blocking access to the camera and/or ' +
 							 'microphone (did you deny access earlier?)';
 				}
 				cb(errStr);
 			} else {
 				self.stream = stream;
-				attachMediaStream(self.stream, document.getElementById(self.localVideo), {
-					muted: true,
-					mirror: true
-				});
+
+				// Show a local video stream
+				if (includeVideo) {
+					attachMediaStream(self.stream, document.getElementById(self.localVideo), {
+						muted: true,
+						mirror: true
+					});
+				}
+
 				self.transport.send('shareVideo', {});
 				cb(null);
 			}
@@ -111,23 +119,26 @@ AV.prototype = {
 			};
 			self.transport.send('rtcMessage', msg);
 		});
+
 		// Remote stream added
 		pc.on('addStream', function(e) {
 			console.log('stream added');
 			var videoEl = attachMediaStream(e.stream, document.getElementById(self.remoteVideo));
 			cb(null);
 		});
+
 		// Remote stream removed
 		pc.on('removeStream', function(stream) {
 			console.log('stream removed');
 		});
+
 		pc.on('error', function(err) {
 			cb(err);
 		});
 	},
 
 	unsubscribe: function(clientId, cb) {
-		if(self.pcIn) {
+		if (self.pcIn) {
 			self.pcIn.close();
 			self.pcIn = null;
 		}

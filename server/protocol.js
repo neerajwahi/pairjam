@@ -76,6 +76,10 @@ module.exports = {
 		session.setWorkTreeState(data.path, data.isopen);
 	},
 
+	setLang: function(session, clientId, data) {
+		session.setLang(clientId, data.lang);
+	},
+
 	// Create a patch file of project changes
 	createPatch: function(session, clientId, data) {
 		session.createPatch(clientId);

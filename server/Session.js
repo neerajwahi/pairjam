@@ -250,21 +250,19 @@ Session.prototype = {
 		this.send(client, 'rtcMessage', data);
 	},
 
+	setLang: function(clientId, lang) {
+		this.sendAll('setLang', {
+			'client': this.clients[clientId],
+			'lang': lang
+		});
+	},
+
 	// Create a patchfile
 	createPatch: function(clientId) {
 		var patchText = '';
 		Object.keys(this.doc).forEach((function(docId) {
 			if (docId == 0) return;
-			//var patch = dmp.patch_make(this.doc[docId].origText, this.doc[docId].text);
 			patchText += jsdiff.createPatch(this.doc[docId].filepath, this.doc[docId].origText, this.doc[docId].text);
-			/*
-			patchText += 	'diff --git' +
-							' a/' + this.doc[docId].filepath +
-							' b/' + this.doc[docId].filepath + '\n' +
-							'--- a/' + this.doc[docId].filepath + '\n' +
-							'+++ b/' + this.doc[docId].filepath + '\n' +
-							dmp.patch_toText(patch) + '\n';
-			*/
 		}).bind(this));
 
 		this.send(this.clients[clientId], 'patchFile', patchText);

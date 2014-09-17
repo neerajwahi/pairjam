@@ -78,7 +78,7 @@ var CodeEditor = React.createClass({
 		return lang;
 	},
 
-	updateLang: function(lang) {
+	setLang: function(lang) {
 		adapter.setLang(lang);
 		this.setState({
 			lang: lang
@@ -97,7 +97,7 @@ var CodeEditor = React.createClass({
 				<LangBox ref={'lang'}
 						lang={this.state.lang}
 						langs={this.state.langs}
-						onChoseLang={this.updateLang} />
+						onChoseLang={this.props.updateLang} />
 
 				<IndicatorContainer ref='indicatorContainer'
 					peers={this.props.peers}

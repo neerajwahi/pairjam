@@ -68,28 +68,28 @@ App.prototype = {
 			// GitHub integration
 			onLoadFile: function(user, repo, sha, name, path) {
 				transport.send('reqDoc', {
-					'id': client.clientId,
-					'user': user,
-					'repo': repo,
-					'sha': sha,
-					'filename': name,
-					'filepath': path
+					id: client.clientId,
+					user: user,
+					repo: repo,
+					sha: sha,
+					filename: name,
+					filepath: path
 				});
 			},
 
 			onOpenFolder: function(user, repo, path, isOpen) {
 				transport.send('setWorkTreeState', {
-					'path': path,
-					'isopen': isOpen
+					path: path,
+					isopen: isOpen
 				});
 			},
 
 			onLoadRepo: function(user, repo, sha) {
 				transport.send('reqWorkspace', {
-					'id': client.clientId,
-					'user': user,
-					'repo': repo,
-					'sha': sha
+					id: client.clientId,
+					user: user,
+					repo: repo,
+					sha: sha
 				});
 			},
 
@@ -102,9 +102,16 @@ App.prototype = {
 				client.applyInternalSel(sel);
 			},
 
+			onLangChg: function(lang) {
+				transport.send('setLang', {
+					id: client.clientId,
+					lang: lang
+				});
+			},
+
 			onRequestPatch: function() {
 				transport.send('createPatch', {
-					'id': client.clientId
+					id: client.clientId
 				});
 			},
 		};

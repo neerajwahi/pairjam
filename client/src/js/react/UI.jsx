@@ -127,6 +127,11 @@ var UI = React.createClass({
         }
     },
 
+    setLang: function(clientName, lang) {
+        this.refs.editor.setLang(lang);
+        this.notify(notice.langChanged(clientName, lang));
+    },
+
     notify: function(notice) {
         this.refs.dockContainer.pushNotification(notice);
     },
@@ -144,7 +149,7 @@ var UI = React.createClass({
             videoStatus: 'awaitingPermission'
         });
 
-        var msg = '\u25b2 Allow pair/jam access to your camera and microphone';
+        var msg = '\u25b2 Allow Pairjam access to your camera and microphone';
         this.notify({
             type: 'joinMsg',
             itemId: 'video',
@@ -152,7 +157,7 @@ var UI = React.createClass({
             keepAlive: true
         });
 
-        this.state.av.share((function(err) {
+        this.state.av.share(true, (function(err) {
             if (err) {
                 this.setState({
                     videoStatus: 'off'
@@ -233,6 +238,7 @@ var UI = React.createClass({
     },
 
     savePatch: function() {
+        console.log('saving patch');
         this.props.handlers.onRequestPatch();
     },
 
@@ -291,7 +297,8 @@ var UI = React.createClass({
                                     cursors={this.props.cursors}
                                     peerColors={this.state.clientColors}
                                     onDocChg={this.onDocChange}
-                                    onCursorChg={this.props.handlers.onCursorChg} />
+                                    onCursorChg={this.props.handlers.onCursorChg}
+                                    updateLang={this.props.handlers.onLangChg} />
                     </div>
                 </div>
             </div>
