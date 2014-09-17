@@ -60,9 +60,9 @@
 }
 
 @mixin buttonFade {
-    transition: background .15s ease-in-out;
-    -moz-transition: background .15s ease-in-out;
-    -webkit-transition: background .15s ease-in-out;
+    transition: background .05s;
+    -moz-transition: background .05s;
+    -webkit-transition: background .05s;
 }
 
 @mixin blurEffect {

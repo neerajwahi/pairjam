@@ -1,6 +1,5 @@
 var React = require('react');
 var Dock = require('./Dock.jsx');
-var Notification = require('./Notification.jsx');
 
 var VideoDock = React.createClass({
     getInitialState: function() {

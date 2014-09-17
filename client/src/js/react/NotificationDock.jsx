@@ -3,16 +3,15 @@ var Dock = require('./Dock.jsx');
 
 var NotificationDock = React.createClass({
 	getInitialState: function () {
-		return {};
+		return {a: <li>hello</li>};
 	},
 
 	render: function() {
-		var notifications = this.props.notifications;
 		var peerColors = this.props.peerColors;
-		var listItems = notifications.map(function(notification, index) {
+		var listItems = this.props.notifications.map(function(notification, index) {
 			var color = peerColors[notification.id];
 			return (
-				<li key={index}>
+				<li key={notification.key}>
 					{notification.content}
 				</li>
 			);

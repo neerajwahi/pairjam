@@ -1,0 +1,76 @@
+#mainContainer.lightTheme {
+	#sidePane {
+		background: #e6e9f0;
+
+		.repoSearchBox {
+			input {
+				color: #eff1f5;
+
+				&::-webkit-input-placeholder {
+				  color: #eff1f5;
+				}
+
+				&::-moz-placeholder {
+				  color: #eff1f5;
+				}
+
+				&:-ms-input-placeholder {
+				  color: #eff1f5;
+				}
+
+				&::placeholder {
+					color: #eff1f5;
+				}
+			}
+			background: #aaacb3;
+		}
+
+		.modified::after {
+			background: $blue;
+		}
+	}
+
+	.dock {
+		background: #e6e9f0;
+
+
+		button::before {
+			color: #aaacb3;
+		}
+
+		&.notificationDock.unread > button::after {
+			background: $blue;
+		}
+
+		.members {
+			&::before {
+				box-shadow: 0 0 24px 8px rgba(89, 96, 107, 0.4);
+			}
+			&::after {
+				border-top: 18px solid #f8f9fb;
+			}
+			ul {
+				box-shadow: 0 0 12px rgba(89, 96, 107, 0.4);
+			}
+			li {
+				background: #eff1f5;
+				border-top-color: #eff1f5 - #070707;
+				border-bottom-color: #eff1f5 + #aaa;
+			}
+		}
+	}
+
+	.ace_editor .ace_gutter {
+		border-color: #eff1f5;
+	}
+
+	.langBox, .langBoxPopup {
+		background: #aaacb3;
+	}
+	.langBox, .langBoxItem {
+		&:hover {
+			background: #9a9ca3;
+		}
+	}
+
+}
