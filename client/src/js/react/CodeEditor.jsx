@@ -80,18 +80,22 @@ var CodeEditor = React.createClass({
 		});
 	},
 
-    render: function() {
-        return (
-        	<div>
-        		<pre id='editor'></pre>
-            <LangBox ref={'lang'}
-         			  lang={this.state.lang}
-                langs={this.state.langs}
-                onChoseLang={this.updateLang} />
+	setTheme: function(theme) {
+		adapter.setTheme(theme);
+	},
 
-        	</div>
-        );
-    }
+  render: function() {
+      return (
+      	<div>
+      		<pre id='editor'></pre>
+          <LangBox ref={'lang'}
+       			  lang={this.state.lang}
+              langs={this.state.langs}
+              onChoseLang={this.updateLang} />
+
+      	</div>
+      );
+  }
 });
 
 module.exports = CodeEditor;

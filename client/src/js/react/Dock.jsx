@@ -6,6 +6,15 @@ var Dock = React.createClass({
 		return {};
 	},
 
+	/*componentDidMount: function() {
+		var checkboxes = this.props.children;
+		console.log(checkboxes);
+		//.querySelectorAll('input[type=checkbox]');
+		[].forEach.call(checkboxes, function(box) {
+			var switchery = new Switchery(box, {color: '#72d572'});
+		});
+	},*/
+
 	handleClick: function () {
 		this.props.openDock(this.props.name);
 		if (this.props.action) this.props.action();

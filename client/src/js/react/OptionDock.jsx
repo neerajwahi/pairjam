@@ -3,12 +3,13 @@ var Dock = require('./Dock.jsx');
 
 var OptionDock = React.createClass({
     getInitialState: function() {
-        return {
-        };
+        return {};
     },
 
     handleThemeChange: function (event) {
-        this.props.changeTheme(event.target.value);
+        console.log('clicked');
+        this.props.changeTheme(event.target.checked);
+
     },
 
     render: function() {
@@ -16,7 +17,7 @@ var OptionDock = React.createClass({
         var listItems = [
             <li key='lightTheme'>
                 Light theme?
-                <input type="checkbox" value={this.props.lightTheme} onChange={this.handleThemeChange} />
+                <input type="checkbox" /*checked={this.props.lightTheme}*/ onChange={this.handleThemeChange} />
             </li>,
             <li key='gitPatch'>
                 Download Git patch

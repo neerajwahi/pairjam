@@ -1,6 +1,9 @@
 /** @jsx React.DOM */
 var React = require('react');
 
+// External libraries
+var Switchery = require('../../../bower_components/switchery/switchery.js');
+
 // React UI components
 var Workspace = require('./Workspace.jsx');
 var RepoSearch = require('./RepoSearch.jsx');
@@ -236,9 +239,10 @@ var UI = React.createClass({
     },
 
     changeTheme: function (checkboxValue) {
-    	this.setState({
-    		lightTheme: checkboxValue
-    	});
+        this.refs.editor.setTheme('ace/theme/' + (checkboxValue ? 'spacegray' : 'tomorrow_night_eighties'));
+        this.setState({
+            lightTheme: checkboxValue
+        });
     },
 
     savePatch: function() {
@@ -295,7 +299,7 @@ var UI = React.createClass({
 					<div className="editorContainer">
 						<TabBar initialTabs={[]} />
                         <CodeEditor ref={'editor'}
-                        			lightTheme={this.props.lightTheme}
+                        			lightTheme={this.state.lightTheme}
                                     peers={this.props.clients}
                                     cursors={this.props.cursors}
                                     peerColors={this.state.clientColors}

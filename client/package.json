@@ -20,5 +20,9 @@
     "gulp-preprocess": "~1.0.1",
     "gulp-gh-pages": "latest",
     "react-draggable": "~0.2.1"
+  },
+  "dependencies": {
+    "transitionize": "0.0.3",
+    "fastclick": "~1.0.3"
   }
 }

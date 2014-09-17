@@ -8,6 +8,7 @@
 @import 'tabBar';
 @import 'indicators';
 @import 'sidePane';
+@import 'switchery';
 @import 'react/tree';
 @import 'react/dockbar';
 @import 'react/modalWindow';
@@ -121,6 +122,7 @@ body {
 
 /* code editor */
 #editor {
+    // font size set in AceAdapter.js
     margin : 0px;
     padding: 5px;
     position: absolute;
@@ -129,12 +131,7 @@ body {
     right: 0px;
     left: 0;
     font-family: 'Inconsolata', monospace;
-    font-size: 12pt;
     visibility: hidden;
-}
-
-.ace_line {
-    padding-left: 0.3em;
 }
 
 .hidden + div #editor {

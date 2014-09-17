@@ -311,8 +311,15 @@
     top: -8px;
     line-height: 26px;
     float: right;
-    padding-left: 18px;
+    margin-bottom: -1em;
+    margin-left: 18px;
     font-size: 24px; }
+  .dock .videoUser {
+    display: inline-block;
+    float: left;
+    max-width: 88px;
+    text-overflow: ellipsis;
+    overflow: hidden; }
   .dock .members {
     position: absolute;
     bottom: 84px;
@@ -362,42 +369,14 @@
       border-top: 0; }
     .dock li:last-child {
       border-bottom: 0; }
-  .dock input[type="checkbox"] {
+    .dock li::before, .dock li::after {
+      content: ' ';
+      display: table; }
+    .dock li::after {
+      clear: both; }
+  .dock .switchery {
     float: right;
-    appearance: none;
-    background-color: #efefef;
-    margin-top: -7px;
-    border: 1px solid #d3d3d3;
-    border-radius: 26px;
-    box-shadow: inset 0 0 0 1px #d3d3d3;
-    cursor: pointer;
-    height: 28px;
-    position: relative;
-    transition: border 0.25s 0.15s, box-shadow 0.25s 0.3s, padding 0.25s;
-    width: 44px; }
-    .dock input[type="checkbox"]:after {
-      background-color: #f4f4f4;
-      border: 1px solid #d3d3d3;
-      border-radius: 24px;
-      box-shadow: inset 0 -3px 3px rgba(0, 0, 0, 0.025), 0 1px 4px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.1);
-      content: '';
-      display: block;
-      height: 24px;
-      left: 0;
-      position: absolute;
-      right: 16px;
-      top: 0;
-      transition: border 0.25s 0.15s, left 0.25s 0.1s, right 0.15s 0.175s; }
-    .dock input[type="checkbox"]:checked {
-      border-color: #53d76a;
-      box-shadow: inset 0 0 0 14px #53d76a;
-      padding-left: 18px;
-      transition: border 0.25s, box-shadow 0.25s, padding 0.25s 0.15s; }
-      .dock input[type="checkbox"]:checked:after {
-        border-color: #53d76a;
-        left: 16px;
-        right: 0;
-        transition: border 0.25s, left 0.15s 0.25s, right 0.25s 0.175s; }
+    margin: -9px 0; }
 
 .tabBar {
   position: absolute;
@@ -721,6 +700,34 @@
       height: inherit;
       font-size: inherit; }
 
+.switchery {
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-block;
+  height: 30px;
+  position: relative;
+  vertical-align: middle;
+  width: 50px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box; }
+
+.switchery > small {
+  background: #fff;
+  border-radius: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  height: 30px;
+  position: absolute;
+  top: 0;
+  width: 30px; }
+
 /* Tree UI component */
 .treePane {
   box-sizing: border-box;
@@ -992,11 +999,7 @@ body {
   right: 0px;
   left: 0;
   font-family: 'Inconsolata', monospace;
-  font-size: 12pt;
   visibility: hidden; }
-
-.ace_line {
-  padding-left: 0.3em; }
 
 .hidden + div #editor {
   top: 0px; }
