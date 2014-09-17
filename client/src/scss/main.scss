@@ -200,3 +200,8 @@ $userColors: #56b, #933, #771;
     background-color: $failureColorHover;
     cursor: pointer;
 }
+
+.ace_layer .ace_gutter-cell {
+    padding-right: 12px;
+}
+

@@ -592,8 +592,9 @@
 #workspace {
   position: absolute;
   top: 46px;
-  bottom: 60px;
-  width: 100%; }
+  bottom: 72px;
+  width: 100%;
+  overflow: auto; }
 
 /* Side pane */
 #sidePane {
@@ -1004,3 +1005,6 @@ body {
 .inSession:hover {
   background-color: #aa5555;
   cursor: pointer; }
+
+.ace_layer .ace_gutter-cell {
+  padding-right: 12px; }
