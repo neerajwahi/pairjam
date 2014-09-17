@@ -30,7 +30,7 @@ html, body {
 body {
     margin: 0;
     overflow: hidden;
-    font: 10pt 'Droid Sans', monospace;
+    font: 10pt 'Oxygen', sans-serif;
     @include userSelect;
     @include borderBox;
 }
@@ -130,7 +130,7 @@ body {
     bottom: 0px;
     right: 0px;
     left: 0;
-    font-family: 'Inconsolata', monospace;
+    font-family: 'Oxygen Mono', monospace;
     visibility: hidden;
 }
 
