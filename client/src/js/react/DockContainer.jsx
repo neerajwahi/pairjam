@@ -1,43 +1,37 @@
 var React = require('react');
-var Notification = require('./Notification.jsx');
 var OptionDock = require('./OptionDock.jsx');
 var VideoDock = require('./VideoDock.jsx');
 var NotificationDock = require('./NotificationDock.jsx');
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var DockContainer = React.createClass({
 	getInitialState: function() {
 		return {
-			activeNotification: false,
 			unreadCount: 0,
 			notifications: [],
-			notificationQueue: [],
+			persistentNotifications: [],
 			visibleDock: null
 		};
 	},
 
-	pushNotification: function(notice) {
-		if (notice) {
-			if (this.state.activeNotification) {
+	pushNotification: function(notification) {
+		if (notification) {
+			// TODO: use a better UID
+			notification.key = Math.random();
+			if (/*notification.persistent*/true) {
 				this.setState({
 					unreadCount: this.state.unreadCount + 1,
-					notifications: this.state.notifications.concat([notice]),
-					notificationQueue: this.state.notificationQueue.concat([notice])
+					notifications: [notification].concat(this.state.notifications),
+					persistentNotifications: [notification].concat(this.state.persistentNotifications)
 				});
 			} else {
 				this.setState({
-					activeNotification: notice,
 					unreadCount: this.state.unreadCount + 1,
-					notifications: this.state.notifications.concat([notice])
+					notifications: [notification].concat(this.state.notifications)
 				});
 			}
 			setTimeout((function () {
-				this.setState({ activeNotification: null });
-				if (this.state.notificationQueue.length) {
-					setTimeout((function() {
-						this.pushNotification(this.state.notificationQueue[0]);
-						this.setState({ notificationQueue: this.state.notificationQueue.slice(1) });
-					}).bind(this), 500);
-				}
+				this.setState({ notifications: this.state.notifications.slice(0,-1) });
 			}).bind(this), 2500);
 		}
 	},
@@ -49,16 +43,27 @@ var DockContainer = React.createClass({
 	openDock: function (title) {
 		if (this.state.visibleDock !== title) {
 			this.setState({visibleDock: title});
-		} else {
-			this.setState({visibleDock: null});
 		}
 	},
 
+	handleBlur: function() {
+		this.setState({ visibleDock: null });
+	},
+
 	render: function () {
+		var notifications = this.state.notifications.map(function(notification) {
+			return (
+				<li className='notification' key={notification.key}>
+					{notification.content}
+				</li>
+			);
+		});
+
 		return (
 			<div className='dockContainer'>
-				<Notification
-					activeNotification={this.state.activeNotification} />
+				<ReactCSSTransitionGroup className='notificationList' component={React.DOM.ul} transitionName='notification'>
+					{notifications}
+				</ReactCSSTransitionGroup>
 				<OptionDock
 					lightTheme={this.props.lightTheme}
 					changeTheme={this.props.changeTheme}
@@ -82,11 +87,12 @@ var DockContainer = React.createClass({
 					visibleDock={this.state.visibleDock} />
 				<NotificationDock
 					peerColors={this.props.peerColors}
-					notifications={this.state.notifications}
+					notifications={this.state.persistentNotifications}
 					unreadCount={this.state.unreadCount}
 					clearUnread={this.clearUnread}
 					openDock={this.openDock}
 					visibleDock={this.state.visibleDock} />
+				<div className='dockBlocker'></div>
 			</div>
 		);
 	}

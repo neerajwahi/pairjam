@@ -1,4 +1,43 @@
 /* Colors */
+#mainContainer.lightTheme #sidePane {
+  background: #e6e9f0; }
+  #mainContainer.lightTheme #sidePane .repoSearchBox {
+    background: #aaacb3; }
+    #mainContainer.lightTheme #sidePane .repoSearchBox input {
+      color: #eff1f5; }
+      #mainContainer.lightTheme #sidePane .repoSearchBox input::-webkit-input-placeholder {
+        color: #eff1f5; }
+      #mainContainer.lightTheme #sidePane .repoSearchBox input::-moz-placeholder {
+        color: #eff1f5; }
+      #mainContainer.lightTheme #sidePane .repoSearchBox input:-ms-input-placeholder {
+        color: #eff1f5; }
+      #mainContainer.lightTheme #sidePane .repoSearchBox input::placeholder {
+        color: #eff1f5; }
+  #mainContainer.lightTheme #sidePane .modified::after {
+    background: #2DC9E9; }
+#mainContainer.lightTheme .dock {
+  background: #e6e9f0; }
+  #mainContainer.lightTheme .dock button::before {
+    color: #aaacb3; }
+  #mainContainer.lightTheme .dock.notificationDock.unread > button::after {
+    background: #2DC9E9; }
+  #mainContainer.lightTheme .dock .members::before {
+    box-shadow: 0 0 24px 8px rgba(89, 96, 107, 0.4); }
+  #mainContainer.lightTheme .dock .members::after {
+    border-top: 18px solid #f8f9fb; }
+  #mainContainer.lightTheme .dock .members ul {
+    box-shadow: 0 0 12px rgba(89, 96, 107, 0.4); }
+  #mainContainer.lightTheme .dock .members li {
+    background: #eff1f5;
+    border-top-color: #e8eaee;
+    border-bottom-color: white; }
+#mainContainer.lightTheme .ace_editor .ace_gutter {
+  border-color: #eff1f5; }
+#mainContainer.lightTheme .langBox, #mainContainer.lightTheme .langBoxPopup {
+  background: #aaacb3; }
+#mainContainer.lightTheme .langBox:hover, #mainContainer.lightTheme .langBoxItem:hover {
+  background: #9a9ca3; }
+
 .editorContainer .ace_editor .ace_gutter {
   border-left: 1px solid #2d2d2d; }
 
@@ -104,9 +143,9 @@
 
 .activeSession {
   background-color: #2873AB;
-  transition: background 0.15s ease-in-out;
-  -moz-transition: background 0.15s ease-in-out;
-  -webkit-transition: background 0.15s ease-in-out; }
+  transition: background 0.05s;
+  -moz-transition: background 0.05s;
+  -webkit-transition: background 0.05s; }
 
 .userBehind::before {
   content: '\25B2';
@@ -173,11 +212,18 @@
   right: 0;
   height: 60px; }
 
+.notificationList {
+  position: absolute;
+  z-index: 6;
+  left: 240px;
+  width: 1000%;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  overflow: none; }
+
 .notification {
   position: absolute;
-  z-index: 5;
-  top: 12px;
-  left: -100px;
   height: 36px;
   line-height: 36px;
   padding-left: 1em;
@@ -187,25 +233,62 @@
   background: #606060;
   white-space: nowrap;
   overflow: hidden;
-  transition: left 0.6s, opacity 0.4s;
-  user-select: none;
-  opacity: 0;
+  pointer-events: none;
   border-top-right-radius: 18px;
-  border-bottom-right-radius: 18px; }
+  border-bottom-right-radius: 18px;
+  transition: left 0.6s ease-out, top 0.3s, opacity 0.5s ease-out; }
+  .notification:nth-child(1) {
+    top: 12px; }
+  .notification:nth-child(2) {
+    top: -24px; }
+  .notification:nth-child(3) {
+    top: -60px; }
+  .notification:nth-child(4) {
+    top: -96px; }
+  .notification:nth-child(5) {
+    top: -132px; }
+  .notification:nth-child(6) {
+    top: -168px; }
+  .notification:nth-child(7) {
+    top: -204px; }
+  .notification:nth-child(8) {
+    top: -240px; }
+  .notification:nth-child(9) {
+    top: -276px; }
+  .notification:nth-child(10) {
+    top: -312px; }
+  .notification:nth-child(11) {
+    top: -348px; }
+  .notification:nth-child(12) {
+    top: -384px; }
+  .notification:nth-child(13) {
+    top: -420px; }
+  .notification:nth-child(14) {
+    top: -456px; }
+  .notification:nth-child(15) {
+    top: -492px; }
 
-.notification.active {
-  left: 241px;
+.notification-enter {
+  left: -300px; }
+
+.notification-enter.notification-enter-active {
+  top: 12px !important;
+  left: 0; }
+
+.notification-leave {
   opacity: 1; }
+
+.notification-leave.notification-leave-active {
+  opacity: 0.01; }
 
 .dock {
   position: relative;
+  z-index: 7;
   display: inline-block;
   height: 100%;
   width: 60px;
   box-sizing: content-box;
-  vertical-align: middle;
-  background: #272727;
-  z-index: 7; }
+  vertical-align: middle; }
   .dock.optionDock {
     padding-left: 15px;
     padding-right: 7px; }
@@ -281,24 +364,29 @@
   .dock .members {
     position: absolute;
     bottom: 84px;
+    width: 0;
     display: none;
-    width: 216px;
     color: #59606b; }
-    .dock .members::after {
+    .dock .members::before, .dock .members::after {
       content: '';
-      position: absolute;
+      position: absolute; }
+    .dock .members::before {
+      bottom: -6px;
+      left: 30px; }
+    .dock .members::after {
       bottom: -18px;
       left: 18px;
-      width: 0;
-      height: 0;
       border-left: 12px solid transparent;
       border-right: 12px solid transparent;
       border-top: 18px solid #fafafa; }
-  .dock .open + .members {
-    display: block; }
+  .dock.open {
+    z-index: 9; }
+    .dock.open .members {
+      display: block; }
   .dock ul {
     position: relative;
-    max-height: 220px;
+    max-height: 216px;
+    width: 216px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -336,6 +424,14 @@
     float: right;
     margin: -9px 0; }
 
+.dockBlocker {
+  position: absolute;
+  z-index: 6;
+  height: 60px;
+  width: 240px;
+  background: #272727;
+  bottom: 0; }
+
 .tabBar {
   position: absolute;
   top: 0;
@@ -355,12 +451,12 @@
   max-width: 150px;
   min-width: 20px;
   margin-right: -8px;
-  color: #8fa6b1;
+  color: #93ffff;
   cursor: pointer; }
   .tabBar li:hover .tabClose {
     display: block; }
   .tabBar li:hover::before {
-    background: #29404b; }
+    background: #2DC9E9; }
   .tabBar li::before {
     content: '';
     z-index: -1;
@@ -442,7 +538,7 @@
 .tabBar .active {
   z-index: 1000; }
   .tabBar .active::before {
-    background: #29404b;
+    background: #2DC9E9;
     box-shadow: none; }
 
 .tabBar .add {
@@ -463,7 +559,7 @@
   position: absolute;
   right: 18px; }
   .tabBar .tabClose:hover {
-    color: #c2d9e4; }
+    color: #c6ffff; }
 
 .indicatorContainer {
   position: absolute;
@@ -647,7 +743,7 @@
       width: 205px;
       height: inherit;
       margin: 0;
-      padding: 0 0 0 40px;
+      padding: 0 0 2px 40px;
       border: 0;
       outline: none;
       font-family: 'Oxygen', sans-serif;
@@ -864,11 +960,9 @@ body {
   box-sizing: border-box; }
 
 #appContainer {
-  background: #ff5c5d;
   position: relative; }
 
 #mainContainer {
-  margin-top: 2px;
   position: absolute;
   top: 0;
   right: 0;
@@ -908,9 +1002,9 @@ body {
   line-height: 25px;
   opacity: 0.8;
   cursor: pointer;
-  transition: background 0.15s ease-in-out;
-  -moz-transition: background 0.15s ease-in-out;
-  -webkit-transition: background 0.15s ease-in-out; }
+  transition: background 0.05s;
+  -moz-transition: background 0.05s;
+  -webkit-transition: background 0.05s; }
   .langBox:hover {
     background-color: #444444; }
 
@@ -932,9 +1026,9 @@ body {
   outline: none; }
   .langBoxPopup .langBoxItem {
     padding: 2px 15px 2px 15px;
-    transition: background 0.15s ease-in-out;
-    -moz-transition: background 0.15s ease-in-out;
-    -webkit-transition: background 0.15s ease-in-out; }
+    transition: background 0.05s;
+    -moz-transition: background 0.05s;
+    -webkit-transition: background 0.05s; }
     .langBoxPopup .langBoxItem:hover {
       background-color: #444444; }
 

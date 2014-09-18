@@ -6,11 +6,19 @@
 	height: 60px;
 }
 
+.notificationList {
+	position: absolute;
+	z-index: 6;
+	left: 240px;
+	width: 1000%;
+	margin: 0;
+	padding: 0;
+	pointer-events: none;
+	overflow: none;
+}
+
 .notification {
 	position: absolute;
-	z-index: 5;
-	top: 12px;
-	left: -100px;
 	height: 36px;
 	line-height: 36px;
 	padding-left: 1em;
@@ -20,27 +28,42 @@
 	background: #606060;
 	white-space: nowrap;
 	overflow: hidden;
-	transition: left 0.6s, opacity 0.4s;
-	user-select: none;
-	opacity: 0;
+	pointer-events: none;
 	border-top-right-radius: 18px;
 	border-bottom-right-radius: 18px;
+	transition: left .6s ease-out, top .3s, opacity .5s ease-out;
+	@for $i from 0 to 15 {
+		&:nth-child(#{$i + 1}) {
+			top: -36px * $i + 12px;
+		}
+	}
 }
 
-.notification.active {
-	left: 241px;
+.notification-enter {
+	left: -300px;
+}
+
+.notification-enter.notification-enter-active {
+	top: 12px !important;
+	left: 0;
+}
+
+.notification-leave {
 	opacity: 1;
+}
+
+.notification-leave.notification-leave-active {
+	opacity: 0.01;
 }
 
 .dock {
 	position: relative;
+	z-index: 7;
 	display: inline-block;
 	height: 100%;
 	width: 60px;
 	box-sizing: content-box;
 	vertical-align: middle;
-	background: #272727;
-	z-index: 7;
 
 	&.optionDock {
 		padding-left: 15px;
@@ -147,30 +170,38 @@
 	.members {
 		position: absolute;
 		bottom: 84px;
+		width: 0;
 		display: none;
-		width: 216px;
 		color: #59606b;
 
-		&::after {
+		&::before, &::after {
 			content: '';
 			position: absolute;
+		}
+		&::before {
+			bottom: -6px;
+			left: 30px;
+		}
+		&::after {
 			bottom: -18px;
 			left: 18px;
-			width: 0;
-			height: 0;
 			border-left: 12px solid transparent;
 			border-right: 12px solid transparent;
 			border-top: 18px solid #fafafa;
 		}
 	}
 
-	.open + .members {
-		display: block;
+	&.open {
+		z-index: 9;
+		.members {
+			display: block;
+		}
 	}
 
 	ul {
 		position: relative;
-		max-height: 220px;
+		max-height: 216px;
+		width: 216px;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -231,4 +262,13 @@
 		float: right;
 		margin: -9px 0;
 	}
+}
+
+.dockBlocker {
+	position: absolute;
+	z-index: 6;
+	height: 60px;
+	width: 240px;
+	background: #272727;
+	bottom: 0;
 }

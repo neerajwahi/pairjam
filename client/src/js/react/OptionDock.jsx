@@ -7,7 +7,6 @@ var OptionDock = React.createClass({
     },
 
     handleThemeChange: function (event) {
-        console.log('clicked');
         this.props.changeTheme(event.target.checked);
     },
 

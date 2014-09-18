@@ -251,7 +251,7 @@ var UI = React.createClass({
         this.props.handlers.onDocChg(op);
     },
 
-    changeTheme: function (checkboxValue) {
+    changeTheme: function(checkboxValue) {
         this.refs.editor.setTheme('ace/theme/' + (checkboxValue ? 'spacegray' : 'tomorrow_night_eighties'));
         this.setState({
             lightTheme: checkboxValue
@@ -263,6 +263,21 @@ var UI = React.createClass({
         this.props.handlers.onRequestPatch();
     },
 
+    handleClick: function(event) {
+        var i, el;
+        var target = event.target;
+        var docks = document.querySelectorAll('.dock.open :not(button), .dock:not(.open) button');
+
+        for (i = 0, _len = docks.length; i < _len; i++) {
+            el = docks[i];
+            if (el === target || el.contains(target)) {
+                return;
+            }
+        }
+        return this.refs.dockContainer.openDock(null);
+
+    },
+
     render: function() {
         return (
             <div>
@@ -271,8 +286,8 @@ var UI = React.createClass({
                 <div id="mainContainer" className={
                 	(this.state.allowInteraction ? '' : 'popupScreen') +
                 	(this.state.lightTheme ? ' lightTheme' : '')
-                }>
-                    <div id="sidePane" className={this.state.avSubscription? 'videoStreaming' : ''}>
+                }  onClick={this.handleClick}>
+                    <div id="sidePane" className={this.state.videoSub? 'videoStreaming' : ''}>
                         <RepoSearch
                           ref='repoBox'
                           onSubmit={this.props.handlers.onLoadRepo} />

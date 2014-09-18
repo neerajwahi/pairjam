@@ -1,5 +1,4 @@
 var React = require('react');
-var Notification = require('./Notification.jsx');
 
 var Dock = React.createClass({
 	getInitialState: function() {
@@ -10,26 +9,27 @@ var Dock = React.createClass({
 		var checkboxes = this.props.children;
 		console.log(checkboxes);
 		//.querySelectorAll('input[type=checkbox]');
+		//TODO do in for loop instead
 		[].forEach.call(checkboxes, function(box) {
 			var switchery = new Switchery(box, {color: '#72d572'});
 		});
 	},*/
 
-	handleClick: function () {
+	handleClick: function() {
 		this.props.openDock(this.props.name);
 		if (this.props.action) this.props.action();
 	},
 
 	render: function() {
 		return (
-			<div className={'dock' + (this.props.classList ? ' ' + this.props.classList : '')} >
+			<div className={'dock' +
+				(this.props.visibleDock === this.props.name ? ' open' : '') +
+				(this.props.classList ? ' ' + this.props.classList : '')} >
 				<button
-					className={this.props.icon + (this.props.visibleDock === this.props.name ? ' open' : '')}
+					className={this.props.icon}
 					onClick={this.handleClick} />
 				<div className="members">
-					<ul>
-						{this.props.children}
-					</ul>
+					<ul>{this.props.children}</ul>
 				</div>
 			</div>
 		);
