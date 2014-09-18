@@ -59,11 +59,16 @@ AV.prototype = {
 		}
 	},
 
-	share: function(includeVideo, cb) {
+	share: function(includeAudio, includeVideo, cb) {
 		var self = this;
+
+		if (this.stream) {
+			this.stream.stop();
+		}
+
 		getUserMedia({
 			video: includeVideo,
-			audio: true
+			audio: includeAudio
 		}, function (err, stream) {
 			if (err) {
 				var errStr = 'Your browser does not support WebRTC (get Chrome)';
@@ -83,7 +88,10 @@ AV.prototype = {
 					});
 				}
 
-				self.transport.send('shareVideo', {});
+				self.transport.send('shareVideo', {
+					includeVideo: includeVideo,
+					includeAudio: includeAudio
+				});
 				cb(null);
 			}
 		});
@@ -97,10 +105,30 @@ AV.prototype = {
 		}
 	},
 
-	subscribe: function(clientId, cb) {
+	mute: function(isMuted) {
+		if (this.stream) {
+			this.stream.getAudioTracks()[0].enabled = !isMuted;
+			this.transport.send('shareVideo', {
+				includeVideo: true,
+				includeAudio: !isMuted
+			});
+		}
+	},
+
+	muteSub: function(isMuted) {
+		if (this.pcIn) {
+			document.getElementById(this.remoteVideo).muted = isMuted;
+		}
+	},
+
+	subscribe: function(clientId, includeAudio, includeVideo, cb) {
 		var self = this;
 
 		var pc = new PeerConnection(this.peerConfig);
+
+		if (self.pcIn) {
+			self.pcIn.close();
+		}
 		self.pcIn = pc;
 
 		var msg = {
@@ -110,7 +138,6 @@ AV.prototype = {
 		this.transport.send('rtcMessage', msg);
 
 		pc.on('ice', function(candidate) {
-			console.log('ice candidate');
 			var msg = {
 				to: clientId,
 				type: 'ice',
@@ -123,13 +150,17 @@ AV.prototype = {
 		// Remote stream added
 		pc.on('addStream', function(e) {
 			console.log('stream added');
-			var videoEl = attachMediaStream(e.stream, document.getElementById(self.remoteVideo));
 			cb(null);
+			console.log('Attaching stream');
+
+			var videoEl = attachMediaStream(e.stream, document.getElementById(self.remoteVideo));
 		});
 
 		// Remote stream removed
 		pc.on('removeStream', function(stream) {
 			console.log('stream removed');
+			self.pcIn.close();
+			self.pcIn = null;
 		});
 
 		pc.on('error', function(err) {

@@ -132,6 +132,23 @@ module.exports = function(model, view) {
 			view.setProps({
 				clients: model.clients
 			});
+
+			// We need to resubscribe if the other user changed from streaming
+			// just audio to streaming audio + video
+			if (view.state.audioSub == data.client.id &&
+				data.client.audioStream &&
+				view.state.videoSub != data.client.id &&
+				data.client.videoStream) {
+				console.log('resubscribing to stream');
+				view.state.av.subscribe(data.client.id, true, false, function(err) {
+					if (!err) {
+						view.setState({
+							audioSub: data.client.id
+						});
+					}
+				});
+			}
+
 			var msg = 	data.client.name +
 						' is now sharing audio + video. Click on ' +
 						data.client.name +
@@ -151,13 +168,14 @@ module.exports = function(model, view) {
 			view.setProps({
 				clients: model.clients
 			});
-			console.log(data.client.id);
 
-			if (view.state.videoClientId == data.client.id) {
+			if (view.state.videoSub == data.client.id ||
+				view.state.audioSub == data.client.id) {
 				view.state.av.unsubscribe(data.client.id, function(err) {
 					if (!err) {
 						view.setState({
-							videoClientId: undefined
+							videoSub: undefined,
+							audioSub: undefined
 						});
 					}
 				});
@@ -170,9 +188,6 @@ module.exports = function(model, view) {
 		},
 
 		rtcMessage: function(data) {
-			console.log('rtcMessage');
-			console.log(data);
-
 			if (!data.type || !data.from) return;
 			if (!model.clients[data.from]) return;
 			var guestName = model.clients[data.from].name;

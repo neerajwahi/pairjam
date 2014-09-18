@@ -100,6 +100,9 @@ Server.prototype = {
 	            }
 		    });
 
+		    socket.on('error', function(err) {
+		    	logger.error(err);
+		    });
 		});
 	}
 };

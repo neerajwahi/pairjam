@@ -20,7 +20,7 @@ module.exports = React.createClass({
 	},
 
 	_renderBranch: function(branch) {
-		return <li>
+		return <li className="branch">
 		<label
 			onClick={this.handleClick}
 			data-sha={branch.commit.sha}>

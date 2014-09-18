@@ -67,14 +67,17 @@ var DockContainer = React.createClass({
 					visibleDock={this.state.visibleDock} />
 				<VideoDock
 					videoStatus={this.props.videoStatus}
-					audioStatus='TODO'
+					audioStatus={this.props.audioStatus}
 					peers={this.props.peers}
 					peerColors={this.props.peerColors}
-					videoClientId={this.props.videoClientId}
+					audioSub={this.props.audioSub}
+					videoSub={this.props.videoSub}
 					shareVideo={this.props.shareVideo}
 					unshareVideo={this.props.unshareVideo}
+					muteVideo={this.props.muteVideo}
 					subscribeVideo={this.props.subscribeVideo}
 					unsubscribeVideo={this.props.unsubscribeVideo}
+					muteSubscribed={this.props.muteSubscribed}
 					openDock={this.openDock}
 					visibleDock={this.state.visibleDock} />
 				<NotificationDock

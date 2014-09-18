@@ -1,20 +1,14 @@
 /* Tree UI component */
 
 .treePane {
+    width: 100%;
+    padding: 5px 0 0 10px;
     box-sizing: border-box;
-    position: absolute;
-    top: 50px;
-    padding: 0px 0px 0px 20px;
-    bottom: 72px;
-    width: $sidePaneWidth;
-    overflow-y: auto;
-    overflow-x: hidden;
 
     ul {
         list-style-type: none;
         margin: 0;
         padding: 0;
-        color: #909090;
 
         li {
             padding-left: 18px;
@@ -25,17 +19,12 @@
                 padding: 0;
                 display: block;
                 cursor: pointer;
-                line-height: 1.3em;
+                line-height: 1.6em;
             }
 
             label:hover {
                 cursor: pointer;
-                color: #ccc;
-            }
-
-            label.togglable:hover {
-                cursor: pointer;
-                color: #ea4;
+                color: #cacaca;
             }
         }
     }
@@ -44,14 +33,13 @@
 .togglable {
     position: relative;
     font-weight: bold;
-}
-
-.togglable::before {
-    position: absolute;
-    top: 1px;
-    left: -2em;
-    font-size: 8px;
-    font-weight: normal;
+    &::before {
+        position: absolute;
+        top: 1px;
+        left: -2em;
+        font-size: 8px;
+        font-weight: normal;
+    }
 }
 
 .selected {

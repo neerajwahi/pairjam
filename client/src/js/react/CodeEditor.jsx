@@ -106,7 +106,11 @@ var CodeEditor = React.createClass({
                     scrollToCursor={this.scrollToCursor} />
         	</div>
         );
-    }
+    },
+    
+	setTheme: function(theme) {
+		adapter.setTheme(theme);
+	}
 });
 
 module.exports = CodeEditor;

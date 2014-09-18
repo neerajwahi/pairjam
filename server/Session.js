@@ -70,6 +70,7 @@ Session.prototype = {
 		var client = {
 			id: clientId,
 			name: name,
+			audioStream: false,
 			videoStream: false
 		};
 
@@ -221,14 +222,16 @@ Session.prototype = {
 		});
 	},
 
-	shareVideo: function(clientId) {
-		this.clients[clientId].videoStream = true;
+	shareVideo: function(clientId, includeAudio, includeVideo) {
+		this.clients[clientId].audioStream = includeAudio;
+		this.clients[clientId].videoStream = includeVideo;
 		this.sendAll('shareVideo', {
 			'client': this.clients[clientId]
 		});
 	},
 
 	unshareVideo: function(clientId) {
+		this.clients[clientId].audioStream = false;
 		this.clients[clientId].videoStream = false;
 		this.sendAll('unshareVideo', {
 			'client': this.clients[clientId]

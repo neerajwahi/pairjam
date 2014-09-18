@@ -3,22 +3,14 @@
   border-left: 1px solid #2d2d2d; }
 
 @font-face {
-  font-family: 'Inconsolata';
-  src: url('../fonts/Inconsolata-Regular.ttf'); }
-
-@font-face {
-  font-family: 'Droid Sans';
-  src: url('../fonts/DroidSans.ttf'); }
-
-@font-face {
   font-family: 'icomoon';
-  src: url('../fonts/icomoon.eot?ow7zz4');
-  src: url('../fonts/icomoon.eot?#iefixow7zz4') format('embedded-opentype'), url('../fonts/icomoon.woff?ow7zz4') format('woff'), url('../fonts/icomoon.ttf?ow7zz4') format('truetype'), url('../fonts/icomoon.svg?ow7zz4#icomoon') format('svg');
+  src: url('../fonts/icomoon.eot?l2nh50');
+  src: url('../fonts/icomoon.eot?#iefixl2nh50') format('embedded-opentype'), url('../fonts/icomoon.woff?l2nh50') format('woff'), url('../fonts/icomoon.ttf?l2nh50') format('truetype'), url('../fonts/icomoon.svg?l2nh50#icomoon') format('svg');
   font-weight: normal;
   font-style: normal; }
 
 [class^="icon-"], [class*=" icon-"] {
-  font-family: 'icomoon', 'Droid Sans';
+  font-family: 'icomoon', 'Oxygen', sans-serif;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -29,14 +21,17 @@
 .icon-bell:before {
   content: "\e600"; }
 
-.icon-download:before {
-  content: "\e601"; }
-
 .icon-arrow-down:before {
   content: "\e602"; }
 
 .icon-arrow-up:before {
   content: "\e606"; }
+
+.icon-download:before {
+  content: "\e601"; }
+
+.icon-code-fork:before {
+  content: "\f126"; }
 
 .icon-settings:before {
   content: "\e603"; }
@@ -81,7 +76,7 @@
     display: none;
     margin: 0;
     padding: 0;
-    font-family: 'Droid Sans', sans-serif;
+    font-family: 'Oxygen', sans-serif;
     font-size: 9.5pt;
     height: 100%; }
 
@@ -129,47 +124,6 @@
   left: 50%;
   height: 16px;
   margin: -9px 0 0 -18px; }
-
-.notificationPopup {
-  position: absolute;
-  right: 6px;
-  top: 35px;
-  z-index: 100;
-  font-size: 10pt;
-  font-family: 'Droid Sans';
-  text-align: right;
-  font-weight: normal; }
-
-.joinMsg, .leaveMsg, .stateMsg, .errorMsg, .loadingMsg, .infoMsg {
-  float: right;
-  clear: both;
-  height: 22px;
-  line-height: 22px;
-  color: #ffffff;
-  opacity: 1;
-  padding: 2px 4px 2px 8px; }
-
-.joinMsg {
-  background-color: #2873AB; }
-
-.leaveMsg {
-  background-color: #d55; }
-
-.stateMsg {
-  background-color: #696; }
-
-.loadingMsg {
-  background-color: #666; }
-
-.infoMsg {
-  background-color: #994; }
-
-.errorMsg {
-  background-color: #d55; }
-  .errorMsg .button:hover {
-    background-color: #e44;
-    padding: 5px;
-    cursor: pointer; }
 
 .fadeInOut-enter {
   opacity: 0.01;
@@ -276,6 +230,10 @@
       display: inline-block; }
     .dock.videoDock .icon-cam {
       font-size: 16px; }
+    .dock.videoDock .videoEnabled, .dock.videoDock .audioEnabled {
+      background-color: yellow; }
+    .dock.videoDock .audioActive, .dock.videoDock .videoActive {
+      background-color: green; }
   .dock.notificationDock {
     padding-left: 7px;
     padding-right: 15px; }
@@ -311,8 +269,15 @@
     top: -8px;
     line-height: 26px;
     float: right;
-    padding-left: 18px;
+    margin-bottom: -1em;
+    margin-left: 18px;
     font-size: 24px; }
+  .dock .videoUser {
+    display: inline-block;
+    float: left;
+    max-width: 88px;
+    text-overflow: ellipsis;
+    overflow: hidden; }
   .dock .members {
     position: absolute;
     bottom: 84px;
@@ -362,42 +327,14 @@
       border-top: 0; }
     .dock li:last-child {
       border-bottom: 0; }
-  .dock input[type="checkbox"] {
+    .dock li::before, .dock li::after {
+      content: ' ';
+      display: table; }
+    .dock li::after {
+      clear: both; }
+  .dock .switchery {
     float: right;
-    appearance: none;
-    background-color: #efefef;
-    margin-top: -7px;
-    border: 1px solid #d3d3d3;
-    border-radius: 26px;
-    box-shadow: inset 0 0 0 1px #d3d3d3;
-    cursor: pointer;
-    height: 28px;
-    position: relative;
-    transition: border 0.25s 0.15s, box-shadow 0.25s 0.3s, padding 0.25s;
-    width: 44px; }
-    .dock input[type="checkbox"]:after {
-      background-color: #f4f4f4;
-      border: 1px solid #d3d3d3;
-      border-radius: 24px;
-      box-shadow: inset 0 -3px 3px rgba(0, 0, 0, 0.025), 0 1px 4px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.1);
-      content: '';
-      display: block;
-      height: 24px;
-      left: 0;
-      position: absolute;
-      right: 16px;
-      top: 0;
-      transition: border 0.25s 0.15s, left 0.25s 0.1s, right 0.15s 0.175s; }
-    .dock input[type="checkbox"]:checked {
-      border-color: #53d76a;
-      box-shadow: inset 0 0 0 14px #53d76a;
-      padding-left: 18px;
-      transition: border 0.25s, box-shadow 0.25s, padding 0.25s 0.15s; }
-      .dock input[type="checkbox"]:checked:after {
-        border-color: #53d76a;
-        left: 16px;
-        right: 0;
-        transition: border 0.25s, left 0.15s 0.25s, right 0.25s 0.175s; }
+    margin: -9px 0; }
 
 .tabBar {
   position: absolute;
@@ -610,19 +547,13 @@
 
 /* Tree UI component */
 .treePane {
-  box-sizing: border-box;
-  position: absolute;
-  top: 50px;
-  padding: 0px 0px 0px 20px;
-  bottom: 72px;
-  width: 240px;
-  overflow-y: auto;
-  overflow-x: hidden; }
+  width: 100%;
+  padding: 5px 0 0 10px;
+  box-sizing: border-box; }
   .treePane ul {
     list-style-type: none;
     margin: 0;
-    padding: 0;
-    color: #909090; }
+    padding: 0; }
     .treePane ul li {
       padding-left: 18px;
       cursor: pointer; }
@@ -631,24 +562,20 @@
         padding: 0;
         display: block;
         cursor: pointer;
-        line-height: 1.3em; }
+        line-height: 1.6em; }
       .treePane ul li label:hover {
         cursor: pointer;
-        color: #ccc; }
-      .treePane ul li label.togglable:hover {
-        cursor: pointer;
-        color: #ea4; }
+        color: #cacaca; }
 
 .togglable {
   position: relative;
   font-weight: bold; }
-
-.togglable::before {
-  position: absolute;
-  top: 1px;
-  left: -2em;
-  font-size: 8px;
-  font-weight: normal; }
+  .togglable::before {
+    position: absolute;
+    top: 1px;
+    left: -2em;
+    font-size: 8px;
+    font-weight: normal; }
 
 .selected {
   color: #f4f4f4; }
@@ -666,35 +593,47 @@
     background: #ff5c5d;
     border-radius: 2px; }
 
+#workspace {
+  position: absolute;
+  top: 46px;
+  bottom: 72px;
+  width: 100%;
+  overflow: auto; }
+
 /* Side pane */
 #sidePane {
   position: absolute;
   top: 0;
-  left: 0px;
-  bottom: 0px;
+  bottom: 0;
+  left: 0;
   width: 240px;
   margin: 0;
-  background: #272727;
   font-size: 10pt;
-  color: #f4f4f4; }
+  color: #909090;
+  background: #272727; }
   #sidePane .current-branch {
-    position: absolute;
-    left: 0;
-    top: 30px;
-    right: 0;
-    height: 20px;
-    background: #666;
-    padding-left: 28px;
-    line-height: 20px; }
+    position: relative;
+    margin: 4px;
+    padding: 8px 24px;
+    font-weight: bold;
+    color: #cacaca; }
+    #sidePane .current-branch::before {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      transform: rotate(90deg); }
     #sidePane .current-branch:hover {
       cursor: pointer;
-      background-color: #999; }
+      color: #f4f4f4; }
+  #sidePane .branch {
+    font-weight: bold;
+    color: #cacaca; }
   #sidePane .branches-list {
     box-sizing: border-box;
     position: absolute;
     top: 50px;
     padding: 0px 0px 0px 20px;
-    bottom: 60px;
+    bottom: 0;
     width: 240px;
     overflow: auto; }
   #sidePane .repoSearchBox {
@@ -705,37 +644,58 @@
     width: 240px;
     background-color: #393939; }
     #sidePane .repoSearchBox input[type='text'] {
-      margin: 0;
-      padding: 0;
       width: 205px;
-      border: 0px;
+      height: inherit;
+      margin: 0;
+      padding: 0 0 0 40px;
+      border: 0;
       outline: none;
-      font-family: 'Droid Sans', sans-serif;
-      color: #cccccc;
+      font-family: 'Oxygen', sans-serif;
+      font-size: inherit;
+      color: #cacaca;
       background: transparent;
       background-image: url('../img/github.svg');
       background-size: 24px 24px;
       background-repeat: no-repeat;
-      background-position: 8px 5px;
-      padding-left: 40px;
-      height: inherit;
-      font-size: inherit; }
+      background-position: 8px 5px; }
+
+.switchery {
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-block;
+  height: 30px;
+  position: relative;
+  vertical-align: middle;
+  width: 50px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box; }
+
+.switchery > small {
+  background: #fff;
+  border-radius: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  height: 30px;
+  position: absolute;
+  top: 0;
+  width: 30px; }
 
 /* Tree UI component */
 .treePane {
-  box-sizing: border-box;
-  position: absolute;
-  top: 50px;
-  padding: 0px 0px 0px 20px;
-  bottom: 72px;
-  width: 240px;
-  overflow-y: auto;
-  overflow-x: hidden; }
+  width: 100%;
+  padding: 5px 0 0 10px;
+  box-sizing: border-box; }
   .treePane ul {
     list-style-type: none;
     margin: 0;
-    padding: 0;
-    color: #909090; }
+    padding: 0; }
     .treePane ul li {
       padding-left: 18px;
       cursor: pointer; }
@@ -744,24 +704,20 @@
         padding: 0;
         display: block;
         cursor: pointer;
-        line-height: 1.3em; }
+        line-height: 1.6em; }
       .treePane ul li label:hover {
         cursor: pointer;
-        color: #ccc; }
-      .treePane ul li label.togglable:hover {
-        cursor: pointer;
-        color: #ea4; }
+        color: #cacaca; }
 
 .togglable {
   position: relative;
   font-weight: bold; }
-
-.togglable::before {
-  position: absolute;
-  top: 1px;
-  left: -2em;
-  font-size: 8px;
-  font-weight: normal; }
+  .togglable::before {
+    position: absolute;
+    top: 1px;
+    left: -2em;
+    font-size: 8px;
+    font-weight: normal; }
 
 .selected {
   color: #f4f4f4; }
@@ -878,7 +834,7 @@
     line-height: 30px;
     border: 0px;
     outline: none;
-    font-family: 'Droid Sans', sans-serif;
+    font-family: 'Oxygen', sans-serif;
     font-size: 14pt;
     color: #333333; }
 
@@ -896,7 +852,7 @@ html, body {
 body {
   margin: 0;
   overflow: hidden;
-  font: 10pt 'Droid Sans', monospace;
+  font: 10pt 'Oxygen', sans-serif;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -991,12 +947,8 @@ body {
   bottom: 0px;
   right: 0px;
   left: 0;
-  font-family: 'Inconsolata', monospace;
-  font-size: 12pt;
+  font-family: 'Oxygen Mono', monospace;
   visibility: hidden; }
-
-.ace_line {
-  padding-left: 0.3em; }
 
 .hidden + div #editor {
   top: 0px; }
@@ -1057,3 +1009,6 @@ body {
 .inSession:hover {
   background-color: #aa5555;
   cursor: pointer; }
+
+.ace_layer .ace_gutter-cell {
+  padding-right: 12px; }

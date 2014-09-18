@@ -1,31 +1,48 @@
 @import 'react/tree';
 
+#workspace {
+    position: absolute;
+    top: 46px;
+    bottom: 72px;
+    width: 100%;
+    overflow: auto;
+}
+
 /* Side pane */
 #sidePane {
     position: absolute;
     top: 0;
-    left: 0px;
-    bottom: 0px;
+    bottom: 0;
+    left: 0;
     width: $sidePaneWidth;
     margin: 0;
-    background: #272727;
     font-size: 10pt;
-    color: $offWhite;
+    color: #909090;
+    background: #272727;
 
     .current-branch {
-        position: absolute;
-        left: 0;
-        top: 30px;
-        right: 0;
-        height: 20px;
-        background: #666;
-        padding-left: 28px;
-        line-height: 20px;
+        position: relative;
+        margin: 4px;
+        padding: 8px 24px;
+        font-weight: bold;
+        color: #cacaca;
+
+        &::before {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            transform: rotate(90deg);
+        }
 
         &:hover {
             cursor: pointer;
-            background-color: #999;
+            color: $offWhite;
         }
+    }
+
+    .branch {
+        font-weight: bold;
+        color: #cacaca;
     }
 
     .branches-list {
@@ -33,7 +50,7 @@
         position: absolute;
         top: 50px;
         padding: 0px 0px 0px 20px;
-        bottom: 60px;
+        bottom: 0;
         width: $sidePaneWidth;
         overflow: auto;
     }
@@ -47,21 +64,20 @@
         background-color: #393939;
 
         input[type='text'] {
-            margin: 0;
-            padding: 0;
             width: $sidePaneWidth - 35;
-            border: 0px;
+            height: inherit;
+            margin: 0;
+            padding: 0 0 0 40px;
+            border: 0;
             outline: none;
-            font-family: 'Droid Sans', sans-serif;
-            color: #cccccc;
+            font-family: 'Oxygen', sans-serif;
+            font-size: inherit;
+            color: #cacaca;
             background: transparent;
             background-image: url('../img/github.svg');
             background-size: 24px 24px;
             background-repeat: no-repeat;
             background-position: 8px 5px;
-            padding-left: 40px;
-            height: inherit;
-            font-size: inherit;
         }
     }
 }

@@ -57,7 +57,7 @@ module.exports = React.createClass({
 
 		return (
 			<div id="workspace">
-				<a onClick={this.handleClick} className="current-branch">{this.currentBranchName()}</a>
+				<a onClick={this.handleClick} className="current-branch icon-code-fork">{this.currentBranchName()}</a>
 				{body}
 			</div>
 		);

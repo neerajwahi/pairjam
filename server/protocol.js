@@ -5,8 +5,8 @@ var logger = require('winston');
 module.exports = {
 	// WebRTC signaling
 	shareVideo: function(session, clientId, data) {
-		logger.log('debug', clientId + ' is sharing video');
-		session.shareVideo(clientId);
+		logger.log('debug', clientId + ' is sharing audio and/or video');
+		session.shareVideo(clientId, data.includeAudio, data.includeVideo);
 	},
 
 	unshareVideo: function(session, clientId, data) {

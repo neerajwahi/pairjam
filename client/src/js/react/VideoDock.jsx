@@ -10,37 +10,55 @@ var VideoDock = React.createClass({
 
     handleVideoShare: function(clientId) {
         if (this.props.videoStatus === 'off') {
-            this.props.shareVideo();
+            this.props.shareVideo(true, true);
         } else {
             this.props.unshareVideo();
         }
     },
 
     handleAudioShare: function(clientId) {
-        if (this.props.videoStatus === 'off') {
-            this.props.shareVideo();
+        if (this.props.audioStatus === 'off') {
+            if (this.props.videoStatus === 'off') {
+                this.props.shareVideo(true, false);
+            } else {
+                this.props.muteVideo(false);
+            }
         } else {
-            this.props.unshareVideo();
+            if (this.props.videoStatus === 'off') {
+                this.props.unshareVideo();
+            } else {
+                this.props.muteVideo(true);
+            }
         }
     },
 
     handleVideoSubscribe: function(clientId) {
         if (!this.props.peers[clientId].videoStream) return;
 
-        if (this.props.videoClientId && this.props.videoClientId === clientId) {
+        if (this.props.videoSub == clientId) {
             this.props.unsubscribeVideo(clientId);
         } else {
-            this.props.subscribeVideo(clientId);
+            this.props.subscribeVideo(clientId, true, true);
         }
     },
 
     handleAudioSubscribe: function(clientId) {
-        if (!this.props.peers[clientId].videoStream) return;
+        if (!this.props.peers[clientId].audioStream) return;
 
-        if (this.props.videoClientId && this.props.videoClientId === clientId) {
-            this.props.unsubscribeVideo(clientId);
+        if (this.props.audioSub == clientId) {
+            if (this.props.videoSub == clientId) {
+                // Mute the audio here
+                this.props.muteSubscribed(true);
+            } else {
+                this.props.unsubscribeVideo(clientId);
+            }
         } else {
-            this.props.subscribeVideo(clientId);
+            if (this.props.videoSub == clientId) {
+                // Unmute the audio here
+                this.props.muteSubscribed(false);
+            } else {
+                this.props.subscribeVideo(clientId, true, false);
+            }
         }
     },
 
@@ -51,31 +69,37 @@ var VideoDock = React.createClass({
         listItems.push(
             <li key='ownVideo'>
                 Share your video?
-                <input type="checkbox" value={this.props.videoStatus !== 'off'} onChange={this.handleVideoShare} />
+                <input type="checkbox" checked={this.props.videoStatus !== 'off'}
+                    onChange={this.handleVideoShare} />
             </li>
         );
 
         listItems.push(
             <li key='ownAudio'>
                 Share your audio?
-                <input type="checkbox" value={this.props.audioStatus !== 'off'} onChange={this.handleAudioShare} />
+                <input type="checkbox" checked={this.props.audioStatus !== 'off'}
+                    onChange={this.handleAudioShare} />
             </li>
         );
 
         Object.keys(peers).forEach((function (id) {
             var videoStatus = 'videoDisabled', audioStatus = 'audioDisabled';
             var color = this.props.peerColors[id];
+            var audioStream = peers[id].audioStream;
             var videoStream = peers[id].videoStream;
 
             if (videoStream) {
-                videoStatus = this.props.videoClientId === id ? 'videoActive' : 'videoEnabled';
+                videoStatus = (this.props.videoSub == id? 'videoActive' : 'videoEnabled');
+            }
+            if (audioStream) {
+                audioStatus = (this.props.audioSub == id? 'audioActive' : 'audioEnabled');
             }
 
             listItems.push(
                 <li key={'user ' + peers[id].name} data-color={color}>
-                    {peers[id].name}
-                    <button className={'icon-mic ' + audioStatus} onClick={this.handleAudioSubscribe.bind(null, id)}></button>
+                    <div className='videoUser'>{peers[id].name}</div>
                     <button className={'icon-cam ' + videoStatus} onClick={this.handleVideoSubscribe.bind(null, id)}></button>
+                    <button className={'icon-mic ' + audioStatus} onClick={this.handleAudioSubscribe.bind(null, id)}></button>
                 </li>
             );
         }).bind(this));
