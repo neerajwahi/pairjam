@@ -9,6 +9,7 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var preprocess = require('gulp-preprocess');
 var ghpages = require('gulp-gh-pages');
+var autoprefixer = require('gulp-autoprefixer');
 
 // Basic usage
 gulp.task('scripts', function() {
@@ -51,6 +52,7 @@ gulp.task('prod_scripts', function() {
 gulp.task('sass', function () {
     gulp.src('src/scss/main.scss')
         .pipe(sass())
+        .pipe(autoprefixer())
         .pipe(gulp.dest('./public/css'));
 });
 
@@ -59,7 +61,7 @@ gulp.task('prod_sass', function () {
         .pipe(sass({style: 'compressed'}))
         .pipe(gulp.dest('./public/css'));
 });
- 
+
 // JS hint task
 gulp.task('jshint', function() {
 	gulp.src(['src/js/*.js','../lib/ot/*.js'])

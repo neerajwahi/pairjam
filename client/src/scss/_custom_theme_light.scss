@@ -1,4 +1,5 @@
-#mainContainer.lightTheme {
+#anotherContainer.lightTheme {
+	background: #eff1f5;
 	#sidePane {
 		background: #e6e9f0;
 
@@ -30,12 +31,17 @@
 		}
 	}
 
-	.dock {
+	.dockBlocker {
 		background: #e6e9f0;
+	}
 
-
+	.dock {
 		button::before {
 			color: #aaacb3;
+		}
+
+		button:hover::before {
+			color: #707070;
 		}
 
 		&.notificationDock.unread > button::after {

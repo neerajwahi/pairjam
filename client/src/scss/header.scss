@@ -31,6 +31,12 @@
 .icon-download:before {
   content: "\e601";
 }
+.icon-arrow-go:before {
+  content: "\e60a";
+}
+.icon-mail:before {
+  content: "\e60b";
+}
 .icon-code-fork:before {
   content: "\f126";
 }
@@ -66,11 +72,9 @@
 }
 
 @mixin blurEffect {
-    -webkit-filter: blur(4px);
-    -moz-filter: blur(4px);
-    -o-filter: blur(4px);
-    -ms-filter: blur(4px);
-    filter: blur(4px);
+	filter: url(blur.svg);
+	filter: blur(4px);
+	filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='4');
 }
 
 /* Widths */
@@ -96,4 +100,10 @@ $sidePaneWidth: 240px;
 
 ::-webkit-scrollbar-corner {
   background: rgba(0, 0, 0, 0.1);
+}
+
+.vcent {
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
 }

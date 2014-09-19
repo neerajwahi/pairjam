@@ -39,7 +39,11 @@ body {
     position: relative;
 }
 
-#mainContainer {
+#anotherContainer {
+    background: #2d2d2d;
+}
+
+#anotherContainer, #mainContainer {
     position: absolute;
     top: 0;
     right: 0;

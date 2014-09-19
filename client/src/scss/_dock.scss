@@ -142,6 +142,11 @@
 
 		&::before {
 			color: #606060;
+			transition: color 0.2s;
+		}
+
+		&:hover::before {
+			color: #7a7a7a;
 		}
 	}
 
@@ -208,6 +213,14 @@
 		overflow-y: auto;
 		overflow-x: hidden;
 		border-radius: 18px;
+
+		& button::before {
+			color: #aaacb3;
+		}
+
+		& button:hover::before {
+			color: #707070;
+		}
 
 		&::-webkit-scrollbar {
 		  width: 0;
