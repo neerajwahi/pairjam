@@ -55,7 +55,7 @@
         margin-top: 0;
     }
 
-    input[type='text'], button {
+    input[type='text'], input[type='submit'], button {
         display: inline-block;
         vertical-align: middle;
         height: 30px + 10px * 2;
@@ -70,7 +70,7 @@
     }
 
     input[type='text'] {
-        width: 196px;
+        width: 220px;
         color: #2d2d2d;
         background: $offWhite;
         border-top-left-radius: 25px;
@@ -96,7 +96,8 @@
         }
     }
 
-    .mailing {
+    .mailing, .mailing:active, .mailing:hover, .mailing:visited {
+        color: $offWhite;
         text-decoration: underline;
         cursor: pointer;
     }
