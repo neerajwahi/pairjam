@@ -153,12 +153,23 @@ body {
     overflow: auto;
 }
 
-$userColors: #56b, #933, #771;
-
-@for $i from 1 through length($userColors) {
-    .guest#{$i} {
-        background-color: nth($userColors, $i);
-        border-color: nth($userColors, $i) !important;
+$colorLength: length($userColors);
+@for $i from 1 through $colorLength {
+    @for $j from 0 through 5 {
+        .guest#{$i + $j * $colorLength} {
+            background-color: nth($userColorsDark, $i);
+            border-color: nth($userColorsDark, $i) !important;
+        }
+        .guest#{$i + $j * $colorLength}Before::before {
+            background-color: nth($userColorsDark, $i);
+        }
+        .lightTheme .guest#{$i + $j * $colorLength} {
+            background-color: nth($userColorsLight, $i);
+            border-color: nth($userColorsLight, $i) !important;
+        }
+        .lightTheme .guest#{$i + $j * $colorLength}Before::before {
+            background-color: nth($userColorsLight, $i);
+        }
     }
 }
 
@@ -170,11 +181,13 @@ $userColors: #56b, #933, #771;
 
 .userMarker {
     position: absolute;
-    opacity: 0.9;
-    height: 15px;
     z-index: 900;
-    color: #fff;
-    padding: 1px 3px 1px 3px;
+    height: 15px;
+    padding: 0 4px;
+    font-size: 10px;
+    line-height: 15px;
+    color: $offWhite;
+    transition: color 0.5s, background 0.5s;
 }
 
 .disabled {

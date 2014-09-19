@@ -72,14 +72,7 @@
 		border-radius: 12px;
 		margin-right: -12px;
 		transition: margin-right .25s;
-		// TODO: make scroll on click work
-		//cursor: pointer;
-
-		@for $i from 1 through 4 {
-			&:nth-child(#{$i}) {
-			  background: nth($colors, $i);
-			}
-		}
+		cursor: pointer;
 
 		&:hover {
 			&::before {

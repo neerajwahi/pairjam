@@ -1,13 +1,19 @@
 /* Colors */
-$red: #ff5c5d;
-$blue: #2DC9E9;
-$blueDark: #1b2f39;
-$green: #53d76a;
-$purple: #c000e0;
-$teal: #00c0e0;
+$blue: #3498db;
+$purple: #9b59b6;
+$red: #e74c3c;
+$orange: #e67e22;
+$yellow: #f1c40f;
+$green: #2ecc71;
 $offWhite: #f4f4f4;
-$grey: #d3d3d3;
-$colors: $purple, $red, $green, $teal;
+
+$userColors: $blue, $purple, $red, $orange, $yellow, $green;
+$userColorsDark: ();
+$userColorsLight: ();
+@each $color in $userColors {
+    $userColorsDark: append($userColorsDark, desaturate(darken($color, 15%), 10%));
+    $userColorsLight: append($userColorsLight, desaturate(lighten($color, 15%), 10%));
+}
 
 $headerColor: #272727;
 

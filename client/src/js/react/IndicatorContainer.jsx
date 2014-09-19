@@ -55,7 +55,7 @@ var Indicator = React.createClass({
     render: function() {
         return (
         	<li data-user={this.props.name}
-                data-color={this.props.color}
+                className={this.props.color}
                 onClick={this.props.handleClick} ></li>
         );
     }

@@ -1,9 +1,26 @@
 #anotherContainer.lightTheme {
 	background: #eff1f5;
+
+    .modalWindow, .github-button {
+		color: #606060;
+    }
+
+	.modalWindow input[type='text'] {
+    	color: $offWhite;
+        background: #606060;
+	}
+
+
+	.userMarker {
+		color: #4f5b66;
+	}
+
 	#sidePane {
 		background: #e6e9f0;
 
 		.repoSearchBox {
+			background: #aaacb3;
+
 			input {
 				color: #eff1f5;
 
@@ -23,8 +40,19 @@
 					color: #eff1f5;
 				}
 			}
-			background: #aaacb3;
 		}
+
+		.current-branch, .branch {
+			color: #797979;
+		}
+
+		.treePane label:hover {
+			color: #606060;
+		}
+
+		.selected {
+        	color: #3a3a3a;
+    	}
 
 		.modified::after {
 			background: $blue;
@@ -33,6 +61,11 @@
 
 	.dockBlocker {
 		background: #e6e9f0;
+	}
+
+	.notification {
+		background: #aaacb3;
+		color: $offWhite;
 	}
 
 	.dock {

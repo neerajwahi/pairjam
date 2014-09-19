@@ -6,6 +6,10 @@
     bottom: 72px;
     width: 100%;
     overflow: auto;
+
+    .videoStreaming &{
+        bottom: 246px;
+    }
 }
 
 /* Side pane */
