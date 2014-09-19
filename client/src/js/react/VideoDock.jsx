@@ -94,7 +94,7 @@ var VideoDock = React.createClass({
             }
 
             listItems.push(
-                <li key={'user ' + peers[id].name} data-color={color}>
+                <li className={color + 'Before'} key={'user ' + peers[id].name + id}>
                     <div className='videoUser'>{peers[id].name}</div>
                     <button className={'icon-cam ' + videoStatus} onClick={this.handleVideoSubscribe.bind(null, id)}></button>
                     <button className={'icon-mic ' + audioStatus} onClick={this.handleAudioSubscribe.bind(null, id)}></button>

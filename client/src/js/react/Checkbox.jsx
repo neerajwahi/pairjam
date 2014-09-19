@@ -8,7 +8,7 @@ var Checkbox = React.createClass({
 
 	componentDidMount: function() {
 		var domNode = this.getDOMNode();
-		this.switchery = new Switchery(domNode, {color: '#72d572'});
+		this.switchery = new Switchery(domNode, {color: '#53d76a'});
 		domNode.onchange = this.props.handleChange;
 	},
 

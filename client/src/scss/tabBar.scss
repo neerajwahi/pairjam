@@ -1,95 +1,97 @@
-.tabBar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 30px;
-    line-height: 30px;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    overflow: hidden;
-}
-
-.tabBar li {
-    position: relative;
-    float: left;
-    height: 100%;
-    max-width: 150px;
-    min-width: 20px;
-    margin-right: -8px;
-    color: $blue + #666;
-    cursor: pointer;
-
-    &:hover {
-        .tabClose {
-            display: block;
-        }
-        &::before {
-            background: $blue;
-        }
-    }
-
-    &::before {
-        content: '';
-        z-index: -1;
-        position: absolute;
-        top: 0;
-        right: -16px;
-        bottom: -3px;
-        left: 0;
-        outline: 1px solid transparent;
-        border-radius: 10px 10px 0 0;
-        background: $blueDark;
-        box-shadow: inset 0 -3px 3px rgba(0,0,0,0.2);
-        transform: perspective(5px) rotateX(0.93deg) translateZ(-1px);
-        transform-origin: 0 0;
-        backface-visibility: hidden;
-    }
-
-    &:first-child {
-        &::before {
-            border-radius: 0 10px 0 0;
-        }
-    }
-
-    @for $i from 1 through 30 {
-        &:nth-child(#{$i}) {
-            z-index: 100 - $i;
-        }
-    }
-}
-
-.tabBar .active {
-    z-index: 1000;
-    &::before {
-        background: $blue;
-        box-shadow: none;
-    }
-}
-
-// TODO: What is this??
-.tabBar .add {
-    float: right;
-    width: 35px;
-    text-align: center;
-    font-weight: bold;
-    margin: 0 2px;
-}
-
-.tabBar .tabTitle {
-    width: 80%;
-    padding-left: 1em;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.tabBar .tabClose {
-    display: none;
-    position: absolute;
-    right: 18px;
-
-    &:hover {
-        color: $blue + #999;
-    }
-}
+// For another day...
+//
+//  .tabBar {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     height: 30px;
+//     line-height: 30px;
+//     width: 100%;
+//     margin: 0;
+//     padding: 0;
+//     list-style: none;
+//     overflow: hidden;
+// }
+//
+// .tabBar li {
+//     position: relative;
+//     float: left;
+//     height: 100%;
+//     max-width: 150px;
+//     min-width: 20px;
+//     margin-right: -8px;
+//     color: $blue + #666;
+//     cursor: pointer;
+//
+//     &:hover {
+//         .tabClose {
+//             display: block;
+//         }
+//         &::before {
+//             background: $blue;
+//         }
+//     }
+//
+//     &::before {
+//         content: '';
+//         z-index: -1;
+//         position: absolute;
+//         top: 0;
+//         right: -16px;
+//         bottom: -3px;
+//         left: 0;
+//         outline: 1px solid transparent;
+//         border-radius: 10px 10px 0 0;
+//         background: $blueDark;
+//         box-shadow: inset 0 -3px 3px rgba(0,0,0,0.2);
+//         transform: perspective(5px) rotateX(0.93deg) translateZ(-1px);
+//         transform-origin: 0 0;
+//         backface-visibility: hidden;
+//     }
+//
+//     &:first-child {
+//         &::before {
+//             border-radius: 0 10px 0 0;
+//         }
+//     }
+//
+//     @for $i from 1 through 30 {
+//         &:nth-child(#{$i}) {
+//             z-index: 100 - $i;
+//         }
+//     }
+// }
+//
+// .tabBar .active {
+//     z-index: 1000;
+//     &::before {
+//         background: $blue;
+//         box-shadow: none;
+//     }
+// }
+//
+// // TODO: What is this??
+// .tabBar .add {
+//     float: right;
+//     width: 35px;
+//     text-align: center;
+//     font-weight: bold;
+//     margin: 0 2px;
+// }
+//
+// .tabBar .tabTitle {
+//     width: 80%;
+//     padding-left: 1em;
+//     text-overflow: ellipsis;
+//     overflow: hidden;
+// }
+//
+// .tabBar .tabClose {
+//     display: none;
+//     position: absolute;
+//     right: 18px;
+//
+//     &:hover {
+//         color: $blue + #999;
+//     }
+// }

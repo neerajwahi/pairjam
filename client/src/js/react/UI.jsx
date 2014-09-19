@@ -36,7 +36,7 @@ var UI = React.createClass({
 			videoStatus: 'off',
             audioStatus: 'off',
 			av: null,
-			lightTheme: false,
+			lightTheme: localStorage.lightTheme === 'true',
 			notifications: []
 		};
 	},
@@ -255,6 +255,7 @@ var UI = React.createClass({
 
     changeTheme: function(checkboxValue) {
         this.refs.editor.setTheme('ace/theme/' + (checkboxValue ? 'spacegray' : 'tomorrow_night_eighties'));
+        localStorage.lightTheme = checkboxValue;
         this.setState({
             lightTheme: checkboxValue
         });
@@ -285,7 +286,9 @@ var UI = React.createClass({
             <div id='anotherContainer' className={this.state.lightTheme ? ' lightTheme' : ''}>
                 <ModalWindow onSuccess={this.onEntrySuccess} />
                 <div id="mainContainer" className={this.state.allowInteraction ? '' : 'popupScreen'} onClick={this.handleClick}>
-                    <div id="sidePane" className={this.state.videoSub? 'videoStreaming' : ''}>
+                    <div id="sidePane"
+                        className={this.state.videoStatus !== 'off' ||
+                                   this.state.videoSub ? 'videoStreaming' : ''} >
                         <RepoSearch
                           ref='repoBox'
                           onSubmit={this.props.handlers.onLoadRepo} />

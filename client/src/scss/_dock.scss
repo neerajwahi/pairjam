@@ -84,25 +84,35 @@
 		ul {
 			left: -78px;
 		}
-		li
+		li {
 			&:nth-child(n + 3)::before {
 				content: '';
 				position: relative;
-				top: 2px;
-				height: 18px;
-				width: 18px;
+				top: 3px;
+				float: left;
+				height: 12px;
+				width: 12px;
 				margin-right: 1em;
-				border-radius: 12px;
-				display: inline-block;
+				border-radius: 6px;
 			}
 			.icon-cam {
 				font-size: 16px;
 			}
-		.videoEnabled, .audioEnabled {
-			background-color: yellow;
 		}
-		.audioActive, .videoActive {
-			background-color: green;
+
+		.videoDisabled, .audioDisabled {
+			cursor: default;
+
+			&::before, &:hover::before {
+				color:  #e1e3ea;
+			}
+
+		}
+
+		.videoActive, .audioActive {
+			&::before {
+				color: $green;
+			}
 		}
 	}
 
@@ -165,9 +175,8 @@
 	}
 
 	.videoUser {
-		display: inline-block;
 		float: left;
-		max-width: 88px;
+		max-width: 70px;
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}
