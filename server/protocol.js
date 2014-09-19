@@ -5,8 +5,8 @@ var logger = require('winston');
 module.exports = {
 	// WebRTC signaling
 	shareVideo: function(session, clientId, data) {
-		logger.log('debug', clientId + ' is sharing video');
-		session.shareVideo(clientId);
+		logger.log('debug', clientId + ' is sharing audio and/or video');
+		session.shareVideo(clientId, data.includeAudio, data.includeVideo);
 	},
 
 	unshareVideo: function(session, clientId, data) {
@@ -74,6 +74,10 @@ module.exports = {
 	// Set a folder to open or closed
 	setWorkTreeState: function(session, clientId, data) {
 		session.setWorkTreeState(data.path, data.isopen);
+	},
+
+	setLang: function(session, clientId, data) {
+		session.setLang(clientId, data.lang);
 	},
 
 	// Create a patch file of project changes

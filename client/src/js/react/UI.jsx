@@ -14,23 +14,14 @@ var Video = require('./Video.jsx');
 var TabBar = require('./TabBar.jsx');
 var DockContainer = require('./DockContainer.jsx');
 
-var IndicatorContainer = require('./IndicatorContainer.jsx');
-
 var CodeEditor = require('./CodeEditor.jsx');
 var MarkdownEditor = require('./MarkdownEditor.jsx');
-
-//var AV = require('../AV.js');
-                            /*<Video videoStatus={this.state.videoStatus}
-                                   videoClientId={this.state.videoClientId}
-                                   shareVideo={this.shareVideo}
-                                   unshareVideo={this.unshareVideo} />*/
 
 var util = require('../util.js');
 var notice = require('../notifications.jsx');
 
 // TODO: remove unnecessary DIVs
 // TODO: speed up UI using shouldComponentRender
-// BUG: with 2+ ppl random dropped connections (is this a Chrome limit?)
 
 var UI = React.createClass({
 	getInitialState: function() {
@@ -43,6 +34,7 @@ var UI = React.createClass({
 			clientColors: {},
 			colorPool: ['guest1', 'guest2', 'guest3', 'guest4', 'guest5', 'guest6', 'guest7', 'guest8', 'guest9', 'guest10'],
 			videoStatus: 'off',
+            audioStatus: 'off',
 			av: null,
 			lightTheme: false,
 			notifications: []
@@ -116,12 +108,6 @@ var UI = React.createClass({
         //this.refs.markdown.setState({doc: doc});
     },
 
-    updateClientPos: function(clientPos) {
-        this.refs.indicatorContainer.setState({
-            peerPos: clientPos
-        });
-    },
-
     setWorkspace: function(workspace) {
         this.refs.repoBox.setState({
             user: workspace.user,
@@ -141,6 +127,11 @@ var UI = React.createClass({
         }
     },
 
+    setLang: function(clientName, lang) {
+        this.refs.editor.setLang(lang);
+        this.notify(notice.langChanged(clientName, lang));
+    },
+
     notify: function(notice) {
         this.refs.dockContainer.pushNotification(notice);
     },
@@ -153,12 +144,13 @@ var UI = React.createClass({
     },
 
     // Audio/video
-    shareVideo: function() {
+    shareVideo: function(includeAudio, includeVideo) {
         this.setState({
-            videoStatus: 'awaitingPermission'
+            audioStatus: includeAudio? 'awaitingPermission' : this.state.audioStatus,
+            videoStatus: includeVideo? 'awaitingPermission' : this.state.videoStatus
         });
 
-        var msg = '\u25b2 Allow pair/jam access to your camera and microphone';
+        var msg = '\u25b2 Allow Pairjam access to your camera and microphone';
         this.notify({
             type: 'joinMsg',
             itemId: 'video',
@@ -166,10 +158,11 @@ var UI = React.createClass({
             keepAlive: true
         });
 
-        this.state.av.share((function(err) {
+        this.state.av.share(includeAudio, includeVideo, (function(err) {
             if (err) {
                 this.setState({
-                    videoStatus: 'off'
+                    audioStatus: includeAudio? 'off' : this.state.audioStatus,
+                    videoStatus: includeVideo? 'off' : this.state.videoStatus
                 });
                 this.unshareVideo();
                 this.notify({
@@ -179,7 +172,8 @@ var UI = React.createClass({
                 });
             } else {
                 this.setState({
-                    videoStatus: 'connecting'
+                    audioStatus: includeAudio? 'connecting' : this.state.audioStatus,
+                    videoStatus: includeVideo? 'connecting' : this.state.videoStatus
                 });
                 var msg = 'You are now sharing audio + video.';
                 this.notify({
@@ -192,7 +186,8 @@ var UI = React.createClass({
     },
 
     unshareVideo: function() {
-        if (this.state.videoStatus === 'awaitingPermission') {
+        if (this.state.audioStatus === 'awaitingPermission' ||
+            this.state.videoStatus === 'awaitingPermission') {
             var msg = '\u25b2 Your browser is already asking you for access to your camera and microphone.';
             this.notify({
                 type: 'errorMsg',
@@ -200,13 +195,15 @@ var UI = React.createClass({
             });
             return;
         }
-        if (this.state.videoStatus === 'off') return;
+        if (this.state.audioStatus === 'off' &&
+            this.state.videoStatus === 'off') return;
 
         this.setState({
+            audioStatus: 'off',
             videoStatus: 'off'
         });
 
-        var msg = 'You are no longer sharing audio + video.';
+        var msg = 'You are no longer sharing audio or video.';
         this.notify({
             type: 'errorMsg',
             itemId: 'video',
@@ -216,11 +213,19 @@ var UI = React.createClass({
         this.state.av.unshare();
     },
 
-    subscribeVideo: function(clientId) {
-        this.state.av.subscribe(clientId, (function(err) {
+    muteVideo: function(isMuted) {
+        this.setState({
+            audioStatus: isMuted? 'off' : this.state.videoStatus
+        });
+        this.state.av.mute(isMuted);
+    },
+
+    subscribeVideo: function(clientId, includeAudio, includeVideo) {
+        this.state.av.subscribe(clientId, includeAudio, includeVideo, (function(err) {
             if (!err) {
                 this.setState({
-                    videoClientId: clientId
+                    audioSub: includeAudio? clientId : undefined,
+                    videoSub: includeVideo? clientId : undefined
                 });
             }
         }).bind(this));
@@ -230,10 +235,18 @@ var UI = React.createClass({
         this.state.av.unsubscribe(clientId, (function(err) {
             if (!err) {
                 this.setState({
-                    videoClientId: undefined
+                    audioSub: undefined,
+                    videoSub: undefined
                 });
             }
         }).bind(this));
+    },
+
+    muteSubscribed: function(isMuted) {
+        this.setState({
+            audioSub: isMuted? undefined : this.state.videoSub
+        });
+        this.state.av.muteSub(isMuted);
     },
 
     onDocChange: function(op) {
@@ -248,6 +261,7 @@ var UI = React.createClass({
     },
 
     savePatch: function() {
+        console.log('saving patch');
         this.props.handlers.onRequestPatch();
     },
 
@@ -270,9 +284,8 @@ var UI = React.createClass({
         return (
             <div id='anotherContainer' className={this.state.lightTheme ? ' lightTheme' : ''}>
                 <ModalWindow onSuccess={this.onEntrySuccess} />
-
                 <div id="mainContainer" className={this.state.allowInteraction ? '' : 'popupScreen'} onClick={this.handleClick}>
-                    <div id="sidePane" className={this.state.videoClientId? 'videoStreaming' : ''}>
+                    <div id="sidePane" className={this.state.videoSub? 'videoStreaming' : ''}>
                         <RepoSearch
                           ref='repoBox'
                           onSubmit={this.props.handlers.onLoadRepo} />
@@ -292,19 +305,22 @@ var UI = React.createClass({
                             changeTheme={this.changeTheme}
                             savePatch={this.savePatch}
 							videoStatus={this.state.videoStatus}
-							audioStatus='TODO'
+							audioStatus={this.state.audioStatus}
 							peers={this.props.clients}
 							peerColors={this.state.clientColors}
-							videoClientId={this.state.videoClientId}
+							audioSub={this.state.audioSub}
+                            videoSub={this.state.videoSub}
 							shareVideo={this.shareVideo}
 							unshareVideo={this.unshareVideo}
+                            muteVideo={this.muteVideo}
 							subscribeVideo={this.subscribeVideo}
 							unsubscribeVideo={this.unsubscribeVideo}
+                            muteSubscribed={this.muteSubscribed}
                             notifications={this.state.notifications} />
 
-                        {this.state.videoStatus !== 'off' ?
+                        {(this.state.videoStatus !== 'off' || this.state.videoSub)?
                             <Video videoStatus={this.state.videoStatus}
-                                   videoClientId={this.state.videoClientId}
+                                   videoSub={this.state.videoSub}
                                    shareVideo={this.shareVideo}
                                    unshareVideo={this.unshareVideo} /> : ''
                         }
@@ -319,11 +335,7 @@ var UI = React.createClass({
                                     peerColors={this.state.clientColors}
                                     onDocChg={this.onDocChange}
                                     onCursorChg={this.props.handlers.onCursorChg}
-                                    onCursorPos={this.updateClientPos} />
-
-						<IndicatorContainer ref='indicatorContainer'
-							peers={this.props.clients}
-                            peerColors={this.state.clientColors} />
+                                    updateLang={this.props.handlers.onLangChg} />
                     </div>
                 </div>
             </div>

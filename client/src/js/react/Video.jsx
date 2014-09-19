@@ -19,7 +19,6 @@ var Video = React.createClass({
     },
 
     render: function() {
-
         var buttonClass = 'notInSession';
 
         if (this.props.videoStatus !== 'off') {
@@ -31,8 +30,8 @@ var Video = React.createClass({
 
         return (
             <div className='videoContainer'>
-                <video id='mainVideo' className={this.props.videoClientId? 'showing' : ''}></video>
-                <video id='localVideo' className={this.props.videoStatus === 'connecting' ? 'showing' : ''}></video>
+                <video id='mainVideo' className={this.props.videoSub? 'showing' : ''}></video>
+                <video id='localVideo' className={this.props.videoStatus === 'connecting'? 'showing' : ''}></video>
             </div>
         );
     }

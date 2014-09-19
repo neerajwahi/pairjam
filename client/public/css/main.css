@@ -332,6 +332,10 @@
       display: inline-block; }
     .dock.videoDock .icon-cam {
       font-size: 16px; }
+    .dock.videoDock .videoEnabled, .dock.videoDock .audioEnabled {
+      background-color: yellow; }
+    .dock.videoDock .audioActive, .dock.videoDock .videoActive {
+      background-color: green; }
   .dock.notificationDock {
     padding-left: 7px;
     padding-right: 15px; }

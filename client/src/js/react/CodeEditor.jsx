@@ -8,12 +8,14 @@ var LangBox = require('./LangBox.jsx');
 var Adapter = require('../../../../lib/ot/AceAdapter.js');
 var adapter = undefined;
 
+var IndicatorContainer = require('./IndicatorContainer.jsx');
+
 var CodeEditor = React.createClass({
 	getInitialState: function() {
 		return {
 			lang: 'Text',
 			langs: [],
-			cursors: []
+			cursors: {}
 		}
 	},
 
@@ -50,7 +52,10 @@ var CodeEditor = React.createClass({
 				clientPos[key] = 0;
 			}
 		}
-		this.props.onCursorPos(clientPos);
+		//this.props.onCursorPos(clientPos, this.state.cursors);
+        this.refs.indicatorContainer.setState({
+            peerPos: clientPos,
+        });
 	},
 
 	setFocus: function() {
@@ -73,29 +78,39 @@ var CodeEditor = React.createClass({
 		return lang;
 	},
 
-	updateLang: function(lang) {
+	setLang: function(lang) {
 		adapter.setLang(lang);
 		this.setState({
 			lang: lang
 		});
 	},
 
+    scrollToCursor: function(cursor) {
+    	adapter.scrollToCursor(cursor);
+    },
+
+    render: function() {
+        return (
+        	<div>
+        		<pre id='editor'></pre>
+
+				<LangBox ref={'lang'}
+						lang={this.state.lang}
+						langs={this.state.langs}
+						onChoseLang={this.props.updateLang} />
+
+				<IndicatorContainer ref='indicatorContainer'
+					peers={this.props.peers}
+                    peerColors={this.props.peerColors}
+                    peerCursors={this.state.cursors}
+                    scrollToCursor={this.scrollToCursor} />
+        	</div>
+        );
+    },
+    
 	setTheme: function(theme) {
 		adapter.setTheme(theme);
-	},
-
-  render: function() {
-      return (
-      	<div>
-      		<pre id='editor'></pre>
-          <LangBox ref={'lang'}
-       			  lang={this.state.lang}
-              langs={this.state.langs}
-              onChoseLang={this.updateLang} />
-
-      	</div>
-      );
-  }
+	}
 });
 
 module.exports = CodeEditor;

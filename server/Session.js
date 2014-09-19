@@ -70,6 +70,7 @@ Session.prototype = {
 		var client = {
 			id: clientId,
 			name: name,
+			audioStream: false,
 			videoStream: false
 		};
 
@@ -221,14 +222,16 @@ Session.prototype = {
 		});
 	},
 
-	shareVideo: function(clientId) {
-		this.clients[clientId].videoStream = true;
+	shareVideo: function(clientId, includeAudio, includeVideo) {
+		this.clients[clientId].audioStream = includeAudio;
+		this.clients[clientId].videoStream = includeVideo;
 		this.sendAll('shareVideo', {
 			'client': this.clients[clientId]
 		});
 	},
 
 	unshareVideo: function(clientId) {
+		this.clients[clientId].audioStream = false;
 		this.clients[clientId].videoStream = false;
 		this.sendAll('unshareVideo', {
 			'client': this.clients[clientId]
@@ -250,21 +253,19 @@ Session.prototype = {
 		this.send(client, 'rtcMessage', data);
 	},
 
+	setLang: function(clientId, lang) {
+		this.sendAll('setLang', {
+			'client': this.clients[clientId],
+			'lang': lang
+		});
+	},
+
 	// Create a patchfile
 	createPatch: function(clientId) {
 		var patchText = '';
 		Object.keys(this.doc).forEach((function(docId) {
 			if (docId == 0) return;
-			//var patch = dmp.patch_make(this.doc[docId].origText, this.doc[docId].text);
 			patchText += jsdiff.createPatch(this.doc[docId].filepath, this.doc[docId].origText, this.doc[docId].text);
-			/*
-			patchText += 	'diff --git' +
-							' a/' + this.doc[docId].filepath +
-							' b/' + this.doc[docId].filepath + '\n' +
-							'--- a/' + this.doc[docId].filepath + '\n' +
-							'+++ b/' + this.doc[docId].filepath + '\n' +
-							dmp.patch_toText(patch) + '\n';
-			*/
 		}).bind(this));
 
 		this.send(this.clients[clientId], 'patchFile', patchText);
