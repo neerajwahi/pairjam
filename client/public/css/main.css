@@ -449,7 +449,14 @@
       clear: both; }
   .dock .switchery {
     float: right;
-    margin: -9px 0; }
+    margin: -5px 0;
+    height: 24px;
+    width: 40px;
+    border-radius: 13px; }
+    .dock .switchery small {
+      height: 24px;
+      width: 24px;
+      border-radius: 50%; }
 
 .dockBlocker {
   position: absolute;

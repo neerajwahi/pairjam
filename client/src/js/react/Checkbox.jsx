@@ -8,13 +8,20 @@ var Checkbox = React.createClass({
 
 	componentDidMount: function() {
 		var domNode = this.getDOMNode();
-		var switchery = new Switchery(domNode, {color: '#72d572'});
+		this.switchery = new Switchery(domNode, {color: '#72d572'});
 		domNode.onchange = this.props.handleChange;
+	},
+
+	componentWillReceiveProps: function(nextProps) {
+		if (nextProps.checked !== this.props.checked) {
+			this.switchery.setPosition();
+		}
 	},
 
 	render: function() {
 		return (
-			<input type="checkbox" />
+			// onChange will never be triggered, this is just to make React stfu
+			<input type="checkbox" checked={this.props.checked} onChange={function(){}} />
 		);
 	}
 });

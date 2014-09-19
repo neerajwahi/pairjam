@@ -16,7 +16,7 @@ var OptionDock = React.createClass({
         var listItems = [
             <li key='lightTheme'>
                 Light theme?
-                <Checkbox handleChange={this.handleThemeChange} />
+                <Checkbox handleChange={this.handleThemeChange} checked={this.props.lightTheme} />
             </li>,
             <li key='gitPatch'>
                 Download Git patch

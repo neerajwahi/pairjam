@@ -69,14 +69,14 @@ var VideoDock = React.createClass({
         listItems.push(
             <li key='ownVideo'>
                 Share your video?
-                <Checkbox handleChange={this.handleVideoShare} />
+                <Checkbox handleChange={this.handleVideoShare} checked={this.props.videoStatus !== 'off'} />
             </li>
         );
 
         listItems.push(
             <li key='ownAudio'>
                 Share your audio?
-                <Checkbox handleChange={this.handleAudioShare} />
+                <Checkbox handleChange={this.handleAudioShare} checked={this.props.audioStatus !== 'off'} />
             </li>
         );
 
