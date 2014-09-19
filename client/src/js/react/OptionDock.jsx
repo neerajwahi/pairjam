@@ -1,5 +1,6 @@
 var React = require('react');
 var Dock = require('./Dock.jsx');
+var Checkbox = require('./Checkbox.jsx');
 
 var OptionDock = React.createClass({
     getInitialState: function() {
@@ -15,7 +16,7 @@ var OptionDock = React.createClass({
         var listItems = [
             <li key='lightTheme'>
                 Light theme?
-                <input type="checkbox" /*checked={this.props.lightTheme}*/ onChange={this.handleThemeChange} />
+                <Checkbox handleChange={this.handleThemeChange} />
             </li>,
             <li key='gitPatch'>
                 Download Git patch

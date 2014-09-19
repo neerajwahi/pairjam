@@ -2,7 +2,9 @@
 var React = require('react');
 
 // External libraries
-var Switchery = require('../../../bower_components/switchery/switchery.js');
+window.polyfilter_scriptpath = '/js/polyfilter/';
+require('../../../bower_components/polyfilter/lib/cssParser.js');
+require('../../../bower_components/polyfilter/lib/css-filters-polyfill.js');
 
 // React UI components
 var Workspace = require('./Workspace.jsx');
@@ -266,13 +268,10 @@ var UI = React.createClass({
 
     render: function() {
         return (
-            <div>
+            <div id='anotherContainer' className={this.state.lightTheme ? ' lightTheme' : ''}>
                 <ModalWindow onSuccess={this.onEntrySuccess} />
 
-                <div id="mainContainer" className={
-                	(this.state.allowInteraction ? '' : 'popupScreen') +
-                	(this.state.lightTheme ? ' lightTheme' : '')
-                } onClick={this.handleClick}>
+                <div id="mainContainer" className={this.state.allowInteraction ? '' : 'popupScreen'} onClick={this.handleClick}>
                     <div id="sidePane" className={this.state.videoClientId? 'videoStreaming' : ''}>
                         <RepoSearch
                           ref='repoBox'

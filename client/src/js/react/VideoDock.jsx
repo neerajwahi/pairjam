@@ -1,5 +1,6 @@
 var React = require('react');
 var Dock = require('./Dock.jsx');
+var Checkbox = require('./Checkbox.jsx');
 
 var VideoDock = React.createClass({
     getInitialState: function() {
@@ -50,14 +51,14 @@ var VideoDock = React.createClass({
         listItems.push(
             <li key='ownVideo'>
                 Share your video?
-                <input type="checkbox" value={this.props.videoStatus !== 'off'} onChange={this.handleVideoShare} />
+                <Checkbox handleChange={this.handleVideoShare} />
             </li>
         );
 
         listItems.push(
             <li key='ownAudio'>
                 Share your audio?
-                <input type="checkbox" value={this.props.audioStatus !== 'off'} onChange={this.handleAudioShare} />
+                <Checkbox handleChange={this.handleAudioShare} />
             </li>
         );
 
