@@ -1,4 +1,25 @@
 @font-face {
+  font-family: 'Oxygen';
+  src:url('../fonts/Oxygen-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Oxygen';
+  src:url('../fonts/Oxygen-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  src:url('../fonts/OxygenMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'icomoon';
   src:url('../fonts/icomoon.eot?l2nh50');
   src:url('../fonts/icomoon.eot?#iefixl2nh50') format('embedded-opentype'),
@@ -10,7 +31,7 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-  font-family: 'icomoon', 'Oxygen', sans-serif;
+  font-family: icomoon, Oxygen, sans-serif;
   speak: none;
   font-style: normal;
   font-weight: normal;
