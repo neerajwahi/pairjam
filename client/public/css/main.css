@@ -4,8 +4,8 @@
   #anotherContainer.lightTheme .modalWindow, #anotherContainer.lightTheme .github-button {
     color: #606060; }
   #anotherContainer.lightTheme .modalWindow input[type='text'] {
-    color: #f4f4f4;
-    background: #606060; }
+    border: 1px solid #909090;
+    border-right: 0; }
   #anotherContainer.lightTheme .userMarker {
     color: #4f5b66; }
   #anotherContainer.lightTheme #sidePane {
