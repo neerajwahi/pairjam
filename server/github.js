@@ -1,5 +1,4 @@
 var GitHubApi = require("github");
-var gitCred = require('./github_api_secret');
 var util = require('./util.js');
 var logger = require('winston');
 
