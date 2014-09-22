@@ -56,16 +56,11 @@ var ModalWindow = React.createClass({
                         </div>
                         </form>
 
-                        <p>Subscribe to our <a target="_blank" href="http://eepurl.com/3G245" className='mailing'>mailing list</a> to stay informed on future updates.</p>
-                        {this.state.showMailingNo ?
-                            <form action={"//neerajwahi.us9.list-manage.com/subscribe/post-json?u=c79cc599085f47a39065ff3f1&amp;id=98bd15cce9&c=?"} method="get" id="mc-embedded-subscribe-form" onSubmit={this.postEmail} name="mc-embedded-subscribe-form" className="validate" target="_blank" noValidate>
-                            <div className="inputGroup">
-                                <input className="emailInput" name="EMAIL" id="mce-EMAIL" type='text' placeholder={name.replace(/\s+/g, '').toLowerCase() + '@hotmail.com'}/>
-                                <input type="submit" className='icon-mail' />
-                            </div>
-                            <div style={{position: 'absolute', left: -5000}}><input type="text" name="b_c79cc599085f47a39065ff3f1_98bd15cce9" tabIndex="-1" value="" /></div>
-                            </form> : ''
-                        }
+                        <p><a target="_blank" href="http://eepurl.com/3G245" className='mailing'>Sign up</a> for future updates.</p>
+
+                        <p>This is a demo. It's likely full of bugs and comes with no warranty.</p>
+
+                        <a href="https://github.com/neerajwahi/pairjam"><img style={{position: 'absolute', top: 0, right: 0, border: 0}} src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" /></a>
 					</div>
                 </div>
             );
