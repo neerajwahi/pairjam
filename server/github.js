@@ -12,7 +12,7 @@ var github = new GitHubApi({
     timeout: 5000
 });
 
-if (node.env.GITHUB_CLIENT_ID && node.env.GITHUB_CLIENT_SECRET) {
+if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
     github.authenticate({
         type: "oauth",
         key: node.env.GITHUB_CLIENT_ID,
