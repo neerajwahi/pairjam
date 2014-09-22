@@ -80,6 +80,21 @@
 			color: #707070;
 		}
 
+		&.videoDock {
+			.videoDisabled, .audioDisabled {
+				&::before, &:hover::before {
+					color:  #e1e3ea;
+				}
+
+			}
+
+			.videoActive, .audioActive {
+				&::before {
+					color: $green;
+				}
+			}
+		}
+
 		&.notificationDock.unread > button::after {
 			background: $blue;
 		}

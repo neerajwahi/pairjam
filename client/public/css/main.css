@@ -41,6 +41,10 @@
     color: #aaacb3; }
   #anotherContainer.lightTheme .dock button:hover::before {
     color: #707070; }
+  #anotherContainer.lightTheme .dock.videoDock .videoDisabled::before, #anotherContainer.lightTheme .dock.videoDock .videoDisabled:hover::before, #anotherContainer.lightTheme .dock.videoDock .audioDisabled::before, #anotherContainer.lightTheme .dock.videoDock .audioDisabled:hover::before {
+    color: #e1e3ea; }
+  #anotherContainer.lightTheme .dock.videoDock .videoActive::before, #anotherContainer.lightTheme .dock.videoDock .audioActive::before {
+    color: #2ecc71; }
   #anotherContainer.lightTheme .dock.notificationDock.unread > button::after {
     background: #3498db; }
   #anotherContainer.lightTheme .dock .members::before {
