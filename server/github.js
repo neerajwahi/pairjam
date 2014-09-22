@@ -15,8 +15,8 @@ var github = new GitHubApi({
 if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
     github.authenticate({
         type: "oauth",
-        key: node.env.GITHUB_CLIENT_ID,
-        secret: node.env.GITHUB_CLIENT_SECRET
+        key: process.env.GITHUB_CLIENT_ID,
+        secret: process.env.GITHUB_CLIENT_SECRET
     });
 }
 
