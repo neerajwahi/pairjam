@@ -27,16 +27,9 @@ cd server && npm install
 cd ../client && npm install
 ```
 
-To integrate the server with GitHub, a GitHub API public key and secret are needed. These should be placed in a file called `github_api_secret` in the `/server` directory, with the following form:
+To integrate the server with GitHub, a GitHub API public key and secret are needed. These should be placed in the GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET environment variables before running the node server.
 
-```js
-module.exports = {
-	'client_id' : 'YOUR CLIENT ID',
-	'client_secret' : 'YOUR CLIENT SECRET'
-};
-```
-
-If the server does not find this file upon loading, rate requests will be limited to GitHub's unauthenticated limit.
+If the server does not find these env variables upon loading, rate requests will be limited to GitHub's unauthenticated limit.
 
 ### Running locally
 Once setup has been completed, run the WebSocket server:
@@ -52,7 +45,7 @@ cd ../client/public && python -m SimpleHTTPServer 8000
 ### Hosted
 *Instructions coming soon!*
 
-## Hacking on Pairjam
+## Building Pairjam
 Pairjam uses [gulp.js](http://gulpjs.com/) for its build system.
 
 ### Client
@@ -64,7 +57,7 @@ gulp && gulp watch
 This will build the app and watch any .jsx or .scss files for changes.
 
 ### Server
-The server won't reflect your changes until you re-run it. To watch the server and re-run it automatically, we suggest [nodemon](http://nodemon.io/).
+The server won't reflect your changes until you re-run it. To watch the server and re-run it automatically try [nodemon](http://nodemon.io/).
 
 ## License
-MIT, of course.
+MIT
