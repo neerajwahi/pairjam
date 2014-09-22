@@ -6,3 +6,4 @@ client/public/css/main.css
 build
 *~
 github_api_secret
+.ansible_hosts
