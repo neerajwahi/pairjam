@@ -62,6 +62,24 @@
   border-left: 1px solid #2d2d2d; }
 
 @font-face {
+  font-family: 'Oxygen';
+  src: url('../fonts/Oxygen-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Oxygen';
+  src: url('../fonts/Oxygen-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  src: url('../fonts/OxygenMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
   font-family: 'icomoon';
   src: url('../fonts/icomoon.eot?l2nh50');
   src: url('../fonts/icomoon.eot?#iefixl2nh50') format('embedded-opentype'), url('../fonts/icomoon.woff?l2nh50') format('woff'), url('../fonts/icomoon.ttf?l2nh50') format('truetype'), url('../fonts/icomoon.svg?l2nh50#icomoon') format('svg');
@@ -69,7 +87,7 @@
   font-style: normal; }
 
 [class^="icon-"], [class*=" icon-"] {
-  font-family: 'icomoon', 'Oxygen', sans-serif;
+  font-family: icomoon, Oxygen, sans-serif;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -857,7 +875,7 @@
     border-bottom-right-radius: 25px;
     -webkit-transition: background-color 0.25s;
             transition: background-color 0.25s;
-    font-family: icomoon; }
+    font-family: icomoon, Oxygen, sans-serif; }
     .modalWindow button:hover {
       cursor: pointer;
       background-color: #2ecc71; }
