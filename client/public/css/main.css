@@ -6,6 +6,8 @@
   #anotherContainer.lightTheme .modalWindow input[type='text'] {
     border: 1px solid #909090;
     border-right: 0; }
+  #anotherContainer.lightTheme .mailing, #anotherContainer.lightTheme .mailing:active, #anotherContainer.lightTheme .mailing:hover, #anotherContainer.lightTheme .mailing:visited {
+    color: #606060; }
   #anotherContainer.lightTheme .userMarker {
     color: #4f5b66; }
   #anotherContainer.lightTheme #sidePane {
