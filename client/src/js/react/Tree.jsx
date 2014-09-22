@@ -67,7 +67,6 @@ var Tree = React.createClass({
         return true;
     },
 */
-
     renderNode: function(node, isRoot) {
         if (!node) return;
 

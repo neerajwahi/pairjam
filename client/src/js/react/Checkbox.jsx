@@ -12,8 +12,9 @@ var Checkbox = React.createClass({
 		domNode.onchange = this.props.handleChange;
 	},
 
-	componentWillReceiveProps: function(nextProps) {
-		if (nextProps.checked !== this.props.checked) {
+	componentDidUpdate: function(prevProps, prevState) {
+		if (prevProps.checked !== this.props.checked) {
+			console.log('setting position');
 			this.switchery.setPosition();
 		}
 	},

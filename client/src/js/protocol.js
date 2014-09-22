@@ -51,10 +51,15 @@ module.exports = function(model, view) {
 			view.notify(notice.left(data.client.name));
 			view.updateCursors(model.clientCursors);
 
-			if (view.state.videoClientId == data.client.id) {
+			// Unsubscribe from the stream when a client leaves
+			if (view.state.videoSub == data.client.id ||
+				view.state.audioSub == data.client.id) {
 				view.state.av.unsubscribe(data.client.id, function(err) {
 					if (!err) {
-						view.setState( {videoClientId: undefined} );
+						view.setState({
+							videoSub: undefined,
+							audioSub: undefined
+						});
 					}
 				});
 			}
@@ -133,8 +138,11 @@ module.exports = function(model, view) {
 				clients: model.clients
 			});
 
+			var msg = data.client.name + ' is sharing video.';
+
 			// We need to resubscribe if the other user changed from streaming
 			// just audio to streaming audio + video
+			// TODO: this is kind of hack-y
 			if (view.state.audioSub == data.client.id &&
 				data.client.audioStream &&
 				view.state.videoSub != data.client.id &&
@@ -147,12 +155,7 @@ module.exports = function(model, view) {
 						});
 					}
 				});
-			}
-
-			var msg = 	data.client.name +
-						' is now sharing audio + video. Click on ' +
-						data.client.name +
-						'\'s icon to watch the stream.';
+			}			
 
 			view.notify({
 				type: 'joinMsg',
@@ -169,6 +172,7 @@ module.exports = function(model, view) {
 				clients: model.clients
 			});
 
+			// Unsubscribe from the stream when it's unshared
 			if (view.state.videoSub == data.client.id ||
 				view.state.audioSub == data.client.id) {
 				view.state.av.unsubscribe(data.client.id, function(err) {
@@ -180,6 +184,7 @@ module.exports = function(model, view) {
 					}
 				});
 			}
+
 			var msg = data.client.name + ' has stopped sharing audio + video.';
 			view.notify({
 				type: 'leaveMsg',

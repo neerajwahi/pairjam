@@ -3,7 +3,7 @@ var Dock = require('./Dock.jsx');
 
 var NotificationDock = React.createClass({
 	getInitialState: function () {
-		return {a: <li>hello</li>};
+		return {};
 	},
 
 	render: function() {

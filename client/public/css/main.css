@@ -6,6 +6,8 @@
   #anotherContainer.lightTheme .modalWindow input[type='text'] {
     border: 1px solid #909090;
     border-right: 0; }
+  #anotherContainer.lightTheme .mailing, #anotherContainer.lightTheme .mailing:active, #anotherContainer.lightTheme .mailing:hover, #anotherContainer.lightTheme .mailing:visited {
+    color: #606060; }
   #anotherContainer.lightTheme .userMarker {
     color: #4f5b66; }
   #anotherContainer.lightTheme #sidePane {
@@ -847,7 +849,7 @@
     margin: 48px; }
   .modalWindow p {
     margin-top: 0; }
-  .modalWindow input[type='text'], .modalWindow button {
+  .modalWindow input[type='text'], .modalWindow input[type='submit'], .modalWindow button {
     display: inline-block;
     vertical-align: middle;
     height: 50px;
@@ -860,7 +862,7 @@
     font-size: 16px;
     text-align: center; }
   .modalWindow input[type='text'] {
-    width: 196px;
+    width: 220px;
     color: #2d2d2d;
     background: #f4f4f4;
     border-top-left-radius: 25px;
@@ -879,7 +881,8 @@
     .modalWindow button:hover {
       cursor: pointer;
       background-color: #2ecc71; }
-  .modalWindow .mailing {
+  .modalWindow .mailing, .modalWindow .mailing:active, .modalWindow .mailing:hover, .modalWindow .mailing:visited {
+    color: #f4f4f4;
     text-decoration: underline;
     cursor: pointer; }
 

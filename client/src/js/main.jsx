@@ -20,7 +20,7 @@ var main = (function() {
 	// Connect to the appropriate Node server for this session
 	http.get({
 		host: lbHost,
-		port: 3333,
+		port: 3001,
 		path: '/' + session,
 		withCredentials: false
 	}, function(res) {
