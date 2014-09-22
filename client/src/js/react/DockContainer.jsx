@@ -9,7 +9,10 @@ var DockContainer = React.createClass({
 		return {
 			unreadCount: 0,
 			notifications: [],
-			persistentNotifications: [],
+			persistentNotifications: [{
+				key: 1,
+				content: 'Page loaded'
+			}],
 			visibleDock: null
 		};
 	},
