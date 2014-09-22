@@ -15,7 +15,7 @@ module.exports = {
 	},
 
 	rtcMessage: function(session, clientId, data) {
-		console.log('Video signaling message');
+		logger.log('debug', 'Video signaling message');
 		session.forwardRTCMessage(clientId, data);
 	},
 
