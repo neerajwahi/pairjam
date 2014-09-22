@@ -25,6 +25,7 @@ Next, install npm dependencies
 ```bash
 cd server && npm install
 cd ../client && npm install
+```
 
 To integrate the server with GitHub, a GitHub API public key and secret are needed. These should be placed in a file called `github_api_secret` in the `/server` directory, with the following form:
 
@@ -34,6 +35,7 @@ module.exports = {
 	'client_secret' : 'YOUR CLIENT SECRET'
 };
 ```
+
 If the server does not find this file upon loading, rate requests will be limited to GitHub's unauthenticated limit.
 
 ### Running locally
@@ -62,7 +64,7 @@ gulp && gulp watch
 This will build the app and watch any .jsx or .scss files for changes.
 
 ### Server
-If you're working on the server, don't forget that it won't reflect your changes until you re-run it. To watch the server and re-run it automatically, we suggest [nodemon](http://nodemon.io/).
+The server won't reflect your changes until you re-run it. To watch the server and re-run it automatically, we suggest [nodemon](http://nodemon.io/).
 
 ## License
 MIT, of course.
