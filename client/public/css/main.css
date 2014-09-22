@@ -217,16 +217,14 @@
 
 .fadeInOut-enter {
   opacity: 0.01;
-  -webkit-transition: opacity 0.5s ease-in;
-          transition: opacity 0.5s ease-in; }
+  transition: opacity 0.5s ease-in; }
 
 .fadeInOut-enter.fadeInOut-enter-active {
   opacity: 1; }
 
 .fadeInOut-leave {
   opacity: 1;
-  -webkit-transition: opacity 0.5s ease-in;
-          transition: opacity 0.5s ease-in; }
+  transition: opacity 0.5s ease-in; }
 
 .fadeInOut-leave.fadeInOut-leave-active {
   opacity: 0.01; }
@@ -289,8 +287,7 @@
   pointer-events: none;
   border-top-right-radius: 18px;
   border-bottom-right-radius: 18px;
-  -webkit-transition: left 0.6s ease-out, top 0.3s, opacity 0.5s ease-out, width 0.8s;
-          transition: left 0.6s ease-out, top 0.3s, opacity 0.5s ease-out, width 0.8s; }
+  transition: left 0.6s ease-out, top 0.3s, opacity 0.5s ease-out, width 0.8s; }
   .notification:nth-child(1) {
     top: 12px; }
   .notification:nth-child(2) {
@@ -341,8 +338,7 @@
   display: inline-block;
   height: 100%;
   width: 60px;
-  -moz-box-sizing: content-box;
-       box-sizing: content-box;
+  box-sizing: content-box;
   vertical-align: middle; }
   .dock.optionDock {
     padding-left: 15px;
@@ -402,8 +398,7 @@
       padding: 0; }
     .dock button::before {
       color: #606060;
-      -webkit-transition: color 0.2s;
-              transition: color 0.2s; }
+      transition: color 0.2s; }
     .dock button:hover::before {
       color: #7a7a7a; }
   .dock > button {
@@ -551,8 +546,7 @@
     width: 24px;
     border-radius: 12px;
     margin-right: -12px;
-    -webkit-transition: margin-right 0.25s;
-            transition: margin-right 0.25s;
+    transition: margin-right 0.25s;
     cursor: pointer; }
     .indicatorContainer li:hover::before {
       content: '';
@@ -581,8 +575,7 @@
 .treePane {
   width: 100%;
   padding: 5px 0 0 10px;
-  -moz-box-sizing: border-box;
-       box-sizing: border-box; }
+  box-sizing: border-box; }
   .treePane ul {
     list-style-type: none;
     margin: 0;
@@ -656,9 +649,7 @@
       position: absolute;
       top: 10px;
       left: 10px;
-      -webkit-transform: rotate(90deg);
-          -ms-transform: rotate(90deg);
-              transform: rotate(90deg); }
+      transform: rotate(90deg); }
     #sidePane .current-branch:hover {
       cursor: pointer;
       color: #f4f4f4; }
@@ -666,8 +657,7 @@
     font-weight: bold;
     color: #cacaca; }
   #sidePane .branches-list {
-    -moz-box-sizing: border-box;
-         box-sizing: border-box;
+    box-sizing: border-box;
     position: absolute;
     top: 50px;
     padding: 0px 0px 0px 20px;
@@ -712,6 +702,7 @@
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box; }
 
@@ -728,8 +719,7 @@
 .treePane {
   width: 100%;
   padding: 5px 0 0 10px;
-  -moz-box-sizing: border-box;
-       box-sizing: border-box; }
+  box-sizing: border-box; }
   .treePane ul {
     list-style-type: none;
     margin: 0;
@@ -795,8 +785,7 @@
   bottom: 0;
   right: 0;
   z-index: 5;
-  -webkit-filter: blur(4px);
-          filter: blur(4px); }
+  filter: blur(4px); }
 
 .modalContainer {
   position: absolute;
@@ -875,8 +864,7 @@
     background-color: #27ae60;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
-    -webkit-transition: background-color 0.25s;
-            transition: background-color 0.25s;
+    transition: background-color 0.25s;
     font-family: icomoon, Oxygen, sans-serif; }
     .modalWindow button:hover {
       cursor: pointer;
@@ -887,8 +875,7 @@
     cursor: pointer; }
 
 * {
-  -moz-box-sizing: border-box;
-       box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
@@ -909,6 +896,7 @@ body {
   -ms-user-select: none;
   user-select: none;
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
 #appContainer {
@@ -1531,8 +1519,7 @@ body {
   font-size: 10px;
   line-height: 15px;
   color: #f4f4f4;
-  -webkit-transition: color 0.5s, background 0.5s;
-          transition: color 0.5s, background 0.5s; }
+  transition: color 0.5s, background 0.5s; }
 
 .disabled {
   background-color: #444; }

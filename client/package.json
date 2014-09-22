@@ -18,7 +18,7 @@
     "markdown": "latest",
     "webrtcsupport": "~0.7.3",
     "gulp-preprocess": "~1.0.1",
-    "gulp-gh-pages": "latest",
+    "gulp-gh-pages": "0.3.0",
     "react-draggable": "~0.2.1",
     "gulp-autoprefixer": "~1.0.0"
   },
