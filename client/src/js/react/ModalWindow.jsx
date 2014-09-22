@@ -13,10 +13,12 @@ var ModalWindow = React.createClass({
 
     handleSuccess: function(e) {
         e.preventDefault();
-    	this.setState({
-            visible: false
-        });
-    	this.props.onSuccess(this.state);
+        if (this.state.userName.length) {
+        	this.setState({
+                visible: false
+            });
+        	this.props.onSuccess(this.state);
+        }
         return false;
     },
 
@@ -50,7 +52,7 @@ var ModalWindow = React.createClass({
                         <form onSubmit={this.handleSuccess}>
                         <div className="inputGroup">
                                 <input type='text' onChange={this.onChange} value={this.state.userName} placeholder='Your Name'/>
-        					   <button className='icon-arrow-go' onClick={this.handleSuccess}></button>
+                                <button className='icon-arrow-go' onClick={this.handleSuccess}></button>
                         </div>
                         </form>
 
@@ -60,7 +62,7 @@ var ModalWindow = React.createClass({
                             <div className="inputGroup">
                                 <input className="emailInput" name="EMAIL" id="mce-EMAIL" type='text' placeholder={name.replace(/\s+/g, '').toLowerCase() + '@hotmail.com'}/>
                                 <input type="submit" className='icon-mail' />
-                            </div> 
+                            </div>
                             <div style={{position: 'absolute', left: -5000}}><input type="text" name="b_c79cc599085f47a39065ff3f1_98bd15cce9" tabIndex="-1" value="" /></div>
                             </form> : ''
                         }

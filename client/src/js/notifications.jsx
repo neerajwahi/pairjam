@@ -8,7 +8,8 @@ module.exports = {
 		return {
 			type: 'stateMsg',
 			itemId: 'connection',
-			content: msg
+			content: msg,
+			keepHistory: true
 		};
 	},
 
@@ -26,14 +27,16 @@ module.exports = {
 	joined: function(name) {
 		return {
 			type: 'joinMsg',
-			content: name + ' has joined'
+			content: name + ' has joined',
+			keepHistory: true
 		};
 	},
 
 	left: function(name) {
 		return {
 			type: 'leaveMsg',
-			content: name + ' has left the building'
+			content: name + ' has left the building',
+			keepHistory: true
 		};
 	},
 
@@ -52,7 +55,8 @@ module.exports = {
 		return {
 			type: 'stateMsg',
 			itemId: 'load' + resource,
-			content: content
+			content: content,
+			keepHistory: true
 		};
 	},
 
@@ -74,29 +78,16 @@ module.exports = {
 	info: function(msg) {
 		return {
 			type: 'joinMsg',
-			content: msg
+			content: msg,
+			keepHistory: true
 		};
 	},
 
 	langChanged: function(clientName, lang) {
 		return {
 			type: 'stateMsg',
-			content: clientName + ' changed the language to ' + lang
-		};
-	},
-
-	begForFeedback: function() {
-		var msg = 'Do you have a second to provide your feedback on Pairjam?';
-		var content = (
-			<div>
-				{msg}<br/>
-				<div>Sure></div><div>Leave me alone</div>
-			</div>
-		);
-		return {
-			type: 'infoMsg',
-			content: content,
-			keepAlive: true
+			content: clientName + ' changed the language to ' + lang,
+			keepHistory: true
 		};
 	}
 };
