@@ -287,8 +287,8 @@
   pointer-events: none;
   border-top-right-radius: 18px;
   border-bottom-right-radius: 18px;
-  -webkit-transition: left 0.6s ease-out, top 0.3s, opacity 0.5s ease-out;
-          transition: left 0.6s ease-out, top 0.3s, opacity 0.5s ease-out; }
+  -webkit-transition: left 0.6s ease-out, top 0.3s, opacity 0.5s ease-out, width 0.8s;
+          transition: left 0.6s ease-out, top 0.3s, opacity 0.5s ease-out, width 0.8s; }
   .notification:nth-child(1) {
     top: 12px; }
   .notification:nth-child(2) {

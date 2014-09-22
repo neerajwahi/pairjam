@@ -14,27 +14,62 @@ var DockContainer = React.createClass({
 		};
 	},
 
+	componentDidUpdate: function() {
+		var notifications = this.refs.notificationList.getDOMNode().querySelectorAll('.replaceable');
+		var el, prevWidth, newWidth;
+		for (var i = 0, _len = notifications.length; i < _len; i++) {
+			el = notifications[i];
+			prevWidth = getComputedStyle(el).width;
+			el.style.width = 'auto';
+			newWidth = getComputedStyle(el).width;
+			el.style.width = prevWidth;
+			el.offsetWidth; // force repaint
+			el.style.width = newWidth;
+		}
+	},
+
 	pushNotification: function(notification) {
 		if (notification) {
+			var newList = this.state.notifications;
+			var newId = notification.itemId;
+
 			// TODO: use a better UID
 			notification.key = Math.random();
-			if (/*notification.persistent*/true) {
+
+			if (newId) {
+				newList = newList.filter(function(existing) {
+					return existing.itemId !== newId ? true : (notification.key = existing.key) && false;
+				});
+			}
+
+			newList = [notification].concat(newList);
+
+			if (notification.keepHistory) {
 				this.setState({
 					unreadCount: this.state.unreadCount + 1,
-					notifications: [notification].concat(this.state.notifications),
-					persistentNotifications: [notification].concat(this.state.persistentNotifications)
+					persistentNotifications: [notification].concat(this.state.persistentNotifications),
+					notifications: newList
 				});
 			} else {
 				this.setState({
-					unreadCount: this.state.unreadCount + 1,
-					notifications: [notification].concat(this.state.notifications)
+					notifications: newList
 				});
 			}
-			setTimeout((function () {
-				this.setState({ notifications: this.state.notifications.slice(0,-1) });
-			}).bind(this), 2500);
+
+			if (!notification.keepAlive) {
+				setTimeout((function() {
+					this.clearNotification(notification);
+				}).bind(this), notification.displayTime || 2500);
+			}
 		}
 	},
+
+	clearNotification: function(notification) {
+        var notifications = this.state.notifications.filter(function(existing) {
+            return existing !== notification;
+        });
+        this.setState( {notifications: notifications} );
+    },
 
 	clearUnread: function() {
 		this.setState({ unreadCount: 0 });
@@ -53,7 +88,7 @@ var DockContainer = React.createClass({
 	render: function () {
 		var notifications = this.state.notifications.map(function(notification) {
 			return (
-				<li className='notification' key={notification.key}>
+				<li className={'notification' + (notification.itemId ? ' replaceable' : '')} key={notification.key}>
 					{notification.content}
 				</li>
 			);
@@ -61,7 +96,11 @@ var DockContainer = React.createClass({
 
 		return (
 			<div className='dockContainer'>
-				<ReactCSSTransitionGroup className='notificationList' component={React.DOM.ul} transitionName='notification'>
+				<ReactCSSTransitionGroup
+					ref='notificationList'
+					className='notificationList'
+					component={React.DOM.ul}
+					transitionName='notification' >
 					{notifications}
 				</ReactCSSTransitionGroup>
 				<OptionDock

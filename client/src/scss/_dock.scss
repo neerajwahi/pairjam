@@ -31,7 +31,7 @@
 	pointer-events: none;
 	border-top-right-radius: 18px;
 	border-bottom-right-radius: 18px;
-	transition: left .6s ease-out, top .3s, opacity .5s ease-out;
+	transition: left .6s ease-out, top .3s, opacity .5s ease-out, width 0.8s;
 	@for $i from 0 to 15 {
 		&:nth-child(#{$i + 1}) {
 			top: -36px * $i + 12px;
