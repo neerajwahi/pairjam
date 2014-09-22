@@ -1,5 +1,4 @@
 var GitHubApi = require("github");
-var gitCred = require('./github_api_secret');
 var util = require('./util.js');
 var logger = require('winston');
 
@@ -13,13 +12,13 @@ var github = new GitHubApi({
     timeout: 5000
 });
 
-/*
-github.authenticate({
-    type: "oauth",
-    key: gitCred.client_id,
-    secret: gitCred.client_secret
-});
-*/
+if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+    github.authenticate({
+        type: "oauth",
+        key: process.env.GITHUB_CLIENT_ID,
+        secret: process.env.GITHUB_CLIENT_SECRET
+    });
+}
 
 module.exports = {
 	getTree: function(user, repo, sha, successCb, errorCb) {

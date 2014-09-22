@@ -13,20 +13,22 @@ var main = (function() {
 
 	// Load balancer URL
 	var lbHost = 'lb.pairjam.com';
+	var lbPort = 80;
 	// @if NODE_ENV !== 'production'
 	lbHost = 'localhost';
+	lbPort = 3001;
 	// @endif
 
 	// Connect to the appropriate Node server for this session
 	http.get({
 		host: lbHost,
-		port: 3001,
+		port: lbPort,
 		path: '/' + session,
 		withCredentials: false
 	}, function(res) {
 		res.on('data', function(msg) {
 			var data = JSON.parse(msg);
-			var url = data.server;
+			var url = 'ws://' + data.server;
 			var sessionId = data.sessionId;
 			if (!session) {
 				window.location.hash = '#' + sessionId;

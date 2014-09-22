@@ -16,7 +16,7 @@ var balanceServer = balancer.start([
 var wss = new WebSocketServer({server: balanceServer});
 
 // Logging
-if (!process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
 	logger.remove(logger.transports.Console);
 	logger.add(logger.transports.Console, {'level': 'debug'});
 }

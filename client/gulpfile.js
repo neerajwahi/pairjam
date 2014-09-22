@@ -24,7 +24,7 @@ gulp.task('scripts', function() {
 	    .pipe(gulp.dest('./public/js'));
 });
 
-gulp.task('gh_pages', function () {
+gulp.task('gh-pages', function () {
 	gulp.src('public/**/*')
 		.pipe(ghpages('https://github.com/neerajwahi/pairjam.git', 'origin'));
 });
@@ -90,7 +90,7 @@ gulp.task('watch', function() {
 gulp.task('default', ['sass', 'scripts'] );
 gulp.task('dev', ['sass', 'jshint', 'scripts', 'unitTests'] );
 gulp.task('prod', ['prod_sass', 'prod_scripts']);
-gulp.task('deploy', ['prod_sass', 'prod_scripts', 'gh_pages']);
+gulp.task('deploy', ['prod_sass', 'prod_scripts', 'gh-pages']);
 
 // Runs full testing suite (including stochastic integration)
 gulp.task('test', ['unitTests', 'integration'] );

@@ -33,7 +33,7 @@ Session.prototype = {
 
 		this.sockets[client.id].send(payload, function(err) {
 			if (err) {
-				logger.log('debug', err);
+				logger.error(err);
 			}
 		});
 	},
@@ -47,7 +47,7 @@ Session.prototype = {
 		Object.keys(this.clients).forEach((function(i) {
 			this.sockets[i].send(payload, function(err) {
 				if (err) {
-					logger.log('debug', err);
+					logger.error(err);
 				}
 			});
 		}).bind(this));
