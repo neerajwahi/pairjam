@@ -1,5 +1,4 @@
 Real-time web-based collaborative coding<br/>
-http://pairjam.com
 
 ## Features
 - Syntax highlighting code editor (using Ace)
