@@ -1,3 +1,5 @@
+**THIS PROJECT IS ABANDONED**
+
 Real-time web-based collaborative coding<br/>
 
 ## Features
